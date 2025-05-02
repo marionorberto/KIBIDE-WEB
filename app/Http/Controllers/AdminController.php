@@ -59,4 +59,21 @@ class AdminController extends Controller
     {
         //
     }
+
+    public function profile()
+    {
+        return view('admin.dashboard.account-profile');
+    }
+
+    public function students()
+    {
+        return view('admin.dashboard.students.index');
+    }
+
+    public function mentors()
+    {
+        return view('admin.dashboard.mentors.index');
+    }
+
+
 }

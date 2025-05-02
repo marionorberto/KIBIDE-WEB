@@ -31,7 +31,7 @@
         </div>
         <div class="d-flex mt-1 justify-content-end">
 
-        <h5 class="text-secondary f-w-400">Esqueceu a senha?</h5>
+        <a href="{{ route('auth.forgot') }}" class="text-secondary f-w-400">Esqueceu a senha?</a>
         </div>
         <div class="d-grid mt-4">
         <button type="button" class="btn btn-primary">Login</button>

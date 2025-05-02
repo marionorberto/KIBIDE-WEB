@@ -16,7 +16,7 @@
       </div>
       <div class="col-md-12">
       <div class="page-header-title">
-        <h2 class="mb-0">Analytics</h2>
+        <h2 class="mt-4">dashboard</h2>
       </div>
       </div>
     </div>
@@ -26,9 +26,9 @@
     <div class="col-md-6 col-xl-3">
     <div class="card">
       <div class="card-body">
-      <h6 class="mb-2 f-w-400 text-muted">Total Users</h6>
-      <h4 class="mb-0">78,250 <span class="badge bg-light-primary border border-primary"><i
-          class="ti ti-trending-up"></i> 70.5%</span></h4>
+      <h6 class="mb-2 f-w-400 text-muted">Total Estudantes</h6>
+      <h4 class="mb-0">0 <span class="badge bg-light-primary border border-primary"><i class="ti ti-trending-up"></i>
+        10.5%</span></h4>
       </div>
       <div id="total-value-graph-1"></div>
     </div>
@@ -36,9 +36,9 @@
     <div class="col-md-6 col-xl-3">
     <div class="card">
       <div class="card-body">
-      <h6 class="mb-2 f-w-400 text-muted">Total Order</h6>
-      <h4 class="mb-0">18,800 <span class="badge bg-light-warning border border-warning"><i
-          class="ti ti-trending-down"></i> 27.4%</span></h4>
+      <h6 class="mb-2 f-w-400 text-muted">Total Mentores</h6>
+      <h4 class="mb-0">0 <span class="badge bg-light-warning border border-warning"><i
+          class="ti ti-trending-down"></i> 7.4%</span></h4>
       </div>
       <div id="total-value-graph-2"></div>
     </div>
@@ -46,8 +46,8 @@
     <div class="col-md-6 col-xl-3">
     <div class="card">
       <div class="card-body">
-      <h6 class="mb-2 f-w-400 text-muted">Total Sales</h6>
-      <h4 class="mb-0">$35,078 <span class="badge bg-light-warning border border-warning"><i
+      <h6 class="mb-2 f-w-400 text-muted">Total Mentorias</h6>
+      <h4 class="mb-0">0 <span class="badge bg-light-warning border border-warning"><i
           class="ti ti-trending-down"></i> 27.4%</span></h4>
       </div>
       <div id="total-value-graph-3"></div>
@@ -56,9 +56,9 @@
     <div class="col-md-6 col-xl-3">
     <div class="card">
       <div class="card-body">
-      <h6 class="mb-2 f-w-400 text-muted">Total Marketing</h6>
-      <h4 class="mb-0">4,42,236 <span class="badge bg-light-primary border border-primary"><i
-          class="ti ti-trending-up"></i> 59.3%</span></h4>
+      <h6 class="mb-2 f-w-400 text-muted">Total Testes Simulados</h6>
+      <h4 class="mb-0">0 <span class="badge bg-light-primary border border-primary"><i class="ti ti-trending-up"></i>
+        59.3%</span></h4>
       </div>
       <div id="total-value-graph-4"></div>
     </div>

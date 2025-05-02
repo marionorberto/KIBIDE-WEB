@@ -34,14 +34,12 @@
   @include('partials.menu')
   @include('partials.header')
 
-  <!-- [ Main Content ] start -->
   <div class="pc-container">
     <div class="pc-content">
       @yield('content')
-    </div> <!-- [ Main Content ] end -->
+    </div>
   </div>
   </div>
-  <!-- [ Main Content ] end -->
 
   @include('partials.header')
 

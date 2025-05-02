@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -13,36 +14,26 @@ Route::get('/home', function () {
 })->name('home');
 
 
-Route::get('/dashboard', function () {
-    return view('admin.dashboard.index');
-})->name('admin.index');
-
-
 Route::prefix('bukabem/auth')->group(function () {
 
-    Route::get('/login', function () {
-        return view('auth.login');
-    })->name('auth.login');
+    Route::get('/login', [AuthController::class, 'index'])->name('auth.login');
 
-    Route::get('/register-student', function () {
-        return view('auth.register-student');
-    })->name('auth.regis
-    ter-student');
+    Route::get('/register-student', [AuthController::class, 'registerStudent'])->name('auth.register-student');
 
-    Route::get('/register-mentor', function () {
-        return view('auth.register-mentor');
-    })->name('auth.register-mentor');
+    Route::get('/register-mentor', [AuthController::class, 'registerMentor'])->name('auth.register-mentor');
 
-    Route::get('/forgot-password', function () {
-        return view('auth.forgot');
-    })->name('auth.forgot');
+    Route::get('/forgot-password', [AuthController::class, 'forgotPassword'])->name('auth.forgot');
+
+    Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 });
-
 
 Route::prefix('bukabem/admin/dashboard')->group(function () {
     Route::get('/index', [AdminController::class, 'index'])->name('admin.dashboard.index');
+    Route::get('/profile/index', [AdminController::class, 'profile'])->name('admin.dashboard.profile.index');
+    Route::get('/students/index', [AdminController::class, 'students'])->name('admin.dashboard.students.index');
+    Route::get('/mentors/index', [AdminController::class, 'mentors'])->name('admin.dashboard.mentors.index');
+    Route::get('/settings/index', [AdminController::class, 'settings'])->name('admin.dashboard.settings.index');
 });
-
 
 // Route::prefix('bukabem/mentor')->group(function () {
 //     Route::get('/users', function () {
