@@ -19,13 +19,7 @@
 <link rel="stylesheet" href="{{ asset('assets/css/style.css')}}" id="main-style-link">
 <link rel="stylesheet" href="{{ asset('assets/css/style-preset.css')}}">
 <link rel="stylesheet" href="{{ asset('assets/css/landing.css')}}">
-<style>
-  #home {
-    background-image: url('../../../public/assets/images/bg-photo.jpg');
-    background-size: cover;
-    background-position: center;
-  }
-</style>
+
 
 <body>
 

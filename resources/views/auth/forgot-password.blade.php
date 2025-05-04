@@ -8,19 +8,21 @@
     <div class="auth-wrapper v3">
     <div class="auth-form">
       <div class="auth-header">
-      <a href="#"><img src="../assets/images/logo-dark.svg" alt="img"></a>
+      <a href="/">
+        <img src="{{ asset('assets/images/LOGO.png') }}" alt="" style="height: 70px; width: 70px;">
+      </a>
       </div>
       <div class="card my-5">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-end mb-4">
         <h3 class="mb-0"><b>Esqueci a senha</b></h3>
-        <a href="{{ route('auth.login') }}" class="link-primary">Voltar para Login</a>
+        <a href="{{ route('auth.login.show') }}" class="link-primary">Voltar para Login</a>
         </div>
         <div class="form-group mb-3">
         <label class="form-label">Email </label>
-        <input type="email" class="form-control" id="floatingInput" placeholder="Email Address">
+        <input type="email" class="form-control" id="floatingInput" placeholder="Email" name="email" required>
         </div>
-        <p class="mt-4 text-sm text-muted">Não esqueça De checar a caixa span.</p>
+        <p class="mt-4 text-sm text-muted">Não esqueça de checar a caixa <strong>SPAN</strong>.</p>
         <div class="d-grid mt-3">
         <button type="button" class="btn btn-primary">Submeter</button>
         </div>

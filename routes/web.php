@@ -2,48 +2,59 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DeskController;
+use App\Http\Controllers\MentorController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect('/home');
+    return redirect('kibide/auth/index');
 });
 
+Route::get('kibide/politics', function () {
+    return view('politics');
+})->name('politics');
 
-Route::get('/home', function () {
-    return view('landing');
-})->name('home');
+Route::get('kibide/terms', function () {
+    return view('terms');
+})->name('terms');
+
+Route::get('kibide/faq', function () {
+    return view('faq');
+})->name('faq');
+
+Route::get('kibide/{id}/painel', function () {
+    return view('painel');
+})->name('painel');
 
 
-Route::prefix('bukabem/auth')->group(function () {
+Route::prefix('kibide/auth')->group(function () {
 
-    Route::get('/login', [AuthController::class, 'index'])->name('auth.login');
+    Route::get('/index', [AuthController::class, 'index'])->name('auth.login.show');
 
-    Route::get('/register-student', [AuthController::class, 'registerStudent'])->name('auth.register-student');
-
-    Route::get('/register-mentor', [AuthController::class, 'registerMentor'])->name('auth.register-mentor');
+    Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 
     Route::get('/forgot-password', [AuthController::class, 'forgotPassword'])->name('auth.forgot');
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 });
 
-Route::prefix('bukabem/admin/dashboard')->group(function () {
-    Route::get('/index', [AdminController::class, 'index'])->name('admin.dashboard.index');
-    Route::get('/profile/index', [AdminController::class, 'profile'])->name('admin.dashboard.profile.index');
-    Route::get('/students/index', [AdminController::class, 'students'])->name('admin.dashboard.students.index');
-    Route::get('/mentors/index', [AdminController::class, 'mentors'])->name('admin.dashboard.mentors.index');
-    Route::get('/settings/index', [AdminController::class, 'settings'])->name('admin.dashboard.settings.index');
+Route::prefix('kibide/company')->group(function () {
+    Route::get('/create', [AuthController::class, 'create'])->name('company.create');
+    Route::post('/store', [AuthController::class, 'store'])->name('company.store');
 });
 
-// Route::prefix('bukabem/mentor')->group(function () {
-//     Route::get('/users', function () {
-//         // Matches The "/admin/users" URL
-//     });
-// });
+Route::prefix('kibide/desk')->group(function () {
+    Route::get('/index', [DeskController::class, 'index'])->name('desk.index');
+
+    Route::get('/user/profile', [DeskController::class, 'profile'])->name('desk.user.profile');
+});
 
 
-// Route::prefix('bukabem/student')->group(function () {
-//     Route::get('/users', function () {
-//         // Matches The "/admin/users" URL
-//     });
-// });
+Route::prefix('kibide/unit')->group(function () {
+});
+
+Route::prefix('kibide/users')->group(function () {
+});
+

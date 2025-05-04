@@ -57,12 +57,12 @@ section {
   position: fixed;
   padding: 16px 0;
   width: 100%;
-  background: transparent;
+  background: #141414;
   z-index: 1099;
   top: 0;
 }
 .navbar.top-nav-collapse.default {
-  background: transparent;
+  background: #141414;
   box-shadow: none;
 }
 .navbar.default, .navbar.top-nav-collapse {
@@ -71,15 +71,18 @@ section {
 }
 
 header {
-  overflow: hidden;
-  position: relative;
+  /* overflow: hidden; */
+  /* position: relative; */
   padding: 100px 0;
   display: flex;
   align-items: center;
   min-height: 100vh;
-  background: #141414;
+  background-image: url('../images/bg-photo.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
-header::after {
+/* header::after {
   content: "";
   position: absolute;
   width: 100%;
@@ -88,7 +91,7 @@ header::after {
   left: 0px;
   z-index: 2;
   background: linear-gradient(329.36deg, rgb(0, 0, 0) 14.79%, rgba(67, 67, 67, 0.28) 64.86%);
-}
+} */
 header .container {
   position: relative;
   z-index: 5;

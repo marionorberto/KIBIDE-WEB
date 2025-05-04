@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -12,6 +14,25 @@ class AuthController extends Controller
     public function index()
     {
         return view('auth.login');
+    }
+
+    public function login(LoginRequest $request)
+    {
+        $credentials = $request->only('username', 'password');
+
+        try {
+            if (Auth::attempt($credentials)) {
+                $request->session()->regenerate();
+                return redirect()->route('home')->with('success', 'Login efetuado com sucesso.');
+            }
+
+            return back()->with('error', 'Credenciais inválidas.')->withInput($request->only('username'));
+
+        } catch (\Exception $e) {
+            Log::error('Erro no login: ' . $e->getMessage());
+
+            return back()->with('error', 'Ocorreu um erro ao tentar fazer login. Tente novamente mais tarde.');
+        }
     }
 
     public function registerStudent()
@@ -28,13 +49,13 @@ class AuthController extends Controller
 
     public function create()
     {
-        //
+        return view('auth.register-company');
     }
 
 
     public function store(Request $request)
     {
-        //
+        return view('auth.login');
     }
 
 
@@ -76,4 +97,10 @@ class AuthController extends Controller
 
         return redirect('/');
     }
+
+    public function chooseRole(Request $request)
+    {
+        return view('auth.choose-role');
+    }
+
 }

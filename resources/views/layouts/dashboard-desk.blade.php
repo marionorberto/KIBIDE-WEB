@@ -31,8 +31,8 @@
   </div>
 
 
-  @include('partials.menu')
-  @include('partials.header')
+  @include('partials.desk.menu')
+  @include('partials.desk.header')
 
   <div class="pc-container">
     <div class="pc-content">
@@ -41,7 +41,7 @@
   </div>
   </div>
 
-  @include('partials.header')
+  @include('partials.desk.footer')
 
 
 
@@ -147,31 +147,31 @@
               <div class="pct-content">
                 <div class="theme-color preset-color">
                   <a href="#!" class="active" data-value="preset-1"><span><img
-                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Theme
+                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Tema
                       1</span></a>
                   <a href="#!" class="" data-value="preset-2"><span><img
-                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Theme
+                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Tema
                       2</span></a>
                   <a href="#!" class="" data-value="preset-3"><span><img
-                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Theme
+                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Tema
                       3</span></a>
                   <a href="#!" class="" data-value="preset-4"><span><img
-                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Theme
+                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Tema
                       4</span></a>
                   <a href="#!" class="" data-value="preset-5"><span><img
-                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Theme
+                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Tema
                       5</span></a>
                   <a href="#!" class="" data-value="preset-6"><span><img
-                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Theme
+                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Tema
                       6</span></a>
                   <a href="#!" class="" data-value="preset-7"><span><img
-                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Theme
+                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Tema
                       7</span></a>
                   <a href="#!" class="" data-value="preset-8"><span><img
-                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Theme
+                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Tema
                       8</span></a>
                   <a href="#!" class="" data-value="preset-9"><span><img
-                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Theme
+                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Tema
                       9</span></a>
                 </div>
               </div>
@@ -186,8 +186,8 @@
                   </div>
                 </div>
                 <div class="flex-grow-1 ms-3">
-                  <h6 class="mb-1">Layout Width</h6>
-                  <span>Choose fluid or container layout</span>
+                  <h6 class="mb-1">Largura do Layout </h6>
+                  <span>Escolha entre fluid ou container layout</span>
                 </div>
                 <i class="ti ti-chevron-down"></i>
               </div>
@@ -239,7 +239,7 @@
             <div class="collapse show">
               <div class="pct-content">
                 <div class="d-grid">
-                  <button class="btn btn-light-danger" id="layoutreset">Reset Layout</button>
+                  <button class="btn btn-light-danger" id="layoutreset">Resetar Layout</button>
                 </div>
               </div>
             </div>

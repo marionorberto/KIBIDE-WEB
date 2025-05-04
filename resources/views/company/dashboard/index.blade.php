@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+@extends('layouts.dashboard-mentor')
 
 @section('title', 'dashboard')
 
@@ -17,46 +17,55 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6 col-xl-3">
-    <div class="card">
+    <div class="col-xl-4 col-md-12">
+    <div class="card comp-card">
       <div class="card-body">
-      <h6 class="mb-2 f-w-400 text-muted">Total Estudantes</h6>
-      <h4 class="mb-0">0 <span class="badge bg-light-primary border border-primary"><i class="ti ti-trending-up"></i>
-        10.5%</span></h4>
+      <div class="row align-items-center">
+        <div class="col">
+        <h5 class="m-b-20">Impressions</h5>
+        <h3>1,563</h3>
+        <p class="m-b-0">May 23 - June 01 (2018)</p>
+        </div>
+        <div class="col-auto">
+        <i class="ti ti-eye bg-light-primary text-primary"></i>
+        </div>
       </div>
-      <div id="total-value-graph-1"></div>
+      </div>
     </div>
     </div>
-    <div class="col-md-6 col-xl-3">
-    <div class="card">
+    <div class="col-xl-4 col-md-6">
+    <div class="card comp-card">
       <div class="card-body">
-      <h6 class="mb-2 f-w-400 text-muted">Total Mentores</h6>
-      <h4 class="mb-0">0 <span class="badge bg-light-warning border border-warning"><i
-          class="ti ti-trending-down"></i> 7.4%</span></h4>
+      <div class="row align-items-center">
+        <div class="col">
+        <h5 class="m-b-20">Goal</h5>
+        <h3>30,564</h3>
+        <p class="m-b-0">May 28 - June 01 (2018)</p>
+        </div>
+        <div class="col-auto">
+        <i class="ti ti-target bg-light-success text-success"></i>
+        </div>
       </div>
-      <div id="total-value-graph-2"></div>
+      </div>
     </div>
     </div>
-    <div class="col-md-6 col-xl-3">
-    <div class="card">
+    <div class="col-xl-4 col-md-6">
+    <div class="card comp-card">
       <div class="card-body">
-      <h6 class="mb-2 f-w-400 text-muted">Total Mentorias</h6>
-      <h4 class="mb-0">0 <span class="badge bg-light-warning border border-warning"><i
-          class="ti ti-trending-down"></i> 27.4%</span></h4>
+      <div class="row align-items-center">
+        <div class="col">
+        <h5 class="m-b-20">Impact</h5>
+        <h3>42.6%</h3>
+        <p class="m-b-0">May 30 - June 01 (2018)</p>
+        </div>
+        <div class="col-auto">
+        <i class="ti ti-clock bg-light-warning text-warning"></i>
+        </div>
       </div>
-      <div id="total-value-graph-3"></div>
-    </div>
-    </div>
-    <div class="col-md-6 col-xl-3">
-    <div class="card">
-      <div class="card-body">
-      <h6 class="mb-2 f-w-400 text-muted">Total Solicitações</h6>
-      <h4 class="mb-0">0 <span class="badge bg-light-primary border border-primary"><i class="ti ti-trending-up"></i>
-        59.3%</span></h4>
       </div>
-      <div id="total-value-graph-4"></div>
     </div>
     </div>
+
 
     <div class="col-md-12 col-xl-8">
     <h5 class="mb-3">Income Overview</h5>
@@ -357,6 +366,5 @@
     </div>
     </div>
   </div>
-
 
 @endsection

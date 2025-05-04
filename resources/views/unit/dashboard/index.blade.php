@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+@extends('layouts.dashboard-student')
 
 @section('title', 'dashboard')
 
@@ -17,47 +17,66 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6 col-xl-3">
+    <div class="col-lg-3 col-md-6">
     <div class="card">
       <div class="card-body">
-      <h6 class="mb-2 f-w-400 text-muted">Total Estudantes</h6>
-      <h4 class="mb-0">0 <span class="badge bg-light-primary border border-primary"><i class="ti ti-trending-up"></i>
-        10.5%</span></h4>
+      <div class="row align-items-center">
+        <div class="col-8">
+        <h3 class="mb-1">$30200</h3>
+        <p class="text-muted mb-0">All Earnings</p>
+        </div>
+        <div class="col-4 text-end">
+        <i class="ti ti-chart-bar text-secondary f-36"></i>
+        </div>
       </div>
-      <div id="total-value-graph-1"></div>
+      </div>
     </div>
     </div>
-    <div class="col-md-6 col-xl-3">
+    <div class="col-lg-3 col-md-6">
     <div class="card">
       <div class="card-body">
-      <h6 class="mb-2 f-w-400 text-muted">Total Mentores</h6>
-      <h4 class="mb-0">0 <span class="badge bg-light-warning border border-warning"><i
-          class="ti ti-trending-down"></i> 7.4%</span></h4>
+      <div class="row align-items-center">
+        <div class="col-8">
+        <h3 class="mb-1">145</h3>
+        <p class="text-muted mb-0">Task</p>
+        </div>
+        <div class="col-4 text-end">
+        <i class="ti ti-calendar-event text-danger f-36"></i>
+        </div>
       </div>
-      <div id="total-value-graph-2"></div>
+      </div>
     </div>
     </div>
-    <div class="col-md-6 col-xl-3">
+    <div class="col-lg-3 col-md-6">
     <div class="card">
       <div class="card-body">
-      <h6 class="mb-2 f-w-400 text-muted">Total Mentorias</h6>
-      <h4 class="mb-0">0 <span class="badge bg-light-warning border border-warning"><i
-          class="ti ti-trending-down"></i> 27.4%</span></h4>
+      <div class="row align-items-center">
+        <div class="col-8">
+        <h3 class="mb-1">290+</h3>
+        <p class="text-muted mb-0">Page Views</p>
+        </div>
+        <div class="col-4 text-end">
+        <i class="ti ti-file-text text-success f-36"></i>
+        </div>
       </div>
-      <div id="total-value-graph-3"></div>
+      </div>
     </div>
     </div>
-    <div class="col-md-6 col-xl-3">
+    <div class="col-lg-3 col-md-6">
     <div class="card">
       <div class="card-body">
-      <h6 class="mb-2 f-w-400 text-muted">Total Solicitações</h6>
-      <h4 class="mb-0">0 <span class="badge bg-light-primary border border-primary"><i class="ti ti-trending-up"></i>
-        59.3%</span></h4>
+      <div class="row align-items-center">
+        <div class="col-8">
+        <h3 class="mb-1">500</h3>
+        <p class="text-muted mb-0">Downloads</p>
+        </div>
+        <div class="col-4 text-end">
+        <i class="ti ti-download text-primary f-36"></i>
+        </div>
       </div>
-      <div id="total-value-graph-4"></div>
+      </div>
     </div>
     </div>
-
     <div class="col-md-12 col-xl-8">
     <h5 class="mb-3">Income Overview</h5>
     <div class="card">
@@ -357,6 +376,5 @@
     </div>
     </div>
   </div>
-
 
 @endsection
