@@ -65,10 +65,9 @@
   <script>font_change("Public-Sans");</script>
 
 
-
   <div class="offcanvas pct-offcanvas offcanvas-end" tabindex="-1" id="offcanvas_pc_layout">
     <div class="offcanvas-header bg-primary">
-      <h5 class="offcanvas-title text-white">Mantis Customizer</h5>
+      <h5 class="offcanvas-title text-white">KIBIDE</h5>
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="pct-body" style="height: calc(100% - 60px)">
@@ -83,8 +82,8 @@
                   </div>
                 </div>
                 <div class="flex-grow-1 ms-3">
-                  <h6 class="mb-1">Theme Layout</h6>
-                  <span>Choose your layout</span>
+                  <h6 class="mb-1">Tema de Layout</h6>
+                  <span>Escolha o seu layout</span>
                 </div>
                 <i class="ti ti-chevron-down"></i>
               </div>
@@ -92,7 +91,7 @@
             <div class="collapse show" id="pctcustcollapse1">
               <div class="pct-content">
                 <div class="pc-rtl">
-                  <p class="mb-1">Direction</p>
+                  <p class="mb-1">Direção</p>
                   <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" role="switch" id="layoutmodertl">
                     <label class="form-check-label" for="layoutmodertl">RTL</label>
@@ -110,8 +109,8 @@
                   </div>
                 </div>
                 <div class="flex-grow-1 ms-3">
-                  <h6 class="mb-1">Theme Mode</h6>
-                  <span>Choose light or dark mode</span>
+                  <h6 class="mb-1">Modo do Tema</h6>
+                  <span>Escolha modo Escuro/claro </span>
                 </div>
                 <i class="ti ti-chevron-down"></i>
               </div>
@@ -120,10 +119,9 @@
               <div class="pct-content">
                 <div class="theme-color themepreset-color theme-layout">
                   <a href="#!" class="active" onclick="layout_change('light')" data-value="false"><span><img
-                        src="{{ asset('assets/images/customization/default.svg')}}"
-                        alt="img"></span><span>Light</span></a>
+                        src="../assets/images/customization/default.svg" alt="img"></span><span>Light</span></a>
                   <a href="#!" class="" onclick="layout_change('dark')" data-value="true"><span><img
-                        src="{{ asset('assets/images/customization/dark.svg" alt="img')}}"></span><span>Dark</span></a>
+                        src="../assets/images/customization/dark.svg" alt="img"></span><span>Dark</span></a>
                 </div>
               </div>
             </div>
@@ -137,8 +135,8 @@
                   </div>
                 </div>
                 <div class="flex-grow-1 ms-3">
-                  <h6 class="mb-1">Color Scheme</h6>
-                  <span>Choose your primary theme color</span>
+                  <h6 class="mb-1">Escolher Tema</h6>
+                  <span>Escolha a cor do teu tema principal!</span>
                 </div>
                 <i class="ti ti-chevron-down"></i>
               </div>
@@ -147,32 +145,23 @@
               <div class="pct-content">
                 <div class="theme-color preset-color">
                   <a href="#!" class="active" data-value="preset-1"><span><img
-                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Theme
-                      1</span></a>
+                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 1</span></a>
                   <a href="#!" class="" data-value="preset-2"><span><img
-                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Theme
-                      2</span></a>
+                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 2</span></a>
                   <a href="#!" class="" data-value="preset-3"><span><img
-                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Theme
-                      3</span></a>
+                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 3</span></a>
                   <a href="#!" class="" data-value="preset-4"><span><img
-                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Theme
-                      4</span></a>
+                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 4</span></a>
                   <a href="#!" class="" data-value="preset-5"><span><img
-                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Theme
-                      5</span></a>
+                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 5</span></a>
                   <a href="#!" class="" data-value="preset-6"><span><img
-                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Theme
-                      6</span></a>
+                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 6</span></a>
                   <a href="#!" class="" data-value="preset-7"><span><img
-                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Theme
-                      7</span></a>
+                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 7</span></a>
                   <a href="#!" class="" data-value="preset-8"><span><img
-                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Theme
-                      8</span></a>
+                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 8</span></a>
                   <a href="#!" class="" data-value="preset-9"><span><img
-                        src="{{ asset('assets/images/customization/theme-color.svg')}}" alt="img"></span><span>Theme
-                      9</span></a>
+                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 9</span></a>
                 </div>
               </div>
             </div>
@@ -196,11 +185,9 @@
               <div class="pct-content">
                 <div class="theme-color themepreset-color boxwidthpreset theme-container">
                   <a href="#!" class="active" onclick="change_box_container('false')" data-value="false"><span><img
-                        src="{{ asset('assets/images/customization/default.svg')}}"
-                        alt="img"></span><span>Fluid</span></a>
+                        src="../assets/images/customization/default.svg" alt="img"></span><span>Fluid</span></a>
                   <a href="#!" class="" onclick="change_box_container('true')" data-value="true"><span><img
-                        src="{{ asset('assets/images/customization/container.svg')}}"
-                        alt="img"></span><span>Container</span></a>
+                        src="../assets/images/customization/container.svg" alt="img"></span><span>Container</span></a>
                 </div>
               </div>
             </div>
@@ -239,7 +226,7 @@
             <div class="collapse show">
               <div class="pct-content">
                 <div class="d-grid">
-                  <button class="btn btn-light-danger" id="layoutreset">Reset Layout</button>
+                  <button class="btn btn-light-danger" id="layoutreset">Resetar Layout</button>
                 </div>
               </div>
             </div>

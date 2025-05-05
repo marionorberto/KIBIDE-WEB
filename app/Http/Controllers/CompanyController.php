@@ -110,4 +110,18 @@ class CompanyController extends Controller
     }
 
 
+    public function listUsers()
+    {
+        return view('company.users.list');
+
+    }
+
+
+    public function createUsers()
+    {
+        return view('company.users.create');
+
+    }
+
+
 }

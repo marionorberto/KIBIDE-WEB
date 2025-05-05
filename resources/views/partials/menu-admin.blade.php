@@ -1,10 +1,8 @@
 <nav class="pc-sidebar">
   <div class="navbar-wrapper">
     <div class="m-header">
-      <a class="navbar-brand fs-3" href="#">
-        <i class="fa fa-graduation-cap text-black"></i>
-
-        BUKABEM
+      <a href="/">
+        <img src="{{ asset('assets/images/LOGO.png') }}" alt="" style="height: 70px; width: 70px;">
       </a>
     </div>
     <div class="navbar-content">
@@ -20,7 +18,7 @@
         <li class="pc-item">
           <a href="{{ route('admin.dashboard.profile.index') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-camera"></i></span>
-            <span class="pc-mtext">Perfil Administrador</span>
+            <span class="pc-mtext">Perfil</span>
           </a>
         </li>
 

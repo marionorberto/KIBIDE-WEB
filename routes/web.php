@@ -46,8 +46,8 @@ Route::prefix('kibide/company')->group(function () {
     Route::post('/store', [CompanyController::class, 'store'])->name('company.store');
     Route::get('/index', [CompanyController::class, 'index'])->name('company.index');
     Route::get('/profile', [CompanyController::class, 'profile'])->name('company.admin.profile');
-    // Route::get('/index', [CompanyController::class, 'index'])->name('company.index');
-
+    Route::get('/list/users', [CompanyController::class, 'listUsers'])->name('company.list.users');
+    Route::get('/create/users', [CompanyController::class, 'createUsers'])->name('company.create.users');
 });
 
 Route::prefix('kibide/desk')->group(function () {
