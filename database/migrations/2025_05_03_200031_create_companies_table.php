@@ -4,23 +4,18 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCompaniesTable extends Migration
-{
-    /**
-     * Execute a migration para criar a tabela companies.
-     *
-     * @return void
-     */
+return new class extends Migration {
+
     public function up()
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->uuid('id_company')->primary();  // Define a chave primária como UUID
-            $table->string('company_name');
-            $table->string('address');
-            $table->string('phone', 20)->nullable();
-            $table->string('email')->unique();
-            $table->string('nif');
-            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->string('company_name')->unique();
+            $table->string('company_address');
+            $table->string('company_phone', 20)->nullable();
+            $table->string('company_email')->unique();
+            $table->string('company_nif')->unique();
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }
@@ -34,4 +29,4 @@ class CreateCompaniesTable extends Migration
     {
         Schema::dropIfExists('companies');
     }
-}
+};

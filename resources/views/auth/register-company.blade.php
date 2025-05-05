@@ -11,80 +11,86 @@
       </a>
       </div>
       <div class="card my-5">
-      <form action="{{ route('company.store') }}" method="post" class="card-body">
+      <form method="post" action="{{ route('company.store') }}" class="card-body">
         @csrf
+
+        @if ($errors->any())
+        <ul class="alert alert-danger ">
+        @foreach ($errors->all() as $error)
+      <li class="ps-1">{{ $error }}</li>
+      @endforeach
+        </ul>
+      @endif
+
         <div class="d-flex justify-content-between align-items-end mb-4">
         <h3 class="mb-0"><b>Cadastar a sua Empresa</b></h3>
         <a href="{{ route('auth.login.show') }}" class="link-primary">Já tem conta?</a>
         </div>
-        @if ($successMessage = session('success'))
-      <div class="alert alert-success" role="alert"> {{ $successMessage }} </div>
-      @endif
-
-        @if ($errorMessage = session('error'))
-      <div class="alert alert-danger" role="alert"> {{ $errorMessage }} </div>
-      @endif
+        <div class="row">
+        <div class="col-md-6">
+          <div class="form-group mb-3">
+          <label class="form-label">Nome da Empresa*</label>
+          <input name="company_name" type="text" class="form-control" placeholder="Nome da Empresa" required>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group mb-3">
+          <label class="form-label">Correio Electrônico*</label>
+          <input name="company_email" type="email" class="form-control" placeholder="Correio Electrônico"
+            required>
+          </div>
+        </div>
+        </div>
+        <div class="form-group mb-3">
+        <label class="form-label">NIF*</label>
+        <input type="text" name="company_nif" class="form-control" placeholder="NIF" required>
+        </div>
 
         <div class="row">
         <div class="col-md-6">
           <div class="form-group mb-3">
-          <label class="form-label">Primeiro Nome*</label>
-          <input type="text" class="form-control" placeholder="First Name">
+          <label class="form-label">Endereço</label>
+          <input name="company_address" type="text" class="form-control" placeholder="Endereço">
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group mb-3">
-          <label class="form-label">Último Nome</label>
-          <input type="text" class="form-control" placeholder="Last Name">
+          <label class="form-label">Terminal Telefónico</label>
+          <input name="company_phone" type="text" class="form-control" placeholder="Terminal Telefónico">
           </div>
         </div>
-        </div>
-
-        <div class="form-group mb-3">
-        <label class="form-label">Email*</label>
-        <input type="email" name="email" class="form-control" placeholder="Email Address">
-        </div>
-        <div class="form-group mb-3">
-        <label class="form-label">Password</label>
-        <input type="password" name="password" class="form-control" placeholder="Password">
-        </div>
-
-        <div class="form-group mb-3">
-        <label class="form-label">Confirmar Password</label>
-        <input type="password" name="password_confirmation" class="form-control" placeholder="Confirmar Password">
         </div>
 
         <hr>
         <h5>Usuário Administrador</h5>
 
         <div class="row">
+        <input type="hidden" name="role" value="admin">
+
+
         <div class="col-md-6">
           <div class="form-group mb-3">
-          <label class="form-label">Primeiro Nome*</label>
-          <input type="text" class="form-control" placeholder="First Name">
+          <label class="form-label">Username*</label>
+          <input type="text" name="username" class="form-control" placeholder="Username" required>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group mb-3">
-          <label class="form-label">Último Nome</label>
-          <input type="text" class="form-control" placeholder="Last Name">
+          <label class="form-label">Email*</label>
+          <input type="email" name="email" class="form-control" placeholder="Email" required>
           </div>
         </div>
         </div>
 
-        <div class="row">
-        <div class="col-md-6">
-          <div class="form-group mb-3">
-          <label class="form-label">Primeiro Nome*</label>
-          <input type="text" class="form-control" placeholder="First Name">
-          </div>
+        <div class="form-group mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" name="password" class="form-control" placeholder="Password" required>
         </div>
-        <div class="col-md-6">
-          <div class="form-group mb-3">
-          <label class="form-label">Último Nome</label>
-          <input type="text" class="form-control" placeholder="Last Name">
-          </div>
-        </div>
+
+        <div class="form-group mb-3">
+        <label class="form-label">Confirmar Password</label>
+        <input type="password" name="password_confirmation" class="form-control" placeholder="Confirmar Password"
+          required>
         </div>
 
 

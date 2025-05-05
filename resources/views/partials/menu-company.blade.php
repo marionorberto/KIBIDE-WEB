@@ -1,46 +1,102 @@
 <nav class="pc-sidebar">
   <div class="navbar-wrapper">
     <div class="m-header">
-      <a class="navbar-brand fs-3" href="#">
-        <i class="fa fa-graduation-cap text-black"></i>
-
-        BUKABEM
+      <a href="/">
+        <img src="{{ asset('assets/images/LOGO.png') }}" alt="" style="height: 70px; width: 70px;">
       </a>
     </div>
     <div class="navbar-content">
       <ul class="pc-navbar">
         <li class="pc-item">
 
-          <a href="{{ route('admin.dashboard.index') }}" class="pc-link">
+          <a href="{{ route('company.index') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
             <span class="pc-mtext">Dashboard</span>
           </a>
 
         </li>
         <li class="pc-item">
-          <a href="{{ route('admin.dashboard.profile.index') }}" class="pc-link">
+          <a href="{{ route('company.admin.profile') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-camera"></i></span>
-            <span class="pc-mtext">Perfil Estudante</span>
+            <span class="pc-mtext">Perfil Admin</span>
           </a>
         </li>
         <li class="pc-item pc-caption">
-          <label>Recursos</label>
+          <label>Usuários</label>
           <i class="ti ti-brand-chrome"></i>
         </li>
         <li class="pc-item">
           <a href="#" class="pc-link">
             <span class="pc-micon"><i class="ti ti-settings"></i></span>
-            <span class="pc-mtext">Mentorias</span>
+            <span class="pc-mtext">Adicionar Usuário</span>
           </a>
         </li>
         <li class="pc-item">
           <a href="../other/sample-page.html" class="pc-link">
             <span class="pc-micon"><i class="ti ti-bell"></i></span>
-            <span class="pc-mtext">Conversas</span>
+            <span class="pc-mtext">Listar Usuários</span>
           </a>
         </li>
 
 
+        <li class="pc-item pc-caption">
+          <label>Unidades</label>
+          <i class="ti ti-brand-chrome"></i>
+        </li>
+        <li class="pc-item">
+          <a href="#" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-settings"></i></span>
+            <span class="pc-mtext">Adicionar unidade</span>
+          </a>
+        </li>
+        <li class="pc-item">
+          <a href="../other/sample-page.html" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-bell"></i></span>
+            <span class="pc-mtext">Listar unidade</span>
+          </a>
+        </li>
+
+        <li class="pc-item pc-caption">
+          <label>Mensagem</label>
+          <i class="ti ti-brand-chrome"></i>
+        </li>
+        <li class="pc-item">
+          <a href="#" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-settings"></i></span>
+            <span class="pc-mtext">Nova Mensagem</span>
+          </a>
+        </li>
+        <li class="pc-item">
+          <a href="../other/sample-page.html" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-bell"></i></span>
+            <span class="pc-mtext">Caixa de Entrada</span>
+          </a>
+        </li>
+        <li class="pc-item">
+          <a href="../other/sample-page.html" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-bell"></i></span>
+            <span class="pc-mtext">Enviado</span>
+          </a>
+        </li>
+
+        <li class="pc-item pc-caption">
+          <label>Notificações</label>
+          <i class="ti ti-brand-chrome"></i>
+        </li>
+
+        <li class="pc-item">
+          <a href="../other/sample-page.html" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-bell"></i></span>
+            <span class="pc-mtext">Caixa de Entrada</span>
+          </a>
+        </li>
+
+        <li class="pc-item">
+          <a href="../other/sample-page.html" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-bell"></i></span>
+            <span class="pc-mtext">Históricos de Notificações</span>
+          </a>
+        </li>
 
         <li class="pc-item pc-caption">
           <label>Meus Matérias</label>

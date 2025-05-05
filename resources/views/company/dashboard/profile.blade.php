@@ -12,7 +12,7 @@
       </div>
       <div class="col-md-12">
       <div class="page-header-title">
-        <h2 class="mb-0">Perfil Usuário</h2>
+        <h2 class="mb-0">Perfil Admin</h2>
       </div>
       </div>
     </div>

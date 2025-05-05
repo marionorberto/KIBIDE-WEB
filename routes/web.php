@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DeskController;
 use App\Http\Controllers\MentorController;
 use App\Http\Controllers\StudentController;
@@ -42,7 +43,11 @@ Route::prefix('kibide/auth')->group(function () {
 
 Route::prefix('kibide/company')->group(function () {
     Route::get('/create', [AuthController::class, 'create'])->name('company.create');
-    Route::post('/store', [AuthController::class, 'store'])->name('company.store');
+    Route::post('/store', [CompanyController::class, 'store'])->name('company.store');
+    Route::get('/index', [CompanyController::class, 'index'])->name('company.index');
+    Route::get('/profile', [CompanyController::class, 'profile'])->name('company.admin.profile');
+    // Route::get('/index', [CompanyController::class, 'index'])->name('company.index');
+
 });
 
 Route::prefix('kibide/desk')->group(function () {

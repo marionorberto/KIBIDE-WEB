@@ -31,7 +31,7 @@
   </div>
 
 
-  @include('partials.menu')
+  @include('partials.menu-company')
   @include('partials.header')
 
   <div class="pc-container">
@@ -41,7 +41,7 @@
   </div>
   </div>
 
-  @include('partials.header')
+  @include('partials.footer')
 
 
 

@@ -16,17 +16,24 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login(LoginRequest $request)
+    public function login(Request $request)
     {
-        $credentials = $request->only('username', 'password');
+        $credentials = $request->only(['username', 'password']);
 
         try {
             if (Auth::attempt($credentials)) {
                 $request->session()->regenerate();
-                return redirect()->route('home')->with('success', 'Login efetuado com sucesso.');
+
+                $userRole = Auth::user()->role;
+
+                if ($userRole == 'admin') {
+                    return redirect()->route('company.index');
+                }
+
+                return redirect()->route('desk.index')->with('success', 'Login efetuado com sucesso.');
             }
 
-            return back()->with('error', 'Credenciais inválidas.')->withInput($request->only('username'));
+            return redirect()->back()->with('error', 'Credenciais inválidas.')->withInput($request->only('username'));
 
         } catch (\Exception $e) {
             Log::error('Erro no login: ' . $e->getMessage());
