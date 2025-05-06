@@ -17,7 +17,7 @@
         </li>
         <li class="pc-item">
           <a href="{{ route('company.admin.profile') }}" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-camera"></i></span>
+            <span class="pc-micon"><i class="ti ti-user"></i></span>
             <span class="pc-mtext">Perfil</span>
           </a>
         </li>
@@ -33,7 +33,7 @@
         </li>
         <li class="pc-item">
           <a href="{{ route('company.list.users') }}" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-p"></i></span>
+            <span class="pc-micon"><i class="ti ti-color-swatch"></i></span>
             <span class="pc-mtext">Listar Usuários</span>
           </a>
         </li>
@@ -44,14 +44,14 @@
           <i class="ti ti-brand-chrome"></i>
         </li>
         <li class="pc-item">
-          <a href="#" class="pc-link">
+          <a href="{{ route('company.create.units') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-plus"></i></span>
             <span class="pc-mtext">Adicionar unidade</span>
           </a>
         </li>
         <li class="pc-item">
-          <a href="../other/sample-page.html" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-bell"></i></span>
+          <a href="{{ route('company.list.units') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-color-swatch"></i></span>
             <span class="pc-mtext">Listar unidade</span>
           </a>
         </li>
@@ -61,20 +61,20 @@
           <i class="ti ti-brand-chrome"></i>
         </li>
         <li class="pc-item">
-          <a href="#" class="pc-link">
+          <a href="{{ route('company.create.sms') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-plus"></i></span>
             <span class="pc-mtext">Nova Mensagem</span>
           </a>
         </li>
         <li class="pc-item">
-          <a href="../other/sample-page.html" class="pc-link">
+          <a href="{{ route('company.sms.Inbox') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-inbox"></i></span>
             <span class="pc-mtext">Caixa de Entrada</span>
           </a>
         </li>
         <li class="pc-item">
-          <a href="../other/sample-page.html" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-sent"></i></span>
+          <a href="{{ route('company.sms.sent') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-check"></i></span>
             <span class="pc-mtext">Enviado</span>
           </a>
         </li>
@@ -98,24 +98,15 @@
           </a>
         </li>
 
-        <li class="pc-item pc-caption">
-          <label>Display</label>
-          <i class="ti ti-display"></i>
-        </li>
 
-        <li class="pc-item">
-          <a href="../other/sample-page.html" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-settings"></i></span>
-            <span class="pc-mtext">Configuração de Display</span>
-          </a>
-        </li>
 
         <li class="pc-item pc-hasmenu">
-          <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-setting"></i></span><span
+          <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-menu"></i></span><span
               class="pc-mtext">Configurações</span><span class="pc-arrow"><i
                 data-feather="chevron-right"></i></span></a>
           <ul class="pc-submenu">
             <li class="pc-item"><a class="pc-link" href="#!">Configuração do sistema</a></li>
+            <li class="pc-item"><a class="pc-link" href="#!">Configuração do display</a></li>
           </ul>
         </li>
       </ul>

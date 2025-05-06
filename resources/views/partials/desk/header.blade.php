@@ -21,7 +21,7 @@
           </a>
           <div class="dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown">
             <div class="dropdown-header d-flex align-items-center justify-content-between">
-              <h5 class="m-0">Notification</h5>
+              <h5 class="m-0">Notificações</h5>
               <a href="#!" class="pc-head-link bg-transparent"><i class="ti ti-circle-check text-success"></i></a>
             </div>
             <div class="dropdown-divider"></div>
@@ -80,7 +80,7 @@
             </div>
             <div class="dropdown-divider"></div>
             <div class="text-center py-2">
-              <a href="#!" class="link-primary">Ver Todos</a>
+              <a href="#!" class="link-primary">Ver Todas</a>
             </div>
           </div>
         </li>
@@ -94,7 +94,7 @@
           <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button"
             aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
             <img src="{{ asset('assets/images/user/avatar-2.jpg') }}" alt="user-image" class="user-avtar">
-            <span>Mário Norberto</span>
+            <span>{{ Auth::user()->username }}</span>
           </a>
           <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
             <div class="dropdown-header">
@@ -103,8 +103,8 @@
                   <img src="{{ asset('assets/images/user/avatar-2.jpg') }}" alt="user-image" class="user-avtar wid-35">
                 </div>
                 <div class="flex-grow-1 ms-3">
-                  <h6 class="mb-1">Mário Norberto</h6>
-                  <span>Balconista</span>
+                  <h6 class="mb-1">{{ Auth::user()->username }}</h6>
+                  <span>{{ Auth::user()->role }}</span>
                 </div>
                 <a href="{{ route('auth.logout') }}" class="pc-head-link bg-transparent"><i
                     class="ti ti-power text-danger"></i></a>
@@ -114,7 +114,7 @@
               <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="drp-t1" data-bs-toggle="tab" data-bs-target="#drp-tab-1"
                   type="button" role="tab" aria-controls="drp-tab-1" aria-selected="true"><i class="ti ti-user"></i>
-                  Profile</button>
+                  Perfil</button>
               </li>
 
             </ul>

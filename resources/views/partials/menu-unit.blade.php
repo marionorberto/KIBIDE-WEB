@@ -40,46 +40,6 @@
 
 
 
-        <li class="pc-item pc-caption">
-          <label>depósitos de Solicitações</label>
-          <i class="ti ti-news"></i>
-        </li>
-        <li class="pc-item">
-          <a href="#" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-book"></i></span>
-            <span class="pc-mtext">Livros</span>
-          </a>
-        </li>
-        <li class="pc-item">
-          <a href="#" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-ruler"></i></span>
-            <span class="pc-mtext">Questionários</span>
-          </a>
-        </li>
-        <li class="pc-item">
-          <a href="#" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-book"></i></span>
-            <span class="pc-mtext">Links(Youtube)</span>
-          </a>
-        </li>
-        <li class="pc-item">
-          <a href="#" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-ruler"></i></span>
-            <span class="pc-mtext">Enunciados Antigos</span>
-          </a>
-        </li>
-        <li class="pc-item">
-          <a href="#" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-ruler"></i></span>
-            <span class="pc-mtext">Provas</span>
-          </a>
-        </li>
-        <li class="pc-item">
-          <a href="#" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-ruler"></i></span>
-            <span class="pc-mtext">Tópicos</span>
-          </a>
-        </li>
 
       </ul>
       <div class="card text-center">

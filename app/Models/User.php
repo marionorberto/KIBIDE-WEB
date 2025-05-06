@@ -21,6 +21,7 @@ class User extends Authenticatable
 
     protected $fillable = [
         'company_id',
+        'unit_id',
         'username',
         'email',
         'password',
@@ -49,9 +50,14 @@ class User extends Authenticatable
         return $this->belongsTo(Company::class);
     }
 
-    public function managedUnits(): HasMany
+    public function unit()
     {
-        return $this->hasMany(Unit::class, 'manager_id', 'id_user');
+        return $this->belongsTo(Unit::class, 'unit_id', 'id_unit');
+    }
+
+    public function managedUnit()
+    {
+        return $this->hasOne(Unit::class, 'manager_id', 'id_user');
     }
 
 }

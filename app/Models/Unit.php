@@ -49,6 +49,11 @@ class Unit extends Model
         return $this->belongsTo(Company::class, 'company_id', 'id_company');
     }
 
+    public function users()
+    {
+        return $this->hasMany(User::class, 'unit_id', 'id_unit');
+    }
+
     public function manager(): BelongsTo
     {
         return $this->belongsTo(User::class, 'manager_id', 'id_user');

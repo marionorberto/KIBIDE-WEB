@@ -65,6 +65,8 @@
   <script>font_change("Public-Sans");</script>
 
 
+
+
   <div class="offcanvas pct-offcanvas offcanvas-end" tabindex="-1" id="offcanvas_pc_layout">
     <div class="offcanvas-header bg-primary">
       <h5 class="offcanvas-title text-white">KIBIDE</h5>
@@ -237,6 +239,99 @@
   </div>
   <script src="{{ asset('assets/js/plugins/apexcharts.min.js') }}"></script>
   <script src="{{ asset('assets/js/pages/dashboard-analytics.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="{{ asset('assets/js/plugins/jquery.dataTables.min.js') }}"></script>
+  <script src="{{ asset('assets/js/plugins/dataTables.bootstrap5.min.js') }}"></script>
+  <script>
+    // [ Zero Configuration ] start
+    $('#myTable').DataTable({
+      "ordering": true,
+      "paging": true,
+      "searching": true,
+      "oLanguage": {
+        "sEmptyTable": "Nenhum registro encontrado na tabela",
+        "sInfo": "Mostrar _START_ até _END_ de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrar 0 até 0 de 0 Registros",
+        "sInfoFiltered": "(Filtrar de _MAX_ total registros)",
+        "sInfoPostFix": "",
+        "sInfoThousands": ".",
+        "sLengthMenu": "Mostrar _MENU_ registros por página",
+        "sLoadingRecords": "Carregando...",
+        "sProcessing": "Processando...",
+        "sZeroRecords": "Nenhum registro encontrado",
+        "sSearch": "Pesquisar",
+        "oPaginate": {
+          "sNext": "Próximo",
+          "sPrevious": "Anterior",
+          "sFirst": "Primeiro",
+          "sLast": "Último"
+        },
+        "oAria": {
+          "sSortAscending": ": Ordenar colunas de forma ascendente",
+          "sSortDescending": ": Ordenar colunas de forma descendente"
+        }
+      }
+    });
+
+    // [ Default Ordering ] start
+    $('#order-table').DataTable({
+      order: [[3, 'desc']]
+    });
+
+    // [ Multi-Column Ordering ]
+    $('#multi-colum-dt').DataTable({
+      columnDefs: [
+        {
+          targets: [0],
+          orderData: [0, 1]
+        },
+        {
+          targets: [1],
+          orderData: [1, 0]
+        },
+        {
+          targets: [4],
+          orderData: [4, 0]
+        }
+      ]
+    });
+
+    // [ Complex Headers ]
+    $('#complex-dt').DataTable();
+
+    // [ DOM Positioning ]
+    $('#DOM-dt').DataTable({
+      dom: '<"top"i>rt<"bottom"flp><"clear">'
+    });
+
+    // [ Alternative Pagination ]
+    $('#alt-pg-dt').DataTable({
+      pagingType: 'full_numbers'
+    });
+
+    // [ Scroll - Vertical ]
+    $('#scr-vrt-dt').DataTable({
+      scrollY: '200px',
+      scrollCollapse: true,
+      paging: false
+    });
+
+    // [ Scroll - Vertical, Dynamic Height ]
+    $('#scr-vtr-dynamic').DataTable({
+      scrollY: '50vh',
+      scrollCollapse: true,
+      paging: false
+    });
+
+    // [ Language - Comma Decimal Place ]
+    $('#lang-dt').DataTable({
+      language: {
+        decimal: ',',
+        thousands: '.'
+      }
+    });
+  </script>
+
 </body>
 
 </html>

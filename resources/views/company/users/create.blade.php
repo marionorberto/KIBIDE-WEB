@@ -3,51 +3,91 @@
 @section('title', 'dashboard')
 
 @section('content')
-  <div class="card">
-    <div class="card-header">
-    <h5>Basic Inputs</h5>
+  <form action="{{ route('users.store') }}" method="post" class="card">
+    @csrf
+
+
+    <div class="card-header d-flex justify-content-between align-items-center">
+
+    <h5>Criar Novo Usuário</h5>
+    <a class="btn btn-primary" href="{{ route('company.list.users') }}">Ver Todos</a>
     </div>
     <div class="card-body">
+    @if ($errors->any())
+    <ul class="alert alert-danger ">
+      @foreach ($errors->all() as $error)
+      <li class="ps-1">{{ $error }}</li>
+    @endforeach
+    </ul>
+    @endif
     <div class="alert alert-primary">
       <div class="media align-items-center">
       <i class="ti ti-info-circle h2 f-w-400 mb-0"></i>
-      <div class="media-body ms-3"> Basic HTML form components with custom style. </div>
+      <div class="media-body ms-3"> Para criar um novo usuário deves referenciar a Agência. Este usuário será o
+        manager dessa agência! </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+      <div class="form-group mb-3">
+        <label class="form-label">Username*</label>
+        <input type="text" name="username" class="form-control" placeholder="Username" required>
+      </div>
+      </div>
+      <div class="col-md-6">
+      <div class="form-group mb-3">
+        <label class="form-label">Email*</label>
+        <input type="email" name="email" class="form-control" placeholder="Email" required>
+      </div>
+      </div>
+    </div>
+
+    <input type="hidden" name="company_id" value="{{ Auth::user()->company_id }}">
+
+    <div class="row">
+      <div class="form-group col-md-6">
+      <label class="form-label" for="exampleSelect1">Associar à unidade</label>
+      <select name="unit_id" class="form-select" id="exampleSelect1">
+        @foreach ($units as $unit)
+      <option value="{{ $unit->id_unit }}">{{ $unit->unit_name }}</option>
+      @endforeach
+      </select>
+      </div>
+      <div class="form-group col-md-6">
+      <label class="form-label" for="exampleSelect1">Função</label>
+      <select name="role" class="form-select" id="exampleSelect1">
+        <option value="manager">Gerente</option>
+        <option value="desk">Atendente</option>
+      </select>
       </div>
     </div>
     <div class="form-group">
-      <label class="form-label">Email address</label>
-      <input type="email" class="form-control form-control" placeholder="email@company.com">
-    </div>
-    <div class="form-group">
-      <label class="form-label" for="exampleInputPassword1">Password</label>
-      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-      <small>Your password must be between 8 and 30 characters.</small>
-    </div>
-    <div class="form-group">
-      <label class="form-label" for="exampleSelect1">Select</label>
-      <select class="form-select" id="exampleSelect1">
-      <option>Option 1</option>
-      <option>Option 2</option>
-      <option>Option 3</option>
+      <label class="form-label" for="exampleSelect1">Ativado/Desativado</label>
+      <select name="active" class="form-select" id="exampleSelect1">
+      <option value="1">Ativado</option>
+      <option value="0">Desactivado</option>
       </select>
     </div>
-    <div class="form-group">
-      <label class="form-label" for="exampleSelect2">Multiple select</label>
-      <select multiple="" class="form-select" id="exampleSelect2">
-      <option>Option 1</option>
-      <option>Option 2</option>
-      <option>Option 3</option>
-      </select>
-      <small>Hold shift or press ctrl for multi select.</small>
-    </div>
-    <div class="form-group mb-0">
-      <label class="form-label" for="exampleTextarea">Textarea</label>
-      <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+    <div class="row">
+      <div class="form-group mb-3">
+      <label class="form-label">Password</label>
+      <input type="password" name="password" class="form-control" placeholder="Password" required>
+      </div>
+      <div class="form-group mb-3 col-12">
+      <label class="form-label">Confirmar Password</label>
+      <input type="password" name="password_confirmation" class="form-control" placeholder="Confirmar Password"
+        required>
+      </div>
     </div>
     </div>
+
+
+
     <div class="card-footer">
-    <button class="btn btn-primary me-2">Submit</button>
-    <button type="reset" class="btn btn-light">Reset</button>
+    <button class="btn btn-primary me-2">Criar Usuário</button>
+    <button type="reset" class="btn btn-light">Limpar Campos</button>
     </div>
+  </form>
   </div>
 @endsection

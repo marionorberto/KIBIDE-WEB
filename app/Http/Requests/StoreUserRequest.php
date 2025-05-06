@@ -8,38 +8,40 @@ class StoreUserRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return true; // Permitir todos os usuários ou ajustar conforme necessário
     }
 
     public function rules(): array
     {
-
-        dd('ess');
         return [
-            'firstname' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username',
-            'email' => 'required|string|email|max:40|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|string|in:mentor,student,admin',
+            'username' => 'required|string|max:50|unique:users,username',
+            'email' => 'required|email|max:100|unique:users,email',
+            'password' => 'required|string|min:8',
+            'role' => 'required|in:desk,manager',
+            'active' => 'required|boolean',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'firstname.required' => 'O primeiro nome é obrigatório.',
-            'lastname.required' => 'O sobrenome é obrigatório.',
             'username.required' => 'O nome de usuário é obrigatório.',
+            'username.max' => 'O nome de usuário não pode ter mais que 50 caracteres.',
             'username.unique' => 'Este nome de usuário já está em uso.',
-            'email.required' => 'O campo email é obrigatório.',
-            'email.email' => 'Insira um email válido.',
+
+            'email.required' => 'O email é obrigatório.',
+            'email.email' => 'O email deve ser um endereço válido.',
+            'email.max' => 'O email não pode ter mais que 100 caracteres.',
             'email.unique' => 'Este email já está em uso.',
+
             'password.required' => 'A senha é obrigatória.',
             'password.min' => 'A senha deve ter pelo menos 8 caracteres.',
-            'password.confirmed' => 'As passwords não coicidem!',
-            'role.required' => 'O papel do usuário é obrigatório.',
-            'role.in' => 'O papel deve ser mentor, student ou admin.',
+
+            'role.required' => 'O cargo (role) é obrigatório.',
+            'role.in' => 'O cargo deve ser um dos seguintes: admin, desk ou manager.',
+
+            'active.required' => 'O campo ativo é obrigatório.',
+            'active.boolean' => 'O campo ativo deve ser verdadeiro ou falso.',
         ];
     }
 }

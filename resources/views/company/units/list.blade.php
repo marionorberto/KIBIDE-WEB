@@ -9,7 +9,8 @@
     <div class="row align-items-center">
       <div class="col-md-12">
         <div class="page-header-title">
-          <h2 class="mb-0">Listagem de Usuários</h2>
+          <h3 class="mb-0">Listagem das Unidades</h3>
+
         </div>
       </div>
     </div>
@@ -18,7 +19,7 @@
 <div class="row">
   <div class="col-sm-12">
     <div class="card">
-      <div class="card-header d-flex justify-content-between items-align-center">
+      <div class="card-header d-flex justify-content-between align-items-center">
         <div>
           <h5>Zero Configuration</h5>
           <small>DataTables has most features enabled by default, so all you need to do to use it with your own tables
@@ -26,31 +27,39 @@
             to call the
             construction function.</small>
         </div>
-        <a class="btn btn-primary" href="{{ route('company.create.users') }}">Criar Usuário</a>
+        <a class="btn btn-primary" href="{{ route('company.create.units') }}">Criar Unidade</a>
 
       </div>
       <div class="card-body">
         <div class="dt-responsive table-responsive overflow-hidden">
-          <table id="myTable" class="table table-striped table-bordered nowrap">
+          <table id="myTable" class="table table-striped table-bordered nowrap ">
             <thead>
               <tr>
                 <th>ID</th>
-                <th>USERNAME</th>
+                <th>EMPRESA</th>
+                <th>NOME UNIDADE</th>
                 <th>EMAIL</th>
-                <th>CRIADO EM</th>
-                <th>PAPEL</th>
+                <th>ADDRESS</th>
+                <th>TELEFONE</th>
+                <th>GERENTE</th>
+                <th>TOTAL USUARIO</th>
                 <th>STATUS</th>
                 <th>AÇÕES</th>
               </tr>
+
             </thead>
             <tbody>
-              @foreach ($companyUsers as $item)
+              @foreach ($units as $item)
               <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $item->username }}</td>
-                <td>{{ $item->email }}</td>
-                <td>{{ $item->created_at }}</td>
-                <td>{{ $item->role }}</td>
+                <td>{{ $item->company_name ?? '------'}}</td>
+                <td>{{ $item->unit_name ?? '-------'}}</td>
+                <td>{{ $item->unit_email ?? '--------'}}</td>
+                <td>{{ $item->unit_address ?? '-------'}}</td>
+
+                <td>{{ $item->unit_phone ?? '------'}}</td>
+                <td>{{ $item->manager_name ?? '-------'}}</td>
+                <td>{{ $item->users_count }}</td>
                 @if($item->active)
           <td><span class="badge bg-light-success  f-12">activo</span> </td>
         @else
@@ -83,10 +92,13 @@
             <tfoot>
               <tr>
                 <th>ID</th>
-                <th>USERNAME</th>
+                <th>EMPRESA</th>
+                <th>NOME UNIDADE</th>
                 <th>EMAIL</th>
-                <th>CRIADO EM</th>
-                <th>PAPEL</th>
+                <th>ADDRESS</th>
+                <th>TELEFONE</th>
+                <th>GERENTE</th>
+                <th>TOTAL USUARIO</th>
                 <th>STATUS</th>
                 <th>AÇÕES</th>
               </tr>

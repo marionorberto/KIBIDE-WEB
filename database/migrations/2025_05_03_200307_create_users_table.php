@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('users', function (Blueprint $table) {
             $table->uuid('id_user')->primary(); // UUID como chave primária
             $table->uuid('company_id')->nullable(); // Chave estrangeira para companies
+            $table->uuid('unit_id')->nullable(); // Chave estrangeira para companies
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('password');
@@ -24,6 +25,11 @@ return new class extends Migration {
             $table->foreign('company_id')
                 ->references('id_company')
                 ->on('companies')
+                ->onDelete('cascade');
+
+            $table->foreign('unit_id')
+                ->references('id_unit')
+                ->on('units')
                 ->onDelete('cascade');
         });
     }

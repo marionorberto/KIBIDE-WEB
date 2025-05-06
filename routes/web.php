@@ -6,6 +6,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DeskController;
 use App\Http\Controllers\MentorController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -48,6 +49,13 @@ Route::prefix('kibide/company')->group(function () {
     Route::get('/profile', [CompanyController::class, 'profile'])->name('company.admin.profile');
     Route::get('/list/users', [CompanyController::class, 'listUsers'])->name('company.list.users');
     Route::get('/create/users', [CompanyController::class, 'createUsers'])->name('company.create.users');
+    Route::get('/create/units', [CompanyController::class, 'createUnits'])->name('company.create.units');
+    Route::get('/list/units', [CompanyController::class, 'listUnits'])->name('company.list.units');
+    Route::get('/create/sms', [CompanyController::class, 'createSms'])->name('company.create.sms');
+    Route::get('/sms/inbox', [CompanyController::class, 'smsInbox'])->name('company.sms.Inbox');
+    Route::get('/sms/sent', [CompanyController::class, 'smsSent'])->name('company.sms.sent');
+    Route::get('/notification/inbox', [CompanyController::class, 'notificationInbox'])->name('company.notification.inbox');
+    Route::get('/notification/histories', [CompanyController::class, 'notificationHistories'])->name('company.notification.histories');
 });
 
 Route::prefix('kibide/desk')->group(function () {
@@ -58,8 +66,12 @@ Route::prefix('kibide/desk')->group(function () {
 
 
 Route::prefix('kibide/unit')->group(function () {
+    Route::post('/store', [UnitController::class, 'store'])->name('units.store');
 });
 
 Route::prefix('kibide/users')->group(function () {
+    Route::post('/store', [UserController::class, 'store'])->name('users.store');
 });
+
+
 

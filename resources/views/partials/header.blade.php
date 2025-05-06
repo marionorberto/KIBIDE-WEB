@@ -134,7 +134,8 @@
                   <h6 class="mb-1">{{ Auth::user()->username }}</h6>
                   <span>{{ Auth::user()->role }}</span>
                 </div>
-                <a href="#!" class="pc-head-link bg-transparent"><i class="ti ti-power text-danger"></i></a>
+                <a href="{{ route('auth.logout') }}" class="pc-head-link bg-transparent"><i
+                    class="ti ti-power text-danger"></i></a>
               </div>
             </div>
             <ul class="nav drp-tabs nav-fill nav-tabs" id="mydrpTab" role="tablist">
