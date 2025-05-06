@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUnitRequest;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,29 +30,20 @@ class UnitController extends Controller
      */
     public function store(StoreUnitRequest $request)
     {
-
         try {
-
-            // how get the manageId???
-            dd($request->all());
-
             $companyId = Auth::user()->company_id;
-
-            // Criar o usuário admin associado à empresa
-            // $user = User::create([
-            //     'company_id' => $request->company_id,
-            //     'unit_id' => $request->unit_id, // Aqui já associamos o usuário à unidade
-            //     'username' => $request->username,
-            //     'email' => $request->email,
-            //     'password' => Hash::make($request->password),
-            //     'role' => $request->role,
-            //     'active' => $request->active,
-            // ]);
-
-            return redirect()->back()->with('success', 'usuário' . $request->role . 'criado com sucesso!');
+            $user = Unit::create([
+                'company_id' => $companyId,
+                'unit_name' => $request->unit_name,
+                'unit_email' => $request->unit_email,
+                'unit_address' => $request->unit_address,
+                'unit_phone' => $request->unit_phone,
+                'active' => false,
+            ]);
+            return redirect()->back()->with('success', 'Unidade criada com sucesso, Adicione um usuário para essa empresa!');
 
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Erro ao criar empresa e usuário: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Erro ao criar unidade: ' . $e->getMessage());
         }
     }
 

@@ -85,19 +85,18 @@
         </li>
 
         <li class="pc-item">
-          <a href="../other/sample-page.html" class="pc-link">
+          <a href="{{ route('company.notification.inbox') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-inbox"></i></span>
             <span class="pc-mtext">Caixa de Entrada</span>
           </a>
         </li>
 
         <li class="pc-item">
-          <a href="../other/sample-page.html" class="pc-link">
+          <a href="{{ route('company.notification.histories')  }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-report"></i></span>
             <span class="pc-mtext">Históricos de Notificações</span>
           </a>
         </li>
-
 
 
         <li class="pc-item pc-hasmenu">
@@ -105,8 +104,10 @@
               class="pc-mtext">Configurações</span><span class="pc-arrow"><i
                 data-feather="chevron-right"></i></span></a>
           <ul class="pc-submenu">
-            <li class="pc-item"><a class="pc-link" href="#!">Configuração do sistema</a></li>
-            <li class="pc-item"><a class="pc-link" href="#!">Configuração do display</a></li>
+            <li class="pc-item"><a class="pc-link" href="{{ route('company.settings.index') }}">Configuração do
+                Sistema</a></li>
+            <li class="pc-item"><a class="pc-link" href="{{ route('company.settings.index') }}">Configuração do
+                Display</a></li>
           </ul>
         </li>
       </ul>

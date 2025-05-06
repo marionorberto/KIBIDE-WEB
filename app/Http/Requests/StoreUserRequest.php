@@ -17,7 +17,6 @@ class StoreUserRequest extends FormRequest
             'username' => 'required|string|max:50|unique:users,username',
             'email' => 'required|email|max:100|unique:users,email',
             'password' => 'required|string|min:8',
-            'role' => 'required|in:desk,manager',
             'active' => 'required|boolean',
         ];
     }
@@ -36,9 +35,6 @@ class StoreUserRequest extends FormRequest
 
             'password.required' => 'A senha é obrigatória.',
             'password.min' => 'A senha deve ter pelo menos 8 caracteres.',
-
-            'role.required' => 'O cargo (role) é obrigatório.',
-            'role.in' => 'O cargo deve ser um dos seguintes: admin, desk ou manager.',
 
             'active.required' => 'O campo ativo é obrigatório.',
             'active.boolean' => 'O campo ativo deve ser verdadeiro ou falso.',

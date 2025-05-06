@@ -56,6 +56,7 @@ Route::prefix('kibide/company')->group(function () {
     Route::get('/sms/sent', [CompanyController::class, 'smsSent'])->name('company.sms.sent');
     Route::get('/notification/inbox', [CompanyController::class, 'notificationInbox'])->name('company.notification.inbox');
     Route::get('/notification/histories', [CompanyController::class, 'notificationHistories'])->name('company.notification.histories');
+    Route::get('/settings/index', [CompanyController::class, 'settings'])->name('company.settings.index');
 });
 
 Route::prefix('kibide/desk')->group(function () {

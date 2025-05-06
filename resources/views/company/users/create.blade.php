@@ -13,6 +13,15 @@
     <a class="btn btn-primary" href="{{ route('company.list.users') }}">Ver Todos</a>
     </div>
     <div class="card-body">
+    @if (!$errors->any() && !session('success'))
+    <div class="alert alert-primary">
+      <div class="media align-items-center">
+      <i class="ti ti-info-circle h2 f-w-400 mb-0"></i>
+      <div class="media-body ms-3">Após criar um novo usuário podes editá-lo.</div>
+      </div>
+    </div>
+    @endif
+
     @if ($errors->any())
     <ul class="alert alert-danger ">
       @foreach ($errors->all() as $error)
@@ -20,13 +29,12 @@
     @endforeach
     </ul>
     @endif
-    <div class="alert alert-primary">
-      <div class="media align-items-center">
-      <i class="ti ti-info-circle h2 f-w-400 mb-0"></i>
-      <div class="media-body ms-3"> Para criar um novo usuário deves referenciar a Agência. Este usuário será o
-        manager dessa agência! </div>
-      </div>
-    </div>
+
+    @if ($successMessage = session('success'))
+    <div class="alert alert-success" role="alert"> {{ $successMessage }} <strong><a
+      href="{{ route('company.list.users') }}">Ver lista para editar!</a></strong></div>
+    @endif
+
 
     <div class="row">
       <div class="col-md-6">
@@ -56,9 +64,8 @@
       </div>
       <div class="form-group col-md-6">
       <label class="form-label" for="exampleSelect1">Função</label>
-      <select name="role" class="form-select" id="exampleSelect1">
-        <option value="manager">Gerente</option>
-        <option value="desk">Atendente</option>
+      <select class="form-select" id="exampleSelect1" disabled>
+        <option>Gerente</option>
       </select>
       </div>
     </div>

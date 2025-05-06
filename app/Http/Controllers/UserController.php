@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,14 +38,16 @@ class UserController extends Controller
 
             // Criar o usuário admin associado à empresa
             $user = User::create([
-                'company_id' => $request->company_id,
+                'company_id' => $companyId,
                 'unit_id' => $request->unit_id, // Aqui já associamos o usuário à unidade
                 'username' => $request->username,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'role' => $request->role,
+                'role' => 'manager',
                 'active' => $request->active,
             ]);
+
+            Unit::where('id_unit', $request->unit_id)->update(['active', true]);
 
             return redirect()->back()->with('success', 'usuário' . $request->role . 'criado com sucesso!');
 

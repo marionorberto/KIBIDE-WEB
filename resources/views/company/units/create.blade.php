@@ -5,7 +5,9 @@
 @section('content')
   <form action="{{ route('units.store') }}" method="post" class="card">
     @csrf
-    <!-- 'manager_id', -->
+
+
+
 
     <div class="card-header d-flex justify-content-between align-items-center">
 
@@ -13,6 +15,16 @@
     <a class="btn btn-primary" href="{{ route('company.list.users') }}">Ver Todas</a>
     </div>
     <div class="card-body">
+
+    @if (!$errors->any() && !session('success'))
+    <div class="alert alert-primary">
+      <div class="media align-items-center">
+      <i class="ti ti-info-circle h2 f-w-400 mb-0"></i>
+      <div class="media-body ms-3">Após criar uma nova unidade deves associar ela à um usuário gerente criado.</div>
+      </div>
+    </div>
+    @endif
+
     @if ($errors->any())
     <ul class="alert alert-danger ">
       @foreach ($errors->all() as $error)
@@ -20,14 +32,11 @@
     @endforeach
     </ul>
     @endif
-    <div class="alert alert-primary">
-      <div class="media align-items-center">
-      <i class="ti ti-info-circle h2 f-w-400 mb-0"></i>
-      <div class="media-body ms-3"> Para criar uma nova unidade deves ter um GERENTE criado e disponível para a esta
-        unidade.</div>
-      </div>
-    </div>
 
+    @if ($successMessage = session('success'))
+    <div class="alert alert-success" role="alert"> {{ $successMessage }} <strong><a
+      href="{{ route('company.create.users') }}">Criar usuário agora!</a></strong></div>
+    @endif
     <div class="row">
       <div class="col-md-6">
       <div class="form-group mb-3">
@@ -58,41 +67,26 @@
       </div>
     </div>
 
-    <input type="hidden" name="company_id" value="{{ Auth::user()->company_id }}">
 
-    @if ($managersAvailable)
-      @foreach ($managersAvailable as $manager)
-      <div class="form-group col-md-6">
-      <label class="form-label" for="exampleSelect1">Gerentes Disponíveis</label>
-      <select name="role" class="form-select" id="exampleSelect1">
-      <option value="manager">testando1</option>
-      <option value="desk">testando2</option>
-      </select>
-      </div>
-      @endforeach
-    @else
-    <div class="col-md-12">
-      <div class="form-group mb-3">
-      <input type="text" name="manager_id" class="form-control" placeholder=""
-      value="Nenhum Gerente disponível, POR FAVOR CRIE UM NOVO USUÁRIO GERENTE PARA ASSOCIAR À UNIDADE" disabled>
-      </div>
-    </div>
-    @endif
 
     <div class="form-group">
       <label class="form-label" for="exampleSelect1">Ativada/Desativada</label>
-      <select name="active" class="form-select" id="exampleSelect1">
-      <option value="1">Ativada</option>
+      <select class="form-select" id="exampleSelect1" disabled>
       <option value="0">Desactivada</option>
       </select>
     </div>
-
+    <div class="col-md-12">
+      <div class="form-group mb-3">
+      <input type="text" class="form-control" placeholder=""
+        value="APÓS O CADASTRO DA AGENCIA CRIE UM NOVO USUÁRIO GERENTE PARA ASSOCIAR À UNIDADE" disabled>
+      </div>
+    </div>
     </div>
 
 
 
     <div class="card-footer">
-    <button class="btn btn-primary me-2">Criar Unidade</button>
+    <button type="submit" class="btn btn-primary me-2">Criar Unidade</button>
     <button type="reset" class="btn btn-light">Limpar Campos</button>
     </div>
   </form>

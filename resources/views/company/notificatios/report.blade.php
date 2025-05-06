@@ -5,7 +5,7 @@
 @section('content')
 
 
-  <h3 class="mb-2">Caixa de Entrada</h3>
+  <h3 class="mb-2">Históricos de Notificações</h3>
   <div class="col-xl-8">
     <div class="card table-card">
 

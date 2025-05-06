@@ -162,7 +162,7 @@ class CompanyController extends Controller
     public function createUsers()
     {
         $company_id = Auth::user()->company_id;
-        $units = Unit::where('company_id', $company_id)->get();
+        $units = Unit::where('company_id', $company_id)->where('manager_id', '=', null)->get();
 
         return view('company.users.create', compact('units'));
 
@@ -206,9 +206,7 @@ class CompanyController extends Controller
 
     public function createUnits()
     {
-        $managersAvailable = null;
-        return view('company.units.create', compact('managersAvailable'));
-
+        return view('company.units.create');
     }
 
     public function createSms()
@@ -235,13 +233,16 @@ class CompanyController extends Controller
     {
         $company_id = Auth::user()->company_id;
         $companyUsers = User::where('company_id', $company_id)->get();
-        return view('company.users.list', compact('companyUsers'));
+        return view('company.notificatios.inbox', compact('companyUsers'));
     }
-
 
     public function notificationHistories()
     {
-        return view('company.users.create');
+        return view('company.notificatios.report');
+    }
 
+    public function settings()
+    {
+        return view('company.settings.index');
     }
 }

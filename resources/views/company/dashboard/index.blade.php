@@ -90,9 +90,9 @@
                 <td>{{ $item->manager_name ?? '----------'}}</td>
                 <td>{{ $item->users_count }}</td>
                 @if($item->active)
-          <td><span class="badge bg-light-success  f-12">activo</span> </td>
+          <td><span class="badge bg-light-success  f-12">activada</span> </td>
         @else
-                <td><span class="badge bg-light-dander  f-12">inactivo</span> </td>
+                <td><span class="badge bg-light-danger  f-12">desativada</span> </td>
                 @endIf
 
               </tr>

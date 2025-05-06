@@ -31,18 +31,6 @@
                 <a class="list-group-item list-group-item-action">
                   <div class="d-flex">
                     <div class="flex-shrink-0">
-                      <div class="user-avtar bg-light-success"><i class="ti ti-gift"></i></div>
-                    </div>
-                    <div class="flex-grow-1 ms-1">
-                      <span class="float-end text-muted">3:00 AM</span>
-                      <p class="text-body mb-1">It's <b>Cristina danny's</b> birthday today.</p>
-                      <span class="text-muted">2 min ago</span>
-                    </div>
-                  </div>
-                </a>
-                <a class="list-group-item list-group-item-action">
-                  <div class="d-flex">
-                    <div class="flex-shrink-0">
                       <div class="user-avtar bg-light-primary"><i class="ti ti-message-circle"></i></div>
                     </div>
                     <div class="flex-grow-1 ms-1">
@@ -64,18 +52,7 @@
                     </div>
                   </div>
                 </a>
-                <a class="list-group-item list-group-item-action">
-                  <div class="d-flex">
-                    <div class="flex-shrink-0">
-                      <div class="user-avtar bg-light-primary"><i class="ti ti-headset"></i></div>
-                    </div>
-                    <div class="flex-grow-1 ms-1">
-                      <span class="float-end text-muted">9:10 PM</span>
-                      <p class="text-body mb-1"><b>Cristina Danny </b> invited to join <b> Meeting.</b></p>
-                      <span class="text-muted">Daily scrum meeting time</span>
-                    </div>
-                  </div>
-                </a>
+
               </div>
             </div>
             <div class="dropdown-divider"></div>

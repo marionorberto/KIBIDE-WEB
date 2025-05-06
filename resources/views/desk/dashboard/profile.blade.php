@@ -29,18 +29,8 @@
           <i class="ti ti-user me-2"></i>Perfil
         </a>
         </li>
-        <li class="nav-item">
-        <a class="nav-link" id="profile-tab-2" data-bs-toggle="tab" href="#profile-2" role="tab"
-          aria-selected="true">
-          <i class="ti ti-file-text me-2"></i>Pessoal
-        </a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" id="profile-tab-3" data-bs-toggle="tab" href="#profile-3" role="tab"
-          aria-selected="true">
-          <i class="ti ti-id me-2"></i>Minha Conta
-        </a>
-        </li>
+
+
         <li class="nav-item">
         <a class="nav-link" id="profile-tab-4" data-bs-toggle="tab" href="#profile-4" role="tab"
           aria-selected="true">
@@ -105,115 +95,7 @@
             </div>
             </div>
           </div>
-          <div class="card">
-            <div class="card-header">
-            <h5>Skills</h5>
-            </div>
-            <div class="card-body">
-            <div class="row align-items-center mb-3">
-              <div class="col-sm-6 mb-2 mb-sm-0">
-              <p class="mb-0">Junior</p>
-              </div>
-              <div class="col-sm-6">
-              <div class="d-flex align-items-center">
-                <div class="flex-grow-1 me-3">
-                <div class="progress progress-primary" style="height: 6px;">
-                  <div class="progress-bar" style="width: 30%;"></div>
-                </div>
-                </div>
-                <div class="flex-shrink-0">
-                <p class="mb-0 text-muted">30%</p>
-                </div>
-              </div>
-              </div>
-            </div>
-            <div class="row align-items-center mb-3">
-              <div class="col-sm-6 mb-2 mb-sm-0">
-              <p class="mb-0">UX Researcher</p>
-              </div>
-              <div class="col-sm-6">
-              <div class="d-flex align-items-center">
-                <div class="flex-grow-1 me-3">
-                <div class="progress progress-primary" style="height: 6px;">
-                  <div class="progress-bar" style="width: 80%;"></div>
-                </div>
-                </div>
-                <div class="flex-shrink-0">
-                <p class="mb-0 text-muted">80%</p>
-                </div>
-              </div>
-              </div>
-            </div>
-            <div class="row align-items-center mb-3">
-              <div class="col-sm-6 mb-2 mb-sm-0">
-              <p class="mb-0">Wordpress</p>
-              </div>
-              <div class="col-sm-6">
-              <div class="d-flex align-items-center">
-                <div class="flex-grow-1 me-3">
-                <div class="progress progress-primary" style="height: 6px;">
-                  <div class="progress-bar" style="width: 90%;"></div>
-                </div>
-                </div>
-                <div class="flex-shrink-0">
-                <p class="mb-0 text-muted">90%</p>
-                </div>
-              </div>
-              </div>
-            </div>
-            <div class="row align-items-center mb-3">
-              <div class="col-sm-6 mb-2 mb-sm-0">
-              <p class="mb-0">HTML</p>
-              </div>
-              <div class="col-sm-6">
-              <div class="d-flex align-items-center">
-                <div class="flex-grow-1 me-3">
-                <div class="progress progress-primary" style="height: 6px;">
-                  <div class="progress-bar" style="width: 30%;"></div>
-                </div>
-                </div>
-                <div class="flex-shrink-0">
-                <p class="mb-0 text-muted">30%</p>
-                </div>
-              </div>
-              </div>
-            </div>
-            <div class="row align-items-center mb-3">
-              <div class="col-sm-6 mb-2 mb-sm-0">
-              <p class="mb-0">Graphic Design</p>
-              </div>
-              <div class="col-sm-6">
-              <div class="d-flex align-items-center">
-                <div class="flex-grow-1 me-3">
-                <div class="progress progress-primary" style="height: 6px;">
-                  <div class="progress-bar" style="width: 95%;"></div>
-                </div>
-                </div>
-                <div class="flex-shrink-0">
-                <p class="mb-0 text-muted">95%</p>
-                </div>
-              </div>
-              </div>
-            </div>
-            <div class="row align-items-center">
-              <div class="col-sm-6 mb-2 mb-sm-0">
-              <p class="mb-0">Code Style</p>
-              </div>
-              <div class="col-sm-6">
-              <div class="d-flex align-items-center">
-                <div class="flex-grow-1 me-3">
-                <div class="progress progress-primary" style="height: 6px;">
-                  <div class="progress-bar" style="width: 75%;"></div>
-                </div>
-                </div>
-                <div class="flex-shrink-0">
-                <p class="mb-0 text-muted">75%</p>
-                </div>
-              </div>
-              </div>
-            </div>
-            </div>
-          </div>
+
           </div>
           <div class="col-lg-8 col-xxl-9">
           <div class="card">
@@ -369,400 +251,47 @@
           </div>
         </div>
         </div>
-        <div class="tab-pane" id="profile-2" role="tabpanel" aria-labelledby="profile-tab-2">
-        <div class="row">
-          <div class="col-lg-6">
-          <div class="card">
-            <div class="card-header">
-            <h5>Personal Information</h5>
-            </div>
-            <div class="card-body">
-            <div class="row">
-              <div class="col-sm-12 text-center mb-3">
-              <div class="user-upload wid-75">
-                <img src="../assets/images/user/avatar-4.jpg" alt="img" class="img-fluid">
-                <label for="uplfile" class="img-avtar-upload">
-                <i class="ti ti-camera f-24 mb-1"></i>
-                <span>Upload</span>
-                </label>
-                <input type="file" id="uplfile" class="d-none">
-              </div>
-              </div>
-              <div class="col-sm-6">
-              <div class="form-group">
-                <label class="form-label">First Name</label>
-                <input type="text" class="form-control" value="Anshan">
-              </div>
-              </div>
-              <div class="col-sm-6">
-              <div class="form-group">
-                <label class="form-label">Last Name</label>
-                <input type="text" class="form-control" value="Handgun">
-              </div>
-              </div>
-              <div class="col-sm-6">
-              <div class="form-group">
-                <label class="form-label">Country</label>
-                <input type="text" class="form-control" value="New York">
-              </div>
-              </div>
-              <div class="col-sm-6">
-              <div class="form-group">
-                <label class="form-label">Zip code</label>
-                <input type="text" class="form-control" value="956754">
-              </div>
-              </div>
-              <div class="col-sm-12">
-              <div class="form-group">
-                <label class="form-label">Bio</label>
-                <textarea
-                class="form-control">Hello, I’m Anshan Handgun Creative Graphic Designer & User Experience Designer based in Website, I create digital Products a more Beautiful and usable place. Morbid accusant ipsum. Nam nec tellus at.</textarea>
-              </div>
-              </div>
-              <div class="col-sm-12">
-              <div class="form-group">
-                <label class="form-label">Experience</label>
-                <select class="form-control">
-                <option>Startup</option>
-                <option>2 year</option>
-                <option>3 year</option>
-                <option selected>4 year</option>
-                <option>5 year</option>
-                </select>
-              </div>
-              </div>
-            </div>
-            </div>
-          </div>
-          </div>
-          <div class="col-lg-6">
-          <div class="card">
-            <div class="card-header">
-            <h5>Social Network</h5>
-            </div>
-            <div class="card-body">
-            <div class="d-flex align-items-center mb-2">
-              <div class="flex-grow-1 me-3">
-              <div class="d-flex align-items-center">
-                <div class="flex-shrink-0">
-                <div class="avtar avtar-xs btn-light-twitter">
-                  <i class="fab fa-twitter f-16"></i>
-                </div>
-                </div>
-                <div class="flex-grow-1 ms-3">
-                <h6 class="mb-0">Twitter</h6>
-                </div>
-              </div>
-              </div>
-              <div class="flex-shrink-0">
-              <button class="btn btn-link-danger">Connect</button>
-              </div>
-            </div>
-            <div class="d-flex align-items-center mb-2">
-              <div class="flex-grow-1 me-3">
-              <div class="d-flex align-items-center">
-                <div class="flex-shrink-0">
-                <div class="avtar avtar-xs btn-light-facebook">
-                  <i class="fab fa-facebook-f f-16"></i>
-                </div>
-                </div>
-                <div class="flex-grow-1 ms-3">
-                <h6 class="mb-0">Facebook</h6>
-                </div>
-              </div>
-              </div>
-              <div class="flex-shrink-0">
-              <div class="text-facebook">Anshan Handgun</div>
-              </div>
-            </div>
-            <div class="d-flex align-items-center">
-              <div class="flex-grow-1 me-3">
-              <div class="d-flex align-items-center">
-                <div class="flex-shrink-0">
-                <div class="avtar avtar-xs btn-light-linkedin">
-                  <i class="fab fa-linkedin-in f-16"></i>
-                </div>
-                </div>
-                <div class="flex-grow-1 ms-3">
-                <h6 class="mb-0">Linkedin</h6>
-                </div>
-              </div>
-              </div>
-              <div class="flex-shrink-0">
-              <button class="btn btn-link-danger">Connect</button>
-              </div>
-            </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header">
-            <h5>Contact Information</h5>
-            </div>
-            <div class="card-body">
-            <div class="row">
-              <div class="col-sm-6">
-              <div class="form-group">
-                <label class="form-label">Contact Phone</label>
-                <input type="text" class="form-control" value="(+99) 9999 999 999">
-              </div>
-              </div>
-              <div class="col-sm-6">
-              <div class="form-group">
-                <label class="form-label">Email <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" value="demo@sample.com">
-              </div>
-              </div>
-              <div class="col-sm-12">
-              <div class="form-group">
-                <label class="form-label">Portfolio Url</label>
-                <input type="text" class="form-control" value="https://demo.com">
-              </div>
-              </div>
-              <div class="col-sm-12">
-              <div class="form-group">
-                <label class="form-label">Address</label>
-                <textarea class="form-control">3379  Monroe Avenue, Fort Myers, Florida(33912)</textarea>
-              </div>
-              </div>
-            </div>
-            </div>
-          </div>
-          </div>
-          <div class="col-12 text-end btn-page">
-          <div class="btn btn-outline-secondary">Cancel</div>
-          <div class="btn btn-primary">Update Profile</div>
-          </div>
-        </div>
-        </div>
-        <div class="tab-pane" id="profile-3" role="tabpanel" aria-labelledby="profile-tab-3">
-        <div class="row">
-          <div class="col-12">
-          <div class="card">
-            <div class="card-header">
-            <h5>General Settings</h5>
-            </div>
-            <div class="card-body">
-            <div class="row">
-              <div class="col-sm-6">
-              <div class="form-group">
-                <label class="form-label">Username <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" value="Ashoka_Tano_16">
-                <small class="form-text text-muted">Your Profile URL:
-                https://pc.com/Ashoka_Tano_16</small>
-              </div>
-              </div>
-              <div class="col-sm-6">
-              <div class="form-group">
-                <label class="form-label">Account Email <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" value="demo@sample.com">
-              </div>
-              </div>
-              <div class="col-sm-6">
-              <div class="form-group">
-                <label class="form-label">Language</label>
-                <select class="form-control">
-                <option>Washington</option>
-                <option>India</option>
-                <option>Africa</option>
-                <option>New York</option>
-                <option>Malaysia</option>
-                </select>
-              </div>
-              </div>
-              <div class="col-sm-6">
-              <div class="form-group">
-                <label class="form-label">Sign in Using</label>
-                <select class="form-control">
-                <option>Password</option>
-                <option>Face Recognition</option>
-                <option>Thumb Impression</option>
-                <option>Key</option>
-                <option>Pin</option>
-                </select>
-              </div>
-              </div>
-            </div>
-            </div>
-          </div>
-          </div>
-          <div class="col-lg-6">
-          <div class="card">
-            <div class="card-header">
-            <h5>Advance Settings</h5>
-            </div>
-            <div class="card-body">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item px-0 pt-0">
-              <div class="d-flex align-items-center justify-content-between">
-                <div>
-                <p class="mb-1">Secure Browsing</p>
-                <p class="text-muted text-sm mb-0">Browsing Securely ( https ) when it's necessary</p>
-                </div>
-                <div class="form-check form-switch p-0">
-                <input class="form-check-input h4 position-relative m-0" type="checkbox" role="switch"
-                  checked="">
-                </div>
-              </div>
-              </li>
-              <li class="list-group-item px-0">
-              <div class="d-flex align-items-center justify-content-between">
-                <div>
-                <p class="mb-1">Login Notifications</p>
-                <p class="text-muted text-sm mb-0">Notify when login attempted from other place</p>
-                </div>
-                <div class="form-check form-switch p-0">
-                <input class="form-check-input h4 position-relative m-0" type="checkbox" role="switch"
-                  checked="">
-                </div>
-              </div>
-              </li>
-              <li class="list-group-item px-0 pb-0">
-              <div class="d-flex align-items-center justify-content-between">
-                <div>
-                <p class="mb-1">Login Approvals</p>
-                <p class="text-muted text-sm mb-0">Approvals is not required when login from
-                  unrecognized devices.</p>
-                </div>
-                <div class="form-check form-switch p-0">
-                <input class="form-check-input h4 position-relative m-0" type="checkbox" role="switch"
-                  checked="">
-                </div>
-              </div>
-              </li>
-            </ul>
-            </div>
-          </div>
-          </div>
-          <div class="col-lg-6">
-          <div class="card">
-            <div class="card-header">
-            <h5>Recognized Devices</h5>
-            </div>
-            <div class="card-body">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item px-0 pt-0">
-              <div class="d-flex align-items-center justify-content-between">
-                <div class="me-2">
-                <p class="mb-2">Celt Desktop</p>
-                <p class="mb-0 text-muted">4351 Deans Lane</p>
-                </div>
-                <div class="">
-                <div class="text-success d-inline-block me-2">
-                  <i class="fas fa-circle f-8 me-2"></i>
-                  Current Active
-                </div>
-                <a href="#!" class="text-danger"><i class="feather icon-x-circle"></i></a>
-                </div>
-              </div>
-              </li>
-              <li class="list-group-item px-0">
-              <div class="d-flex align-items-center justify-content-between">
-                <div class="me-2">
-                <p class="mb-2">Imco Tablet</p>
-                <p class="mb-0 text-muted">4185 Michigan Avenue</p>
-                </div>
-                <div class="">
-                <div class="text-muted d-inline-block me-2">
-                  <i class="fas fa-circle f-8 me-2"></i>
-                  Active 5 days ago
-                </div>
-                <a href="#!" class="text-danger"><i class="feather icon-x-circle"></i></a>
-                </div>
-              </div>
-              </li>
-              <li class="list-group-item px-0 pb-0">
-              <div class="d-flex align-items-center justify-content-between">
-                <div class="me-2">
-                <p class="mb-2">Albs Mobile</p>
-                <p class="mb-0 text-muted">3462 Fairfax Drive</p>
-                </div>
-                <div class="">
-                <div class="text-muted d-inline-block me-2">
-                  <i class="fas fa-circle f-8 me-2"></i>
-                  Active 1 month ago
-                </div>
-                <a href="#!" class="text-danger"><i class="feather icon-x-circle"></i></a>
-                </div>
-              </div>
-              </li>
-            </ul>
-            </div>
-          </div>
-          </div>
-          <div class="col-12">
-          <div class="card">
-            <div class="card-header">
-            <h5>Active Sessions</h5>
-            </div>
-            <div class="card-body">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item px-0 pt-0">
-              <div class="d-flex align-items-center justify-content-between">
-                <div class="me-2">
-                <p class="mb-2">Celt Desktop</p>
-                <p class="mb-0 text-muted">4351 Deans Lane</p>
-                </div>
-                <button class="btn btn-link-danger">Logout</button>
-              </div>
-              </li>
-              <li class="list-group-item px-0 pb-0">
-              <div class="d-flex align-items-center justify-content-between">
-                <div class="me-2">
-                <p class="mb-2">Moon Tablet</p>
-                <p class="mb-0 text-muted">4185 Michigan Avenue</p>
-                </div>
-                <button class="btn btn-link-danger">Logout</button>
-              </div>
-              </li>
-            </ul>
-            </div>
-          </div>
-          </div>
-          <div class="col-12 text-end">
-          <button class="btn btn-outline-dark ms-2">Clear</button>
-          <button class="btn btn-primary">Update Profile</button>
-          </div>
-        </div>
-        </div>
+
+
         <div class="tab-pane" id="profile-4" role="tabpanel" aria-labelledby="profile-tab-4">
         <div class="card">
           <div class="card-header">
-          <h5>Change Password</h5>
+          <h5>Mudar Password</h5>
           </div>
           <div class="card-body">
           <div class="row">
             <div class="col-sm-6">
             <div class="form-group">
-              <label class="form-label">Old Password</label>
+              <label class="form-label">Antiga Password</label>
               <input type="password" class="form-control">
             </div>
             <div class="form-group">
-              <label class="form-label">New Password</label>
+              <label class="form-label">Nova Password</label>
               <input type="password" class="form-control">
             </div>
             <div class="form-group">
-              <label class="form-label">Confirm Password</label>
+              <label class="form-label">Confirmar Password</label>
               <input type="password" class="form-control">
             </div>
             </div>
             <div class="col-sm-6">
-            <h5>New password must contain:</h5>
+            <h5>Nova password deve conter:</h5>
             <ul class="list-group list-group-flush">
-              <li class="list-group-item"><i class="ti ti-minus me-2"></i> At least 8 characters</li>
-              <li class="list-group-item"><i class="ti ti-minus me-2"></i> At least 1 lower letter (a-z)
+              <li class="list-group-item"><i class="ti ti-minus me-2"></i> No mínimo 8 caracteres</li>
+              <li class="list-group-item"><i class="ti ti-minus me-2"></i> No mínimo1 letra minúscula (a-z)
               </li>
-              <li class="list-group-item"><i class="ti ti-minus me-2"></i> At least 1 uppercase letter
+              <li class="list-group-item"><i class="ti ti-minus me-2"></i> No mínimo 1 letra maiúscula
               (A-Z)</li>
-              <li class="list-group-item"><i class="ti ti-minus me-2"></i> At least 1 number (0-9)</li>
-              <li class="list-group-item"><i class="ti ti-minus me-2"></i> At least 1 special characters
+              <li class="list-group-item"><i class="ti ti-minus me-2"></i> No mínimo 1 numero (0-9)</li>
+              <li class="list-group-item"><i class="ti ti-minus me-2"></i> No mínimo 1 caracterer especial
               </li>
             </ul>
             </div>
           </div>
           </div>
           <div class="card-footer text-end btn-page">
-          <div class="btn btn-outline-secondary">Cancel</div>
-          <div class="btn btn-primary">Update Profile</div>
+          <button type="reset" class="btn btn-outline-secondary">Limpar campos</button>
+          <button type="submit" class="btn btn-primary">Atualizar Perfil</button>
           </div>
         </div>
         </div>
