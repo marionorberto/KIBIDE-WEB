@@ -31,8 +31,8 @@
   </div>
 
 
-  @include('partials.desk.menu')
-  @include('partials.desk.header')
+  @include('partials.menu-unit')
+  @include('partials.header')
 
   <div class="pc-container">
     <div class="pc-content">
@@ -236,9 +236,9 @@
     </div>
   </div>
   <script src="{{ asset('assets/js/plugins/apexcharts.min.js') }}"></script>
-  <script src="{{ asset('assets/js/pages/dashboard-analytics.js') }}"></script>
+  <script src="{{ asset('assets/js/pages/dashboard-default.js') }}"></script>
 </body>
 
 </html>
 
-<!-- 923 594 7 61 -->
+923 594 761

@@ -14,7 +14,7 @@ class UnitController extends Controller
      */
     public function index()
     {
-        //
+        return view('unit.dashboard.index');
     }
 
     /**
@@ -77,5 +77,65 @@ class UnitController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function profile()
+    {
+        return view('unit.dashboard.profile');
+    }
+
+    public function createDesks()
+    {
+        return view('unit.dashboard.desks.create');
+    }
+
+    public function listDesks()
+    {
+        return view('unit.dashboard.desks.list');
+    }
+
+    public function createSms()
+    {
+        return view('unit.dashboard.sms.create');
+    }
+
+    public function smsInbox()
+    {
+        return view('unit.dashboard.sms.inbox');
+    }
+
+    public function smsSent()
+    {
+        return view('unit.dashboard.sms.sent');
+    }
+
+    public function notificationInbox()
+    {
+        return view('unit.dashboard.notifications.inbox');
+    }
+
+    public function notificationHistories()
+    {
+        return view('unit.dashboard.notifications.report');
+    }
+
+    public function ticketGenerated()
+    {
+        return view('unit.dashboard.tickets.generated');
+    }
+
+    public function ticketSettings()
+    {
+        return view('unit.dashboard.tickets.settings');
+    }
+
+    public function settingsIndex()
+    {
+        return view('unit.dashboard.settings.index');
+    }
+
+    public function settingsDisplay()
+    {
+        return view('unit.dashboard.settings.index');
     }
 }

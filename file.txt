@@ -1,0 +1,207 @@
+Ótima pergunta! Se você começou seu app Laravel com rotas no `web.php` e agora vai criar uma **API**, você pode perfeitamente estruturar as duas coisas separadas. Laravel já está preparado para isso. Aqui vai um guia prático para **estruturar sua API de forma organizada**:
+
+---
+
+## ✅ **1. Use o arquivo `routes/api.php` para suas rotas de API**
+
+Tudo que for relativo à API deve ir no `routes/api.php`. As rotas desse arquivo já são automaticamente prefixadas com `/api` (ex: `/api/empresas`, `/api/users`).
+
+```php
+// routes/api.php
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/users', [UserController::class, 'index']);
+    Route::post('/companies', [CompanyController::class, 'store']);
+});
+```
+
+---
+
+## ✅ **2. Crie controllers específicos para API**
+
+Separe os controllers web dos controllers da API. Você pode organizar assim:
+
+```
+app/
+├── Http/
+│   ├── Controllers/
+│   │   ├── Web/
+│   │   │   └── CompanyController.php
+│   │   └── Api/
+│   │       └── CompanyController.php
+```
+
+Exemplo:
+
+```bash
+php artisan make:controller Api/CompanyController --api
+```
+
+---
+
+## ✅ **3. Use Form Requests para validação**
+
+Continue usando os `FormRequest` como você já está fazendo para manter validações limpas.
+
+```bash
+php artisan make:request StoreCompanyRequest
+```
+
+---
+
+## ✅ **4. Retorne sempre JSON**
+
+Use `response()->json(...)` nas respostas dos controllers da API:
+
+```php
+return response()->json([
+    'message' => 'Empresa criada com sucesso',
+    'data' => $company
+], 201);
+```
+
+---
+
+## ✅ **5. Use API Resources para respostas personalizadas (opcional)**
+
+Crie classes com `php artisan make:resource CompanyResource` para controlar a estrutura da resposta JSON.
+
+---
+
+## ✅ **6. Use `auth:sanctum` para autenticação (recomendado)**
+
+Instale e configure o Laravel Sanctum para proteger as rotas da sua API:
+
+```bash
+composer require laravel/sanctum
+php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+php artisan migrate
+```
+
+Middleware:
+
+```php
+// routes/api.php
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+```
+
+---
+
+## ✅ **7. Teste com ferramentas como Postman ou Insomnia**
+
+Crie tokens, envie requisições, teste rotas com headers `Accept: application/json`.
+
+---
+
+## ✅ **8. (Opcional) Crie versões para sua API**
+
+Se quiser, você pode criar versões como `routes/api/v1/` e agrupar rotas:
+
+```php
+// routes/api.php
+Route::prefix('v1')->namespace('App\Http\Controllers\Api\V1')->group(function () {
+    Route::get('/companies', [CompanyController::class, 'index']);
+});
+```
+
+---
+
+Se quiser, posso te ajudar a mover a primeira funcionalidade do `web.php` para API. Quer começar com alguma em especial?
+
+
+
+
+
+
+
+
+Perfeito! Seu `web.php` está organizando rotas para **views e ações de interface gráfica** com `Blade`, o que é o propósito correto para esse arquivo. Agora, para **criar uma API RESTful no seu app Laravel**, você precisa seguir esta estrutura em paralelo, mantendo tudo separado:
+
+---
+
+### ✅ **1. Comece usando o arquivo `routes/api.php`**
+
+Esse arquivo é carregado automaticamente pelo Laravel e já tem prefixo `/api`. Aqui você vai colocar todas as rotas que **não renderizam views**, apenas **retornam JSON**.
+
+---
+
+### ✅ **2. Exemplo de estrutura no `routes/api.php`**
+
+Crie rotas equivalentes para suas entidades, mas pensando em operações API:
+
+```php
+// routes/api.php
+
+use App\Http\Controllers\Api\CompanyController as ApiCompanyController;
+use App\Http\Controllers\Api\UserController as ApiUserController;
+use Illuminate\Support\Facades\Route;
+
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::get('/companies', [ApiCompanyController::class, 'index']);
+    Route::post('/companies', [ApiCompanyController::class, 'store']);
+    
+    Route::get('/users', [ApiUserController::class, 'index']);
+    Route::post('/users', [ApiUserController::class, 'store']);
+
+    // etc.
+});
+```
+
+---
+
+### ✅ **3. Separe os Controllers da API**
+
+Crie uma pasta `App\Http\Controllers\Api` para os controllers da API.
+
+```bash
+php artisan make:controller Api/CompanyController --api
+php artisan make:controller Api/UserController --api
+```
+
+E mantenha os controllers da Web na pasta atual `App\Http\Controllers`.
+
+---
+
+### ✅ **4. Use Form Requests para validação**
+
+Mantenha os `StoreUserRequest`, `StoreUnitRequest`, etc. e reutilize para API também.
+
+---
+
+### ✅ **5. Proteja com Sanctum (opcional, mas recomendado)**
+
+Para autenticação via API (login com token), você pode usar [Laravel Sanctum](https://laravel.com/docs/10.x/sanctum). Isso permite login por `POST /api/login` e autenticação com Bearer Token.
+
+---
+
+### ✅ **6. Use a separação de rotas para manter seu app limpo**
+
+| Finalidade    | Arquivo          | Prefixo automático |
+| ------------- | ---------------- | ------------------ |
+| Interface Web | `routes/web.php` | (sem prefixo)      |
+| API REST      | `routes/api.php` | `/api`             |
+
+---
+
+### ✅ **7. Sugestão de Estrutura de Diretórios para Organização**
+
+```
+app/
+├── Http/
+│   ├── Controllers/
+│   │   ├── Web/
+│   │   └── Api/
+│   ├── Requests/
+│   ├── Resources/
+routes/
+├── web.php
+├── api.php
+```
+
+---
+
+Se quiser, posso ajudar a mover um controller específico da `web` para API como exemplo. Qual funcionalidade você quer começar migrando para a API?
+
+

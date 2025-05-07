@@ -47,6 +47,7 @@ Route::prefix('kibide/company')->group(function () {
     Route::post('/store', [CompanyController::class, 'store'])->name('company.store');
     Route::get('/index', [CompanyController::class, 'index'])->name('company.index');
     Route::get('/profile', [CompanyController::class, 'profile'])->name('company.admin.profile');
+
     Route::get('/list/users', [CompanyController::class, 'listUsers'])->name('company.list.users');
     Route::get('/create/users', [CompanyController::class, 'createUsers'])->name('company.create.users');
     Route::get('/create/units', [CompanyController::class, 'createUnits'])->name('company.create.units');
@@ -67,7 +68,21 @@ Route::prefix('kibide/desk')->group(function () {
 
 
 Route::prefix('kibide/unit')->group(function () {
+    Route::get('/index', [UnitController::class, 'index'])->name('unit.index');
+    Route::get('/profile', [UnitController::class, 'profile'])->name('unit.manager.profile');
     Route::post('/store', [UnitController::class, 'store'])->name('units.store');
+    Route::get('/create/desks', [UnitController::class, 'createDesks'])->name('unit.create.desks');
+    Route::get('/list/desks', [UnitController::class, 'listDesks'])->name('unit.list.desks');
+
+    Route::get('/create/sms', [UnitController::class, 'createSms'])->name('unit.create.sms');
+    Route::get('/sms/inbox', [UnitController::class, 'smsInbox'])->name('unit.sms.inbox');
+    Route::get('/sms/sent', [UnitController::class, 'smsSent'])->name('unit.sms.sent');
+    Route::get('/notification/inbox', [UnitController::class, 'notificationInbox'])->name('unit.notification.inbox');
+    Route::get('/notification/histories', [UnitController::class, 'notificationHistories'])->name('unit.notification.histories');
+    Route::get('/tickets/generated', [UnitController::class, 'ticketGenerated'])->name('unit.tickets.generated');
+    Route::get('/tickets/settings', [UnitController::class, 'ticketSettings'])->name('unit.tickets.settings');
+    Route::get('/settings/index', [UnitController::class, 'settingsIndex'])->name('unit.settings.index');
+    Route::get('/settings/display', [UnitController::class, 'settingsDisplay'])->name('unit.settings.display');
 });
 
 Route::prefix('kibide/users')->group(function () {

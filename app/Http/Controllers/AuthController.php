@@ -30,10 +30,11 @@ class AuthController extends Controller
                     return redirect()->route('company.index');
                 } else if ($userRole == 'desk') {
                     return redirect()->route('desk.index');
+                } else if ($userRole == 'manager') {
+                    return redirect()->route('unit.index');
+                } else {
+                    return back()->with('error', 'Ocorreu um erro ao tentar fazer login. Tente novamente mais tarde.');
                 }
-
-                dd('nem admin , nem desk');
-                // return redirect()->route('desk.index')->with('success', 'Login efetuado com sucesso.');
             }
 
             return redirect()->back()->with('error', 'Credenciais inválidas.')->withInput($request->only('username'));

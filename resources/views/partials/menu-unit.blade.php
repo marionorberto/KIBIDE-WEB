@@ -9,38 +9,174 @@
       <ul class="pc-navbar">
         <li class="pc-item">
 
-          <a href="{{ route('admin.dashboard.index') }}" class="pc-link">
+          <a href="{{ route('unit.index') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
             <span class="pc-mtext">Dashboard</span>
           </a>
 
         </li>
         <li class="pc-item">
-          <a href="{{ route('admin.dashboard.profile.index') }}" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-camera"></i></span>
-            <span class="pc-mtext">Perfil Mentor</span>
+          <a href="{{ route('unit.manager.profile') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-user"></i></span>
+            <span class="pc-mtext">Perfil Unidade</span>
           </a>
         </li>
+
         <li class="pc-item pc-caption">
-          <label>Recursos</label>
+          <label>Departamentos</label>
           <i class="ti ti-brand-chrome"></i>
         </li>
         <li class="pc-item">
-          <a href="#" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-settings"></i></span>
-            <span class="pc-mtext">Meus Mentorados</span>
+          <a href="{{ route('unit.create.desks') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-plus"></i></span>
+            <span class="pc-mtext">Adicionar Departamentos</span>
           </a>
         </li>
         <li class="pc-item">
-          <a href="../other/sample-page.html" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-bell"></i></span>
-            <span class="pc-mtext">Conversas</span>
+          <a href="{{ route('unit.list.desks') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-color-swatch"></i></span>
+            <span class="pc-mtext">Departamentos</span>
+          </a>
+        </li>
+
+        <li class="pc-item pc-caption">
+          <label>Serviços</label>
+          <i class="ti ti-brand-chrome"></i>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('unit.create.desks') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-plus"></i></span>
+            <span class="pc-mtext">Adicionar Serviços</span>
+          </a>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('unit.list.desks') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-color-swatch"></i></span>
+            <span class="pc-mtext">Listar Serviços</span>
+          </a>
+        </li>
+        <li class="pc-item pc-caption">
+          <label>Linhas de Atendimentos</label>
+          <i class="ti ti-brand-chrome"></i>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('unit.create.desks') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-plus"></i></span>
+            <span class="pc-mtext">Adicionar Linhas</span>
+          </a>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('unit.list.desks') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-color-swatch"></i></span>
+            <span class="pc-mtext">Listar Linhas</span>
+          </a>
+        </li>
+
+        <li class="pc-item pc-caption">
+          <label>Display</label>
+          <i class="ti ti-brand-chrome"></i>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('unit.create.desks') }}" class="pc-link">
+            <span class="pc-mtext btn btn-primary"><i class="ti ti-video-camera text-white"></i>Mostrar Display</span>
+          </a>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('unit.list.desks') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-pencil"></i></span>
+            <span class="pc-mtext">Configurar Display</span>
+          </a>
+        </li>
+
+        <li class="pc-item pc-caption">
+          <label>Atendentes</label>
+          <i class="ti ti-brand-chrome"></i>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('unit.create.desks') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-plus"></i></span>
+            <span class="pc-mtext">Adicionar Atendentes</span>
+          </a>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('unit.list.desks') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-color-swatch"></i></span>
+            <span class="pc-mtext">Listar Atendentes</span>
           </a>
         </li>
 
 
+        <li class="pc-item pc-caption">
+          <label>Tickects</label>
+          <i class="ti ti-brand-chrome"></i>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('unit.tickets.generated') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-ticket"></i></span>
+            <span class="pc-mtext">Tickets Gerados</span>
+          </a>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('unit.tickets.settings') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-pencil"></i></span>
+            <span class="pc-mtext">Configurações de Tickects</span>
+          </a>
+        </li>
+
+        <li class="pc-item pc-caption">
+          <label>Mensagem</label>
+          <i class="ti ti-brand-chrome"></i>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('unit.create.sms') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-plus"></i></span>
+            <span class="pc-mtext">Nova Mensagem</span>
+          </a>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('unit.sms.inbox') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-inbox"></i></span>
+            <span class="pc-mtext">Caixa de Entrada</span>
+          </a>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('unit.sms.sent') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-check"></i></span>
+            <span class="pc-mtext">Enviado</span>
+          </a>
+        </li>
+
+        <li class="pc-item pc-caption">
+          <label>Notificações</label>
+          <i class="ti ti-brand-chrome"></i>
+        </li>
+
+        <li class="pc-item">
+          <a href="{{ route('unit.notification.inbox') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-inbox"></i></span>
+            <span class="pc-mtext">Caixa de Entrada</span>
+          </a>
+        </li>
+
+        <li class="pc-item">
+          <a href="{{ route('unit.notification.histories')  }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-report"></i></span>
+            <span class="pc-mtext">Históricos de Notificações</span>
+          </a>
+        </li>
 
 
+        <li class="pc-item pc-hasmenu">
+          <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-menu"></i></span><span
+              class="pc-mtext">Configurações</span><span class="pc-arrow"><i
+                data-feather="chevron-right"></i></span></a>
+          <ul class="pc-submenu">
+            <li class="pc-item"><a class="pc-link" href="{{ route('unit.settings.index') }}">Configuração do
+                Sistema</a></li>
+            <li class="pc-item"><a class="pc-link" href="{{ route('unit.settings.index') }}">Configuração do
+                Display</a></li>
+          </ul>
+        </li>
       </ul>
       <div class="card text-center">
         <div class="card-body">
