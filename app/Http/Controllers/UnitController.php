@@ -138,4 +138,44 @@ class UnitController extends Controller
     {
         return view('unit.dashboard.settings.index');
     }
+
+    public function createDepartaments()
+    {
+        return view('unit.dashboard.departaments.create');
+    }
+
+    public function listDepartaments()
+    {
+        return view('unit.dashboard.departaments.list');
+    }
+
+    public function createServices()
+    {
+        return view('unit.dashboard.services.create');
+    }
+
+    public function listServices()
+    {
+        return view('unit.dashboard.services.list');
+    }
+
+    public function createAttendanceLines()
+    {
+        return view('unit.dashboard.attendance-lines.create');
+    }
+
+    public function listAttendanceLines()
+    {
+        return view('unit.dashboard.attendance-lines.list');
+    }
+
+    public function showPainel()
+    {
+        return view('unit.dashboard.display.painel');
+    }
+
+    public function painelSettings()
+    {
+        return view('unit.dashboard.display.settings');
+    }
 }

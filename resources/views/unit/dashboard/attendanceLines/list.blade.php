@@ -106,13 +106,13 @@
         </thead>
         <tbody>
           <tr>
-          <td> $ }}</td>
+          <td>{ $loop->iteration }}</td>
           <td>unidade</td>
-          <td> $item }}</td>
-          <td> $item->email }}</td>
-          <td> $item->created_at }}</td>
-          <td> $item->role }}</td>
-          <td><span class="badge bg-light-dander  f-12">inactivo</span> </td>
+          <td>{ $item->username }}</td>
+          <td>{ $item->email }}</td>
+          <td>{ $item->created_at }}</td>
+          <td>{ $item->role }}</td>
+          <td><span class="badge bg-light-success  f-12">activo</span> </td>
           <td class="text-center">
             <ul class="list-inline me-auto mb-0">
             <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="View">

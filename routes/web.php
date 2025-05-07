@@ -40,6 +40,8 @@ Route::prefix('kibide/auth')->group(function () {
     Route::get('/forgot-password', [AuthController::class, 'forgotPassword'])->name('auth.forgot');
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
+    Route::post('/changer-password', [AuthController::class, 'changePassword'])->name('auth.password.change');
 });
 
 Route::prefix('kibide/company')->group(function () {
@@ -73,7 +75,6 @@ Route::prefix('kibide/unit')->group(function () {
     Route::post('/store', [UnitController::class, 'store'])->name('units.store');
     Route::get('/create/desks', [UnitController::class, 'createDesks'])->name('unit.create.desks');
     Route::get('/list/desks', [UnitController::class, 'listDesks'])->name('unit.list.desks');
-
     Route::get('/create/sms', [UnitController::class, 'createSms'])->name('unit.create.sms');
     Route::get('/sms/inbox', [UnitController::class, 'smsInbox'])->name('unit.sms.inbox');
     Route::get('/sms/sent', [UnitController::class, 'smsSent'])->name('unit.sms.sent');
@@ -83,6 +84,19 @@ Route::prefix('kibide/unit')->group(function () {
     Route::get('/tickets/settings', [UnitController::class, 'ticketSettings'])->name('unit.tickets.settings');
     Route::get('/settings/index', [UnitController::class, 'settingsIndex'])->name('unit.settings.index');
     Route::get('/settings/display', [UnitController::class, 'settingsDisplay'])->name('unit.settings.display');
+
+    Route::get('/departaments/create', [UnitController::class, 'createDepartaments'])->name('unit.departaments.create');
+    Route::get('/departaments/list', [UnitController::class, 'listDepartaments'])->name('unit.departaments.list');
+
+    Route::get('/services/create', [UnitController::class, 'createServices'])->name('unit.services.create');
+    Route::get('/services/list', [UnitController::class, 'listServices'])->name('unit.services.list');
+
+    Route::get('/attendance-lines/create', [UnitController::class, 'createAttendanceLines'])->name('unit.attendance-lines.create');
+    Route::get('/attendance-lines/list', [UnitController::class, 'listAttendanceLines'])->name('unit.attendance-lines.list');
+
+    Route::get('/painel/show', [UnitController::class, 'showPainel'])->name('unit.painel.show');
+    Route::get('/painel/settings', [UnitController::class, 'painelSettings'])->name('unit.painel.settings');
+
 });
 
 Route::prefix('kibide/users')->group(function () {

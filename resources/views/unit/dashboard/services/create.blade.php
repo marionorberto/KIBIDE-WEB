@@ -54,7 +54,14 @@
     <input type="hidden" name="company_id" value="{{ Auth::user()->company_id }}">
 
     <div class="row">
-
+      <div class="form-group col-md-6">
+      <label class="form-label" for="exampleSelect1">Associar à unidade</label>
+      <select name="unit_id" class="form-select" id="exampleSelect1">
+        @foreach ($units as $unit)
+      <option value="{{ $unit->id_unit }}">{{ $unit->unit_name }}</option>
+      @endforeach
+      </select>
+      </div>
       <div class="form-group col-md-6">
       <label class="form-label" for="exampleSelect1">Função</label>
       <select class="form-select" id="exampleSelect1" disabled>

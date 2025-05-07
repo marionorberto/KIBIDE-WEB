@@ -27,13 +27,13 @@
           <i class="ti ti-brand-chrome"></i>
         </li>
         <li class="pc-item">
-          <a href="{{ route('unit.create.desks') }}" class="pc-link">
+          <a href="{{ route('unit.departaments.create') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-plus"></i></span>
             <span class="pc-mtext">Adicionar Departamentos</span>
           </a>
         </li>
         <li class="pc-item">
-          <a href="{{ route('unit.list.desks') }}" class="pc-link">
+          <a href="{{ route('unit.departaments.list') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-color-swatch"></i></span>
             <span class="pc-mtext">Departamentos</span>
           </a>
@@ -44,13 +44,13 @@
           <i class="ti ti-brand-chrome"></i>
         </li>
         <li class="pc-item">
-          <a href="{{ route('unit.create.desks') }}" class="pc-link">
+          <a href="{{ route('unit.services.create') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-plus"></i></span>
             <span class="pc-mtext">Adicionar Serviços</span>
           </a>
         </li>
         <li class="pc-item">
-          <a href="{{ route('unit.list.desks') }}" class="pc-link">
+          <a href="{{ route('unit.services.list') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-color-swatch"></i></span>
             <span class="pc-mtext">Listar Serviços</span>
           </a>
@@ -60,13 +60,13 @@
           <i class="ti ti-brand-chrome"></i>
         </li>
         <li class="pc-item">
-          <a href="{{ route('unit.create.desks') }}" class="pc-link">
+          <a href="{{ route('unit.attendance-lines.create') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-plus"></i></span>
             <span class="pc-mtext">Adicionar Linhas</span>
           </a>
         </li>
         <li class="pc-item">
-          <a href="{{ route('unit.list.desks') }}" class="pc-link">
+          <a href="{{ route('unit.attendance-lines.list') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-color-swatch"></i></span>
             <span class="pc-mtext">Listar Linhas</span>
           </a>
@@ -77,7 +77,7 @@
           <i class="ti ti-brand-chrome"></i>
         </li>
         <li class="pc-item">
-          <a href="{{ route('unit.create.desks') }}" class="pc-link">
+          <a href="{{ route('unit.painel.show', ['id' => 'ada']) }}" class="pc-link">
             <span class="pc-mtext btn btn-primary"><i class="ti ti-video-camera text-white"></i>Mostrar Display</span>
           </a>
         </li>

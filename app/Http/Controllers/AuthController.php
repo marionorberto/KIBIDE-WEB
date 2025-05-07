@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\StoreChangePasswordRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
@@ -113,5 +116,25 @@ class AuthController extends Controller
     {
         return view('auth.choose-role');
     }
+
+    public function changePassword(StoreChangePasswordRequest $request)
+    {
+        try {
+
+            $user = User::find(Auth::user()->id_user);
+
+            $user->password = Hash::make($request->password);
+            $user->save();
+
+            return redirect()->back()->with('success', 'Password Atualizada com sucesso. Seu próximo Login use a sua nova Password.');
+
+        } catch (\Exception $e) {
+            Log::error('Erro no update Password: ' . $e->getMessage());
+
+            return back()->with('error', 'Ocorreu tentando atualizar a senha do usuário .');
+        }
+    }
+
+
 
 }

@@ -209,24 +209,39 @@
         </div>
 
         <div class="tab-pane" id="profile-4" role="tabpanel" aria-labelledby="profile-tab-4">
-        <div class="card">
+        <form action="{{ route('auth.password.change') }}" method="post" class="card">
+          @csrf
+
           <div class="card-header">
           <h5>Mudar Password</h5>
           </div>
           <div class="card-body">
           <div class="row">
+            @if ($successMessage = session('success'))
+        <div class="alert alert-success" role="alert"> {{ $successMessage }} <a
+          href="{{ route('auth.logout') }}">Sair do sistema</a> </div>
+        @endif
+            @if ($errors->any())
+          <ul class="alert alert-danger ">
+          @foreach ($errors->all() as $error)
+        <li class="ps-1">{{ $error }}</li>
+        @endforeach
+          </ul>
+        @endif
             <div class="col-sm-6">
             <div class="form-group">
-              <label class="form-label">Antiga Password</label>
-              <input type="password" class="form-control">
+              <label class="form-label">Actual Password</label>
+              <input name="actual_password" type="password" class="form-control" required
+              placeholder="Password Actual">
             </div>
             <div class="form-group">
               <label class="form-label">Nova Password</label>
-              <input type="password" class="form-control">
+              <input name="password" type="password" class="form-control" required placeholder="Nova Password">
             </div>
             <div class="form-group">
               <label class="form-label">Confirmar Password</label>
-              <input type="password" class="form-control">
+              <input name="password_confirmation" require type="password" class="form-control"
+              placeholder="Confirmar Password">
             </div>
             </div>
             <div class="col-sm-6">
@@ -248,7 +263,7 @@
           <button type="reset" class="btn btn-outline-secondary">Limpar campos</button>
           <button type="submit" class="btn btn-primary">Atualizar Perfil</button>
           </div>
-        </div>
+        </form>
         </div>
 
 
