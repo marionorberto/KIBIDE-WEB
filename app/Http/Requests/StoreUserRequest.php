@@ -18,6 +18,7 @@ class StoreUserRequest extends FormRequest
             'email' => 'required|email|max:100|unique:users,email',
             'password' => 'required|string|min:8',
             'active' => 'required|boolean',
+            'unit_id' => 'required|string',
         ];
     }
 
@@ -38,6 +39,8 @@ class StoreUserRequest extends FormRequest
 
             'active.required' => 'O campo ativo é obrigatório.',
             'active.boolean' => 'O campo ativo deve ser verdadeiro ou falso.',
+
+            'unit_id' => 'Nome da Unidade Disponível'
         ];
     }
 }

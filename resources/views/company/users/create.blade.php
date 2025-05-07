@@ -13,6 +13,10 @@
     <a class="btn btn-primary" href="{{ route('company.list.users') }}">Ver Todos</a>
     </div>
     <div class="card-body">
+    @if ($successMessage = session(key: 'success'))
+    <div class="alert alert-success" role="alert"> {{ $successMessage }} <strong><a
+      href="{{ route('company.list.users') }}">Ver lista para editar!</a></strong></div>
+    @endif
     @if (!$errors->any() && !session('success'))
     <div class="alert alert-primary">
       <div class="media align-items-center">
@@ -30,10 +34,7 @@
     </ul>
     @endif
 
-    @if ($successMessage = session('success'))
-    <div class="alert alert-success" role="alert"> {{ $successMessage }} <strong><a
-      href="{{ route('company.list.users') }}">Ver lista para editar!</a></strong></div>
-    @endif
+
 
 
     <div class="row">

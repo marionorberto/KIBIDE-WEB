@@ -59,40 +59,40 @@
               <img class="rounded-circle img-fluid wid-70"
                 src="{{ asset('assets/images/user/avatar-5.jpg') }}" alt="User image">
               </div>
-              <h5 class="mb-0">Nome da Empresa</h5>
-              <p class="text-muted text-sm">Nome da Empresa</p>
+              <h5 class="mb-0">{{ $companyData->company_name }}</h5>
+              <p class="text-muted text-sm">{{ $companyData->company_name }}</p>
               <hr class="my-3">
               <div class="row g-3">
               <div class="col-4">
-                <h5 class="mb-0">86</h5>
+                <h5 class="mb-0">{{ $companyUserCount }}</h5>
                 <small class="text-muted">Usuários</small>
               </div>
               <div class="col-4 border border-top-0 border-bottom-0">
-                <h5 class="mb-0">40</h5>
+                <h5 class="mb-0">{{ $companyUnitCount }}</h5>
                 <small class="text-muted">Agências</small>
               </div>
               <div class="col-4">
-                <h5 class="mb-0">4.5K</h5>
+                <h5 class="mb-0">0</h5>
                 <small class="text-muted">Tickets</small>
               </div>
               </div>
               <hr class="my-3">
               <div class="d-inline-flex align-items-center justify-content-between w-100 mb-3">
               <i class="ti ti-mail"></i>
-              <p class="mb-0">testando</p>
+              <p class="mb-0">{{ $companyData->company_email }}</p>
               </div>
               <div class="d-inline-flex align-items-center justify-content-between w-100 mb-3">
               <i class="ti ti-phone"></i>
-              <p class="mb-0">(+1-876) 8654 239 581</p>
+              <p class="mb-0">{{ $companyData->company_phone }}</p>
               </div>
               <div class="d-inline-flex align-items-center justify-content-between w-100 mb-3">
               <i class="ti ti-map-pin"></i>
-              <p class="mb-0">New York</p>
+              <p class="mb-0">Angola</p>
               </div>
               <div class="d-inline-flex align-items-center justify-content-between w-100">
               <i class="ti ti-link"></i>
               <a href="#" class="link-primary">
-                <p class="mb-0">https://anshan.dh.url</p>
+                <p class="mb-0">url_site_company</p>
               </a>
               </div>
             </div>
@@ -106,7 +106,7 @@
             <h5>Sobre a Empresa</h5>
             </div>
             <div class="card-body">
-            <p class="mb-0">---------------------------------------------</p>
+            <p class="mb-0">Deve ter aqui algo sobre a tua empresa</p>
             </div>
           </div>
           <div class="card">
@@ -119,11 +119,11 @@
               <div class="row">
                 <div class="col-md-6">
                 <p class="mb-1 text-muted">Nome Da Empresa</p>
-                <p class="mb-0">---</p>
+                <p class="mb-0">{{ $companyData->company_name }}</p>
                 </div>
                 <div class="col-md-6">
                 <p class="mb-1 text-muted">NIF</p>
-                <p class="mb-0">---</p>
+                <p class="mb-0">{{ $companyData->company_nif }}</p>
                 </div>
               </div>
               </li>
@@ -131,7 +131,7 @@
               <div class="row">
                 <div class="col-md-6">
                 <p class="mb-1 text-muted">Telefone</p>
-                <p class="mb-0">-----</p>
+                <p class="mb-0">{{ $companyData->company_phone }}</p>
                 </div>
                 <div class="col-md-6">
                 <p class="mb-1 text-muted">País</p>
@@ -143,12 +143,24 @@
               <div class="row">
                 <div class="col-md-6">
                 <p class="mb-1 text-muted">Localização</p>
-                <p class="mb-0">---------</p>
+                <p class="mb-0">{{ $companyData->company_address }}</p>
+                </div>
+              </div>
+              </li>
+              <li class="list-group-item px-0">
+              <div class="row">
+                <div class="col-md-6">
+                <p class="mb-1 text-muted">Endereço Electrónico</p>
+                <p class="mb-0">{{ $companyData->company_email }}</p>
                 </div>
               </div>
               </li>
 
             </ul>
+            </div>
+            <div class="card-footer text-end btn-page">
+            <button type="reset" class="btn btn-outline-secondary">Limpar campos</button>
+            <button type="submit" class="btn btn-primary">Atualizar Perfil</button>
             </div>
           </div>
 
@@ -160,7 +172,7 @@
           <div class="col-lg-12">
           <div class="card">
             <div class="card-header">
-            <h5>Personal Information</h5>
+            <h5>Dados Pessoais</h5>
             </div>
             <div class="card-body">
             <div class="row">
@@ -273,4 +285,10 @@
     </div>
   </div>
 
+
+  @if(session('section'))
+    <script>
+    window.location.hash = "{{ session('section') }}";
+    </script>
+  @endif
 @endsection

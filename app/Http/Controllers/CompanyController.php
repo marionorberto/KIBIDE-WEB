@@ -147,7 +147,17 @@ class CompanyController extends Controller
 
     public function profile()
     {
-        return view('company.dashboard.profile');
+        // por aqui try catch
+
+        $companyData = Company::where('id_company', Auth::user()->company_id)->first();
+        $companyUnitCount = Unit::where('company_id', Auth::user()->company_id)->count();
+        $companyUserCount = User::where('company_id', Auth::user()->company_id)->count();
+
+        return view('company.dashboard.profile', compact(
+            'companyData',
+            'companyUnitCount',
+            'companyUserCount'
+        ))->with('section', 'profile-4');
     }
 
 

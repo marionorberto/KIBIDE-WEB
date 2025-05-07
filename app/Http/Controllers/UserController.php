@@ -47,7 +47,12 @@ class UserController extends Controller
                 'active' => $request->active,
             ]);
 
-            Unit::where('id_unit', $request->unit_id)->update(['active', true]);
+            $unit = Unit::find($request->unit_id);
+
+            $unit->active = true;
+            $unit->active = true;
+            $unit->manager_id = $user->id_user;
+            $unit->save();
 
             return redirect()->back()->with('success', 'usuário' . $request->role . 'criado com sucesso!');
 
