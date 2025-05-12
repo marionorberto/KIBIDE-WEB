@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 class StoreUserRequest extends FormRequest
 {
@@ -16,7 +17,16 @@ class StoreUserRequest extends FormRequest
         return [
             'username' => 'required|string|max:50|unique:users,username',
             'email' => 'required|email|max:100|unique:users,email',
-            'password' => 'required|string|min:8',
+            'password' => [
+                'required',
+                'confirmed',
+                Password::min(8)
+                    ->mixedCase()
+                    ->letters()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised()
+            ],
             'active' => 'required|boolean',
             'unit_id' => 'required|string',
         ];
@@ -35,12 +45,18 @@ class StoreUserRequest extends FormRequest
             'email.unique' => 'Este email já está em uso.',
 
             'password.required' => 'A senha é obrigatória.',
-            'password.min' => 'A senha deve ter pelo menos 8 caracteres.',
+            'password.confirmed' => 'As senhas não coincidem.',
+            'password.min' => 'A senha deve ter no mínimo :min caracteres.',
+            'password.mixed' => 'A senha deve conter letras maiúsculas e minúsculas.',
+            'password.letters' => 'A senha deve conter pelo menos uma letra.',
+            'password.numbers' => 'A senha deve conter pelo menos um número.',
+            'password.symbols' => 'A senha deve conter pelo menos um símbolo (ex: @, #, !).',
+            'password.uncompromised' => 'Esta senha já foi exposta em um vazamento de dados. Por favor, escolha outra.',
 
             'active.required' => 'O campo ativo é obrigatório.',
             'active.boolean' => 'O campo ativo deve ser verdadeiro ou falso.',
 
-            'unit_id' => 'Nome da Unidade Disponível'
+            'unit_id' => 'Nome da Unidade Desconhecido'
         ];
     }
 }

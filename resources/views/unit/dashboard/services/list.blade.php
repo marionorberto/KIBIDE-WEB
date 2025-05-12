@@ -9,7 +9,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Deletar Atendente</h5>
+        <h5 class="modal-title" id="exampleModalCenterTitle">Deletar Serviço</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -30,7 +30,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Visualizar Atendente</h5>
+        <h5 class="modal-title" id="exampleModalCenterTitle">Visualizar Serviço</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -51,7 +51,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Editar Atendente</h5>
+        <h5 class="modal-title" id="exampleModalCenterTitle">Editar Serviço</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -72,7 +72,7 @@
     <div class="row align-items-center">
       <div class="col-md-12">
         <div class="page-header-title">
-          <h3 class="mb-0">Listagem de Atendentes</h3>
+          <h3 class="mb-0">Listagem de Serviços</h3>
         </div>
       </div>
     </div>
@@ -83,10 +83,10 @@
     <div class="card">
       <div class="card-header d-flex justify-content-between items-align-center">
         <div>
-          <h5>Visualização dos dados dos Atendentes</h5>
-          <small>Configure, edite, visualize e apague os dados dos Atendentes da sua empresa. </small>
+          <h5>Visualização dos dados dos Serviços</h5>
+          <small>Configure, edite, visualize e apague os dados dos Serviços da sua empresa. </small>
         </div>
-        <a class="btn btn-primary" href="{{ route('company.create.users') }}">Criar Atendente</a>
+        <a class="btn btn-primary" href="{{ route('unit.services.create') }}">Criar Serviço</a>
 
       </div>
       <div class="card-body">
@@ -95,24 +95,21 @@
             <thead>
               <tr>
                 <th>ID</th>
-                <th>UNIDADE</th>
-                <th>USERNAME</th>
-                <th>EMAIL</th>
-                <th>CRIADO EM</th>
-                <th>PAPEL</th>
+                <th>DESCRIÇÃO</th>
+                <th>NIVEL DE PRIORIDADE</th>
+                <th>PREFIXO</th>
                 <th>STATUS</th>
                 <th>AÇÕES</th>
               </tr>
             </thead>
             <tbody>
-              @foreach ($companyUsers as $item)
+              @foreach ($services as $item)
               <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>unidade</td>
-                <td>{{ $item->username }}</td>
-                <td>{{ $item->email }}</td>
-                <td>{{ $item->created_at }}</td>
-                <td>{{ $item->role }}</td>
+                <td>{{ $item->description }}</td>
+                <td>{{ $item->priority_level }}</td>
+                <td>{{ $item->Prefix_code }}</td>
+
                 @if($item->active)
           <td><span class="badge bg-light-success  f-12">activo</span> </td>
         @else
@@ -150,10 +147,8 @@
             <tfoot>
               <tr>
                 <th>ID</th>
-                <th>USERNAME</th>
-                <th>EMAIL</th>
-                <th>CRIADO EM</th>
-                <th>PAPEL</th>
+                <th>DESCRIÇÃO</th>
+                <th>NIVEL DE PRIORIDADE</th>
                 <th>STATUS</th>
                 <th>AÇÕES</th>
               </tr>

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 class StoreCompanyUserRequest extends FormRequest
 {
@@ -25,8 +26,17 @@ class StoreCompanyUserRequest extends FormRequest
             // Campos do usuário
             'username' => 'required|string|max:50|unique:users',
             'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|min:8|confirmed',
             'role' => 'required|in:superadmin,admin,manager,desk,guest',
+            'password' => [
+                'required',
+                'confirmed',
+                Password::min(8)
+                    ->mixedCase()
+                    ->letters()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised()
+            ],
         ];
     }
 
@@ -50,7 +60,12 @@ class StoreCompanyUserRequest extends FormRequest
             'email.unique' => 'Este e-mail já está em uso.',
             'password.required' => 'A senha é obrigatória.',
             'password.confirmed' => 'As senhas não coincidem.',
-            'password.min' => 'A senha deve ter pelo menos 8 caracteres.',
+            'password.min' => 'A senha deve ter no mínimo :min caracteres.',
+            'password.mixed' => 'A senha deve conter letras maiúsculas e minúsculas.',
+            'password.letters' => 'A senha deve conter pelo menos uma letra.',
+            'password.numbers' => 'A senha deve conter pelo menos um número.',
+            'password.symbols' => 'A senha deve conter pelo menos um símbolo (ex: @, #, !).',
+            'password.uncompromised' => 'Esta senha já foi exposta em um vazamento de dados. Por favor, escolha outra.',
             'role.required' => 'O tipo de usuário é obrigatório.',
             'role.in' => 'O tipo de usuário selecionado é inválido.',
         ];

@@ -30,33 +30,37 @@
         <div class="col-md-6">
           <div class="form-group mb-3">
           <label class="form-label">Nome da Empresa*</label>
-          <input name="company_name" type="text" class="form-control" placeholder="Nome da Empresa" required>
+          <input name="company_name" type="text" class="form-control" placeholder="Nome da Empresa" required
+            value="{{ old('company_name') }}">
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group mb-3">
           <label class="form-label">Correio Electrônico*</label>
-          <input name="company_email" type="email" class="form-control" placeholder="Correio Electrônico"
-            required>
+          <input name="company_email" type="email" class="form-control" placeholder="Correio Electrônico" required
+            value="{{ old('company_email') }}">
           </div>
         </div>
         </div>
-        <div class="form-group mb-3">
+        <div class=" form-group mb-3">
         <label class="form-label">NIF*</label>
-        <input type="text" name="company_nif" class="form-control" placeholder="NIF" required>
+        <input type="text" name="company_nif" class="form-control" placeholder="NIF" required
+          value="{{ old('company_nif') }}">
         </div>
 
-        <div class="row">
+        <div class=" row">
         <div class="col-md-6">
           <div class="form-group mb-3">
           <label class="form-label">Endereço</label>
-          <input name="company_address" type="text" class="form-control" placeholder="Endereço">
+          <input name="company_address" type="text" class="form-control" placeholder="Endereço"
+            value="{{ old('company_address') }}">
           </div>
         </div>
-        <div class="col-md-6">
+        <div class=" col-md-6">
           <div class="form-group mb-3">
           <label class="form-label">Terminal Telefónico</label>
-          <input name="company_phone" type="text" class="form-control" placeholder="Terminal Telefónico">
+          <input name="company_phone" type="text" class="form-control" placeholder="Terminal Telefónico"
+            value="{{ old('company_phone') }}">
           </div>
         </div>
         </div>
@@ -64,25 +68,27 @@
         <hr>
         <h5>Usuário Administrador</h5>
 
-        <div class="row">
+        <div class=" row">
         <input type="hidden" name="role" value="admin">
 
 
         <div class="col-md-6">
           <div class="form-group mb-3">
           <label class="form-label">Username*</label>
-          <input type="text" name="username" class="form-control" placeholder="Username" required>
+          <input type="text" name="username" class="form-control" placeholder="Username" required
+            value="{{ old('username') }}">
           </div>
         </div>
-        <div class="col-md-6">
+        <div class=" col-md-6">
           <div class="form-group mb-3">
           <label class="form-label">Email*</label>
-          <input type="email" name="email" class="form-control" placeholder="Email" required>
+          <input type="email" name="email" class="form-control" placeholder="Email" required
+            value="{{ old('email') }}">
           </div>
         </div>
         </div>
 
-        <div class="form-group mb-3">
+        <div class=" form-group mb-3">
         <label class="form-label">Password</label>
         <input type="password" name="password" class="form-control" placeholder="Password" required>
         </div>

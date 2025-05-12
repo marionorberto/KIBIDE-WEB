@@ -243,18 +243,7 @@
                       </div>
                     </div>
                   </a>
-                  <a class="list-group-item list-group-item-action">
-                    <div class="d-flex">
-                      <div class="flex-shrink-0">
-                        <img src="../assets/images/user/avatar-3.jpg" alt="user-image" class="user-avtar">
-                      </div>
-                      <div class="flex-grow-1 ms-1">
-                        <span class="float-end text-muted">2:45 PM</span>
-                        <p class="text-body mb-1"><b>There was a failure to your setup.</b></p>
-                        <span class="text-muted">7 hours ago</span>
-                      </div>
-                    </div>
-                  </a>
+
                   <a class="list-group-item list-group-item-action">
                     <div class="d-flex">
                       <div class="flex-shrink-0">

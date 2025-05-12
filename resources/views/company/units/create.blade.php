@@ -41,13 +41,15 @@
       <div class="col-md-6">
       <div class="form-group mb-3">
         <label class="form-label">Nome da Unidade</label>
-        <input type="text" name="unit_name" class="form-control" placeholder="Nome da Unidade" required>
+        <input type="text" name="unit_name" class="form-control" placeholder="Nome da Unidade" required
+        value="{{ old('unit_name') }}">
       </div>
       </div>
       <div class="col-md-6">
       <div class="form-group mb-3">
         <label class="form-label">Email da Unidade</label>
-        <input type="email" name="unit_email" class="form-control" placeholder="Email da Unidade" required>
+        <input type="email" name="unit_email" class="form-control" placeholder="Email da Unidade" required
+        value="{{ old('unit_email') }}">
       </div>
       </div>
     </div>
@@ -56,13 +58,15 @@
       <div class="col-md-6">
       <div class="form-group mb-3">
         <label class="form-label">Telefone da Unidade</label>
-        <input type="text" name="unit_phone" class="form-control" placeholder="Telefone da Unidade" required>
+        <input type="text" name="unit_phone" class="form-control" placeholder="Telefone da Unidade" required
+        value="{{ old('unit_phone') }}">
       </div>
       </div>
       <div class="col-md-6">
       <div class="form-group mb-3">
         <label class="form-label">Endereço da Unidade</label>
-        <input type="text" name="unit_address" class="form-control" placeholder="Endereço da Unidade" required>
+        <input type="text" name="unit_address" class="form-control" placeholder="Endereço da Unidade" required
+        value="{{ old('unit_address') }}">
       </div>
       </div>
     </div>

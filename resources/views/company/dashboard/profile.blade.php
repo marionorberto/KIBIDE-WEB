@@ -56,8 +56,9 @@
             </div>
             <div class="text-center mt-3">
               <div class="chat-avtar d-inline-flex mx-auto">
-              <img class="rounded-circle img-fluid wid-70"
-                src="{{ asset('assets/images/user/avatar-5.jpg') }}" alt="User image">
+              <div class="rounded-circle img-fluid  wid-70 bg-black"></div>
+              <!-- <img class="rounded-circle img-fluid wid-70"
+    src="{{ asset('assets/images/user/avatar-5.jpg') }}" alt="User image"> -->
               </div>
               <h5 class="mb-0">{{ $companyData->company_name }}</h5>
               <p class="text-muted text-sm">{{ $companyData->company_name }}</p>
@@ -89,10 +90,29 @@
               <i class="ti ti-map-pin"></i>
               <p class="mb-0">Angola</p>
               </div>
+
               <div class="d-inline-flex align-items-center justify-content-between w-100">
               <i class="ti ti-link"></i>
               <a href="#" class="link-primary">
-                <p class="mb-0">url_site_company</p>
+                <p class="mb-0">Site da empresa</p>
+              </a>
+              </div>
+              <div class="d-inline-flex align-items-center justify-content-between w-100">
+              <i class="ti ti-linkedin"></i>
+              <a href="#" class="link-primary">
+                <p class="mb-0">Linkedin</p>
+              </a>
+              </div>
+              <div class="d-inline-flex align-items-center justify-content-between w-100">
+              <i class=" ti-instagram"></i>
+              <a href="#" class="link-primary">
+                <p class="mb-0">Instagram</p>
+              </a>
+              </div>
+              <div class="d-inline-flex align-items-center justify-content-between w-100">
+              <i class=" ti-facebook"></i>
+              <a href="#" class="link-primary">
+                <p class="mb-0">Facebook</p>
               </a>
               </div>
             </div>
@@ -159,7 +179,6 @@
             </ul>
             </div>
             <div class="card-footer text-end btn-page">
-            <button type="reset" class="btn btn-outline-secondary">Limpar campos</button>
             <button type="submit" class="btn btn-primary">Atualizar Perfil</button>
             </div>
           </div>

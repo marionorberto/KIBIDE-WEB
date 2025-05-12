@@ -41,13 +41,14 @@
       <div class="col-md-6">
       <div class="form-group mb-3">
         <label class="form-label">Username*</label>
-        <input type="text" name="username" class="form-control" placeholder="Username" required>
+        <input type="text" name="username" class="form-control" placeholder="Username" required
+        value="{{ old('username') }}">
       </div>
       </div>
       <div class="col-md-6">
       <div class="form-group mb-3">
         <label class="form-label">Email*</label>
-        <input type="email" name="email" class="form-control" placeholder="Email" required>
+        <input type="email" name="email" class="form-control" placeholder="Email" required value="{{ old('email') }}">
       </div>
       </div>
     </div>
@@ -58,6 +59,8 @@
       <div class="form-group col-md-6">
       <label class="form-label" for="exampleSelect1">Associar à unidade</label>
       <select name="unit_id" class="form-select" id="exampleSelect1">
+        <option value="">selecione a unidade</option>
+
         @foreach ($units as $unit)
       <option value="{{ $unit->id_unit }}">{{ $unit->unit_name }}</option>
       @endforeach

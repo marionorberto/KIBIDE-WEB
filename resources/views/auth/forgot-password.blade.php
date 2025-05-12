@@ -20,7 +20,8 @@
         </div>
         <div class="form-group mb-3">
         <label class="form-label">Email </label>
-        <input type="email" class="form-control" id="floatingInput" placeholder="Email" name="email" required>
+        <input type="email" class="form-control" id="floatingInput" placeholder="Email" name="email" required
+          value="{{ old('email') }}">
         </div>
         <p class="mt-4 text-sm text-muted">Não esqueça de checar a caixa <strong>SPAN</strong>.</p>
         <div class="d-grid mt-3">

@@ -223,7 +223,9 @@ class CompanyController extends Controller
     {
         $company_id = Auth::user()->company_id;
         $companyUsers = User::where('company_id', $company_id)->get();
-        return view('company.sms.create', compact('companyUsers'));
+
+        $units = Unit::where('company_id', Auth::user()->company_id)->get();
+        return view('company.sms.create', compact('companyUsers', 'units'));
     }
     public function smsInbox()
     {
@@ -255,4 +257,12 @@ class CompanyController extends Controller
     {
         return view('company.settings.index');
     }
+
+
+    public function licence()
+    {
+        return view('company.licence.index');
+    }
+
+
 }

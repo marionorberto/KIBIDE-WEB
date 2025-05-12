@@ -69,18 +69,7 @@
                     </div>
                   </div>
                 </a>
-                <a class="list-group-item list-group-item-action">
-                  <div class="d-flex">
-                    <div class="flex-shrink-0">
-                      <div class="user-avtar bg-light-danger"><i class="ti ti-settings"></i></div>
-                    </div>
-                    <div class="flex-grow-1 ms-1">
-                      <span class="float-end text-muted">2:45 PM</span>
-                      <p class="text-body mb-1">Your Profile is Complete &nbsp;<b>60%</b></p>
-                      <span class="text-muted">7 hours ago</span>
-                    </div>
-                  </div>
-                </a>
+
 
               </div>
             </div>

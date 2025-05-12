@@ -29,11 +29,8 @@
       <div class="loader-fill"></div>
     </div>
   </div>
-
-
   @include('partials.menu-unit')
   @include('partials.header')
-
   <div class="pc-container">
     <div class="pc-content">
       @yield('content')
@@ -42,28 +39,17 @@
   </div>
 
   @include('partials.desk.footer')
-
-
-
   <script src="{{ asset('assets/js/plugins/popper.min.js')}}"></script>
   <script src="{{ asset('assets/js/plugins/simplebar.min.js')}}"></script>
   <script src="{{ asset('assets/js/plugins/bootstrap.min.js')}}"></script>
   <script src="{{ asset('assets/js/fonts/custom-font.js')}}"></script>
   <script src="{{ asset('assets/js/pcoded.js')}}"></script>
   <script src="{{ asset('assets/js/plugins/feather.min.js')}}"></script>
-
-
-
-
-
   <script>layout_change('light');</script>
   <script>change_box_container('false');</script>
   <script>layout_rtl_change('false');</script>
   <script>preset_change("preset-1");</script>
-
-
   <script>font_change("Public-Sans");</script>
-
 
   <div class="offcanvas pct-offcanvas offcanvas-end" tabindex="-1" id="offcanvas_pc_layout">
     <div class="offcanvas-header bg-primary">
@@ -119,9 +105,10 @@
               <div class="pct-content">
                 <div class="theme-color themepreset-color theme-layout">
                   <a href="#!" class="active" onclick="layout_change('light')" data-value="false"><span><img
-                        src="../assets/images/customization/default.svg" alt="img"></span><span>Light</span></a>
+                        src="{{ asset('assets/images/customization/default.svg') }}"
+                        alt="img"></span><span>Light</span></a>
                   <a href="#!" class="" onclick="layout_change('dark')" data-value="true"><span><img
-                        src="../assets/images/customization/dark.svg" alt="img"></span><span>Dark</span></a>
+                        src="{{ asset('assets/images/customization/dark.svg') }}" alt="img"></span><span>Dark</span></a>
                 </div>
               </div>
             </div>
@@ -145,23 +132,32 @@
               <div class="pct-content">
                 <div class="theme-color preset-color">
                   <a href="#!" class="active" data-value="preset-1"><span><img
-                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 1</span></a>
+                        src="{{ asset('assets/images/customization/theme-color.svg') }}" alt="img"></span><span>Tema
+                      1</span></a>
                   <a href="#!" class="" data-value="preset-2"><span><img
-                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 2</span></a>
+                        src="{{ asset('assets/images/customization/theme-color.svg') }}" alt="img"></span><span>Tema
+                      2</span></a>
                   <a href="#!" class="" data-value="preset-3"><span><img
-                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 3</span></a>
+                        src="{{ asset('assets/images/customization/theme-color.svg') }}" alt="img"></span><span>Tema
+                      3</span></a>
                   <a href="#!" class="" data-value="preset-4"><span><img
-                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 4</span></a>
+                        src="{{ asset('assets/images/customization/theme-color.svg') }}" alt="img"></span><span>Tema
+                      4</span></a>
                   <a href="#!" class="" data-value="preset-5"><span><img
-                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 5</span></a>
+                        src=" {{ asset('assets/images/customization/theme-color.svg') }}" alt="img"></span><span>Tema
+                      5</span></a>
                   <a href="#!" class="" data-value="preset-6"><span><img
-                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 6</span></a>
+                        src="{{ asset('assets/images/customization/theme-color.svg') }}" alt="img"></span><span>Tema
+                      6</span></a>
                   <a href="#!" class="" data-value="preset-7"><span><img
-                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 7</span></a>
+                        src="{{ asset('assets/images/customization/theme-color.svg') }}" alt="img"></span><span>Tema
+                      7</span></a>
                   <a href="#!" class="" data-value="preset-8"><span><img
-                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 8</span></a>
+                        src="{{ asset('assets/images/customization/theme-color.svg') }}" alt="img"></span><span>Tema
+                      8</span></a>
                   <a href="#!" class="" data-value="preset-9"><span><img
-                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 9</span></a>
+                        src="{{ asset('assets/images/customization/theme-color.svg') }}" alt="img"></span><span>Tema
+                      9</span></a>
                 </div>
               </div>
             </div>
@@ -185,9 +181,11 @@
               <div class="pct-content">
                 <div class="theme-color themepreset-color boxwidthpreset theme-container">
                   <a href="#!" class="active" onclick="change_box_container('false')" data-value="false"><span><img
-                        src="../assets/images/customization/default.svg" alt="img"></span><span>Fluid</span></a>
+                        src="{{ asset('assets/images/customization/default.svg') }} "
+                        alt="img"></span><span>Fluid</span></a>
                   <a href="#!" class="" onclick="change_box_container('true')" data-value="true"><span><img
-                        src="../assets/images/customization/container.svg" alt="img"></span><span>Container</span></a>
+                        src="{{ asset('assets/images/customization/container.svg') }}"
+                        alt="img"></span><span>Container</span></a>
                 </div>
               </div>
             </div>
@@ -237,6 +235,161 @@
   </div>
   <script src="{{ asset('assets/js/plugins/apexcharts.min.js') }}"></script>
   <script src="{{ asset('assets/js/pages/dashboard-default.js') }}"></script>
+  <script src="{{ asset('assets/js/plugins/datepicker-full.min.js') }}"></script>
+  <script>
+    // minimum setup
+    (function () {
+      const d_week = new Datepicker(document.querySelector('#pc-datepicker-1'), {
+        buttonClass: 'btn'
+      });
+    })();
+    // input group layout
+    (function () {
+      const d_week = new Datepicker(document.querySelector('#pc-datepicker-2'), {
+        buttonClass: 'btn'
+      });
+    })();
+    // enable clear button
+    (function () {
+      const d_week = new Datepicker(document.querySelector('#pc-datepicker-3'), {
+        buttonClass: 'btn',
+        todayBtn: true,
+        clearBtn: true
+      });
+    })();
+
+    // orientation
+    (function () {
+      const d_week = new Datepicker(document.querySelector('#pc-datepicker-4_1'), {
+        buttonClass: 'btn',
+        orientation: 'top left'
+      });
+    })();
+    (function () {
+      const d_week = new Datepicker(document.querySelector('#pc-datepicker-4_2'), {
+        buttonClass: 'btn',
+        orientation: 'top right'
+      });
+    })();
+    (function () {
+      const d_week = new Datepicker(document.querySelector('#pc-datepicker-4_3'), {
+        buttonClass: 'btn',
+        orientation: 'bottom left'
+      });
+    })();
+    (function () {
+      const d_week = new Datepicker(document.querySelector('#pc-datepicker-4_4'), {
+        buttonClass: 'btn',
+        orientation: 'bottom right'
+      });
+    })();
+
+    // range picker
+    (function () {
+      const datepicker_range = new DateRangePicker(document.querySelector('#pc-datepicker-5'), {
+        buttonClass: 'btn'
+      });
+    })();
+
+    // inline picker
+    (function () {
+      const datepicker_inline = new Datepicker(document.querySelector('#pc-datepicker-6'), {
+        buttonClass: 'btn'
+      });
+    })();
+  </script>
+  <script src="{{ asset('assets/js/plugins/jquery.dataTables.min.js') }}"></script>
+  <script src="{{ asset('assets/js/plugins/dataTables.bootstrap5.min.js') }}"></script>
+  <script>
+    // [ Zero Configuration ] start
+    $('#myTable').DataTable({
+      "ordering": true,
+      "paging": true,
+      "searching": true,
+      "oLanguage": {
+        "sEmptyTable": "Nenhum registro encontrado na tabela",
+        "sInfo": "Mostrar _START_ até _END_ de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrar 0 até 0 de 0 Registros",
+        "sInfoFiltered": "(Filtrar de _MAX_ total registros)",
+        "sInfoPostFix": "",
+        "sInfoThousands": ".",
+        "sLengthMenu": "Mostrar _MENU_ registros por página",
+        "sLoadingRecords": "Carregando...",
+        "sProcessing": "Processando...",
+        "sZeroRecords": "Nenhum registro encontrado",
+        "sSearch": "Pesquisar",
+        "oPaginate": {
+          "sNext": "Próximo",
+          "sPrevious": "Anterior",
+          "sFirst": "Primeiro",
+          "sLast": "Último"
+        },
+        "oAria": {
+          "sSortAscending": ": Ordenar colunas de forma ascendente",
+          "sSortDescending": ": Ordenar colunas de forma descendente"
+        }
+      }
+    });
+
+    // [ Default Ordering ] start
+    $('#order-table').DataTable({
+      order: [[3, 'desc']]
+    });
+
+    // [ Multi-Column Ordering ]
+    $('#multi-colum-dt').DataTable({
+      columnDefs: [
+        {
+          targets: [0],
+          orderData: [0, 1]
+        },
+        {
+          targets: [1],
+          orderData: [1, 0]
+        },
+        {
+          targets: [4],
+          orderData: [4, 0]
+        }
+      ]
+    });
+
+    // [ Complex Headers ]
+    $('#complex-dt').DataTable();
+
+    // [ DOM Positioning ]
+    $('#DOM-dt').DataTable({
+      dom: '<"top"i>rt<"bottom"flp><"clear">'
+    });
+
+    // [ Alternative Pagination ]
+    $('#alt-pg-dt').DataTable({
+      pagingType: 'full_numbers'
+    });
+
+    // [ Scroll - Vertical ]
+    $('#scr-vrt-dt').DataTable({
+      scrollY: '200px',
+      scrollCollapse: true,
+      paging: false
+    });
+
+    // [ Scroll - Vertical, Dynamic Height ]
+    $('#scr-vtr-dynamic').DataTable({
+      scrollY: '50vh',
+      scrollCollapse: true,
+      paging: false
+    });
+
+    // [ Language - Comma Decimal Place ]
+    $('#lang-dt').DataTable({
+      language: {
+        decimal: ',',
+        thousands: '.'
+      }
+    });
+  </script>
+
 </body>
 
 </html>

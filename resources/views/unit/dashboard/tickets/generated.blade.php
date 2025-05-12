@@ -4,33 +4,13 @@
 
 @section('content')
 
-  <div id="modalDeleteUser" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalCenterTitle">Deletar Usuário</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-      <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in,
-        egestas eget quam. Morbi leo
-        risus, porta ac consectetur ac, vestibulum at eros.</p>
-      </div>
-      <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Fechar</button>
-      <button type="button" class="btn btn-primary">Submeter</button>
-      </div>
-    </div>
-    </div>
-  </div>
 
   <div id="modalViewUser" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalCenterTitle">Visualizar Usuário</h5>
+      <h5 class="modal-title" id="exampleModalCenterTitle">Ticket Gerados</h5>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -40,32 +20,11 @@
       </div>
       <div class="modal-footer">
       <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Fechar</button>
-      <button type="button" class="btn btn-primary">Submeter</button>
       </div>
     </div>
     </div>
   </div>
 
-  <div id="modalEditUser" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalCenterTitle">Editar Usuário</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-      <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in,
-        egestas eget quam. Morbi leo
-        risus, porta ac consectetur ac, vestibulum at eros.</p>
-      </div>
-      <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Fechar</button>
-      <button type="button" class="btn btn-primary">Submeter</button>
-      </div>
-    </div>
-    </div>
-  </div>
 
   <div class="page-header">
     <div class="page-block">
@@ -121,20 +80,6 @@
               <i class="ti ti-eye f-18"></i>
               </a>
             </li>
-            <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="Edit">
-              <a data-bs-toggle="modal" data-bs-target="#modalEditUser"
-              href="../application/ecom_product-add.html" class="avtar avtar-xs btn-link-primary">
-              <i class="ti ti-edit-circle f-18"></i>
-              </a>
-            </li>
-            <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="Delete">
-              <a data-bs-toggle="modal" data-bs-target="#modalDeleteUser" href="#"
-              class="avtar avtar-xs btn-link-danger">
-              <i class="ti ti-trash f-18"></i>
-              </a>
-            </li>
-
-
             </ul>
           </td>
           </tr>

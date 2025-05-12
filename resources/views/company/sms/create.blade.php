@@ -4,17 +4,28 @@
 
 @section('content')
 
-  <div class="col-xl-4">
+  <div class="col-xl-6 mb-4">
     <h3 class="mb-3">Nova Mensagem</h3>
     <div class="card">
+
     <div class="card-body">
 
-      <button type="button" class="btn btn-sm btn-link-secondary" data-bs-toggle="modal" data-bs-target="#couponModal">
-      Enviar SMS
-      </button>
-      <div class="input-group my-2">
-      <input type="text" class="form-control" placeholder="Pesquise os gerentes para enviar a sms">
-      <button class="btn btn-outline-secondary" type="button">Pesquisar</button>
+      <h5 class="mb-3">Mensagem para...</h5>
+      <hr>
+      <div class="form-group col-md-12">
+      <label class="form-label" for="exampleSelect1">Selecione a unidade</label>
+      <select name="manager" class="form-select" id="exampleSelect1">
+        <option value="">Selecione a unidade...</option>
+        @foreach ($units as $unit)
+      <option value="{{ $unit->id_unit }}">{{ $unit->unit_name }}</option>
+      @endforeach
+      </select>
+      </div>
+      <div class="input-group my-2 d-flex justify-content-start align-items-center gap-4">
+      <div>
+        <input type="checkbox" name="all" class="p-2">
+      </div>
+      <h5 class="">Enviar para todas as unidades...</h5>
       </div>
     </div>
     </div>

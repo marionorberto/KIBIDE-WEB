@@ -59,4 +59,14 @@ class Unit extends Model
         return $this->belongsTo(User::class, 'manager_id', 'id_user');
     }
 
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
+    }
+
+    public function services()
+    {
+        return $this->hasMany(Service::class, 'unit_id');
+    }
+
 }

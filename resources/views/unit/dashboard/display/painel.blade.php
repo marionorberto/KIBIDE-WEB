@@ -66,7 +66,9 @@
         <h5>Agência Central</h5>
       </div>
       <div class="col text-end">
-        <h5>{{ now()->format('d/m/Y H:i:s') }}</h5>
+        <span class="fs-4" id="current-time"></span>
+
+        <!-- <h5>{{ now()->format('d/m/Y H:i:s') }}</h5> -->
       </div>
     </div>
 
@@ -110,5 +112,18 @@
     </div>
   </div>
   </body>
+  <script>
+    function updateTime() {
+      const now = new Date();
+      const formatted = now.toLocaleString('pt-BR'); // "12/05/2025 06:47:25"
+      document.getElementById('current-time').textContent = formatted;
+    }
+
+    // Atualiza imediatamente ao carregar
+    updateTime();
+
+    // Atualiza a cada segundo
+    setInterval(updateTime, 1000);
+  </script>
 
 </html>

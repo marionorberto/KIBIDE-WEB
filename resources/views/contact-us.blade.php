@@ -322,9 +322,10 @@
               <div class="pct-content">
                 <div class="theme-color themepreset-color theme-layout">
                   <a href="#!" class="active" onclick="layout_change('light')" data-value="false"><span><img
-                        src="../assets/images/customization/default.svg" alt="img"></span><span>Light</span></a>
+                        src="{{ asset('assets/images/customization/default.svg') }}"
+                        alt="img"></span><span>Light</span></a>
                   <a href="#!" class="" onclick="layout_change('dark')" data-value="true"><span><img
-                        src="../assets/images/customization/dark.svg" alt="img"></span><span>Dark</span></a>
+                        src="{{ asset('assets/images/customization/dark.svg') }}" alt="img"></span><span>Dark</span></a>
                 </div>
               </div>
             </div>
@@ -348,23 +349,32 @@
               <div class="pct-content">
                 <div class="theme-color preset-color">
                   <a href="#!" class="active" data-value="preset-1"><span><img
-                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 1</span></a>
+                        src="{{ asset('assets/images/customization/theme-color.svg') }}" alt="img"></span><span>Tema
+                      1</span></a>
                   <a href="#!" class="" data-value="preset-2"><span><img
-                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 2</span></a>
+                        src="{{ asset('assets/images/customization/theme-color.svg') }}" alt="img"></span><span>Tema
+                      2</span></a>
                   <a href="#!" class="" data-value="preset-3"><span><img
-                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 3</span></a>
+                        src="{{ asset('assets/images/customization/theme-color.svg') }}" alt="img"></span><span>Tema
+                      3</span></a>
                   <a href="#!" class="" data-value="preset-4"><span><img
-                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 4</span></a>
+                        src="{{ asset('assets/images/customization/theme-color.svg') }}" alt="img"></span><span>Tema
+                      4</span></a>
                   <a href="#!" class="" data-value="preset-5"><span><img
-                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 5</span></a>
+                        src="{{ asset('assets/images/customization/theme-color.svg') }}" alt="img"></span><span>Tema
+                      5</span></a>
                   <a href="#!" class="" data-value="preset-6"><span><img
-                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 6</span></a>
+                        src="{{ asset('assets/images/customization/theme-color.svg') }}" alt="img"></span><span>Tema
+                      6</span></a>
                   <a href="#!" class="" data-value="preset-7"><span><img
-                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 7</span></a>
+                        src="{{ asset('assets/images/customization/theme-color.svg') }}" alt="img"></span><span>Tema
+                      7</span></a>
                   <a href="#!" class="" data-value="preset-8"><span><img
-                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 8</span></a>
+                        src="{{ asset('assets/images/customization/theme-color.svg') }}" alt="img"></span><span>Tema
+                      8</span></a>
                   <a href="#!" class="" data-value="preset-9"><span><img
-                        src="../assets/images/customization/theme-color.svg" alt="img"></span><span>Tema 9</span></a>
+                        src="{{ asset('assets/images/customization/theme-color.svg') }}" alt="img"></span><span>Tema
+                      9</span></a>
                 </div>
               </div>
             </div>
@@ -388,9 +398,11 @@
               <div class="pct-content">
                 <div class="theme-color themepreset-color boxwidthpreset theme-container">
                   <a href="#!" class="active" onclick="change_box_container('false')" data-value="false"><span><img
-                        src="../assets/images/customization/default.svg" alt="img"></span><span>Fluid</span></a>
+                        src="{{ asset('assets/images/customization/default.svg') }}"
+                        alt="img"></span><span>Fluid</span></a>
                   <a href="#!" class="" onclick="change_box_container('true')" data-value="true"><span><img
-                        src="../assets/images/customization/container.svg" alt="img"></span><span>Container</span></a>
+                        src="{{ asset('assets/images/customization/container.svg') }}"
+                        alt="img"></span><span>Container</span></a>
                 </div>
               </div>
             </div>

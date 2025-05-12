@@ -61,6 +61,30 @@ class UserController extends Controller
         }
     }
 
+    public function storedesks(StoreUserRequest $request)
+    {
+        try {
+
+            $companyId = Auth::user()->company_id;
+
+            // Criar o usuário admin associado à empresa
+            $user = User::create([
+                'company_id' => $companyId,
+                'unit_id' => Auth::user()->unit_id, // Aqui já associamos o usuário à unidade
+                'username' => $request->username,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => 'desk',
+                'active' => false,
+            ]);
+
+            return redirect()->back()->with('success', 'usuário' . 'desk' . ' criado com sucesso!');
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Erro ao criar usuário: ' . $e->getMessage());
+        }
+    }
+
     /**
      * Display the specified resource.
      */

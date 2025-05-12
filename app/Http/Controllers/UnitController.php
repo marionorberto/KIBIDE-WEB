@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUnitRequest;
+use App\Models\Company;
+use App\Models\Counter;
+use App\Models\Service;
 use App\Models\Unit;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -81,7 +85,18 @@ class UnitController extends Controller
 
     public function profile()
     {
-        return view('unit.dashboard.profile');
+        // por aqui try catch
+
+        $companyData = Company::where('id_company', Auth::user()->company_id)->first();
+        $unitData = Unit::where('manager_id', Auth::user()->id_user)->first();
+        $unitUserCount = User::where('unit_id', Auth::user()->unit_id)->where('role', 'desk')->count();
+
+        return view('unit.dashboard.profile', compact(
+            'companyData',
+            'unitData',
+            'unitUserCount'
+        ))->with('section', 'profile-4');
+
     }
 
     public function createDesks()
@@ -91,7 +106,8 @@ class UnitController extends Controller
 
     public function listDesks()
     {
-        return view('unit.dashboard.desks.list');
+        $desks = User::where('unit_id', Auth::user()->unit_id)->where('role', 'desk')->get();
+        return view('unit.dashboard.desks.list', compact('desks'));
     }
 
     public function createSms()
@@ -156,17 +172,20 @@ class UnitController extends Controller
 
     public function listServices()
     {
-        return view('unit.dashboard.services.list');
+        $services = Service::where('unit_id', Auth::user()->unit_id)->get();
+        return view('unit.dashboard.services.list', compact('services'));
     }
 
     public function createAttendanceLines()
     {
-        return view('unit.dashboard.attendance-lines.create');
+        $services = Service::where('unit_id', Auth::user()->unit_id)->get();
+        return view('unit.dashboard.attendance-lines.create', compact('services'));
     }
 
     public function listAttendanceLines()
     {
-        return view('unit.dashboard.attendance-lines.list');
+        $counters = Counter::where('unit_id', Auth::user()->unit_id)->get();
+        return view('unit.dashboard.attendance-lines.list', compact('counters'));
     }
 
     public function showPainel()
@@ -178,4 +197,26 @@ class UnitController extends Controller
     {
         return view('unit.dashboard.display.settings');
     }
+
+    public function createOperation()
+    {
+
+        $services = Service::where('unit_id', Auth::user()->unit_id)->get();
+        $counters = Counter::where('unit_id', Auth::user()->unit_id)->get();
+
+        return view('unit.dashboard.operations.create', compact('services', 'counters'));
+    }
+
+    public function listOperation()
+    {
+        return view('unit.dashboard.operations.create');
+    }
+
+    public function operationSettings()
+    {
+        return view('unit.dashboard.operations.settings');
+    }
+
+
+
 }

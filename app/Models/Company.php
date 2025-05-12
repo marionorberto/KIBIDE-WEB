@@ -53,4 +53,9 @@ class Company extends Model
     {
         return $this->hasMany(Unit::class, 'company_id', 'id_company');
     }
+
+    public function profile()
+    {
+        return $this->hasOne(ProfileCompany::class);
+    }
 }

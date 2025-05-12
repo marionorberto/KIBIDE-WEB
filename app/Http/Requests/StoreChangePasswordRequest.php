@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 class StoreChangePasswordRequest extends FormRequest
 {
@@ -22,7 +23,16 @@ class StoreChangePasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'password' => 'required|string|min:8|confirmed',
+            'password' => [
+                'required',
+                'confirmed',
+                Password::min(8)
+                    ->mixedCase()
+                    ->letters()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised()
+            ],
             'actual_password' => 'required|string|current_password|min:8',
         ];
     }
@@ -30,12 +40,18 @@ class StoreChangePasswordRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'password.required' => 'A Nova Password é obrigatória.',
-            'password.confirmed' => 'As Nova Password e Confirmar Password não coincidem.',
-            'password.min' => 'A Nova Password deve ter pelo menos 8 caracteres.',
             'actual_password.required' => 'A Password Actual  é obrigatória.',
             'actual_password.min' => 'A Password Actual deve ter pelo menos 8 caracteres.',
-            'actual_password' => 'Password Atual incorecta'
+            'actual_password' => 'Password Atual incorecta',
+
+            'password.required' => 'A Nova Password é obrigatória.',
+            'password.confirmed' => 'As Passwords não coincidem.',
+            'password.min' => 'A Nova Password deve ter no mínimo :min caracteres.',
+            'password.mixed' => 'A Nova Password deve conter letras maiúsculas e minúsculas.',
+            'password.letters' => 'A Nova Password deve conter pelo menos uma letra.',
+            'password.numbers' => 'A Nova Password deve conter pelo menos um número.',
+            'password.symbols' => 'A Nova Password deve conter pelo menos um símbolo (ex: @, #, !).',
+            'password.uncompromised' => 'Esta Nova Password já foi exposta em um vazamento de dados. Por favor, escolha outra.',
         ];
     }
 

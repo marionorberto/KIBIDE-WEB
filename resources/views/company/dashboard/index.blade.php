@@ -70,10 +70,6 @@
                 <th>EMPRESA</th>
                 <th>NOME UNIDADE</th>
                 <th>EMAIL</th>
-                <th>ADDRESS</th>
-                <th>TELEFONE</th>
-                <th>GERENTE</th>
-                <th>TOTAL USUARIO</th>
                 <th>STATUS</th>
               </tr>
             </thead>
@@ -85,10 +81,6 @@
                 <td>{{ $item->unit_name ?? '----------'}}</td>
                 <td>{{ $item->unit_email ?? '----------'}}</td>
                 <td>{{ $item->unit_address ?? '----------'}}</td>
-
-                <td>{{ $item->unit_phone ?? '----------'}}</td>
-                <td>{{ $item->manager_name ?? '----------'}}</td>
-                <td>{{ $item->users_count }}</td>
                 @if($item->active)
           <td><span class="badge bg-light-success  f-12">activada</span> </td>
         @else
@@ -198,7 +190,7 @@
 
 
   <div class="col-md-12 col-xl-6">
-    <h5 class="mb-3">Transaction History</h5>
+    <h5 class="mb-3">Estado da Licença</h5>
     <div class="card">
       <div class="list-group list-group-flush">
         <a href="#" class="list-group-item list-group-item-action">

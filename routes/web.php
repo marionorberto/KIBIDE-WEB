@@ -3,8 +3,10 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CounterController;
 use App\Http\Controllers\DeskController;
 use App\Http\Controllers\MentorController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
@@ -60,6 +62,8 @@ Route::prefix('kibide/company')->group(function () {
     Route::get('/notification/inbox', [CompanyController::class, 'notificationInbox'])->name('company.notification.inbox');
     Route::get('/notification/histories', [CompanyController::class, 'notificationHistories'])->name('company.notification.histories');
     Route::get('/settings/index', [CompanyController::class, 'settings'])->name('company.settings.index');
+    Route::get('/licence/index', [CompanyController::class, 'licence'])->name('company.licence.index');
+
 });
 
 Route::prefix('kibide/desk')->group(function () {
@@ -97,11 +101,16 @@ Route::prefix('kibide/unit')->group(function () {
     Route::get('/painel/show', [UnitController::class, 'showPainel'])->name('unit.painel.show');
     Route::get('/painel/settings', [UnitController::class, 'painelSettings'])->name('unit.painel.settings');
 
+    Route::post('/services/store', [ServiceController::class, 'store'])->name('unit.store.service');
+    Route::post('/counters/store', [CounterController::class, 'store'])->name('units.counter.store');
+
+
+    Route::get('/operations/create', [UnitController::class, 'createOperation'])->name('unit.create.operation');
+    Route::get('/operations/list', [UnitController::class, 'listOperation'])->name('unit.list.operation');
+    Route::get('/operations/settings', [UnitController::class, 'operationSettings'])->name('unit.settings.operation');
 });
 
 Route::prefix('kibide/users')->group(function () {
     Route::post('/store', [UserController::class, 'store'])->name('users.store');
+    Route::post('/store/desk', [UserController::class, 'storedesks'])->name('users.desk.store');
 });
-
-
-

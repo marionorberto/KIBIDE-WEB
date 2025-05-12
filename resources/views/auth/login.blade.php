@@ -29,7 +29,8 @@
 
         <div class="form-group mb-3">
         <label class="form-label">Username </label>
-        <input type="text" name="username" class="form-control" placeholder="Username" required>
+        <input type="text" name="username" class="form-control" placeholder="Username" value="{{ old('username') }}"
+          required>
         </div>
         <div class="form-group mb-3">
         <label class="form-label">Password</label>

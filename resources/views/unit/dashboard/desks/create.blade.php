@@ -3,14 +3,14 @@
 @section('title', 'dashboard')
 
 @section('content')
-  <form action="{{ route('users.store') }}" method="post" class="card">
+  <form action="{{ route('users.desk.store') }}" method="post" class="card">
     @csrf
 
 
     <div class="card-header d-flex justify-content-between align-items-center">
 
     <h5>Criar Novo Atendente</h5>
-    <a class="btn btn-primary" href="{{ route('company.list.users') }}">Ver Todos</a>
+    <a class="btn btn-primary" href="{{ route('unit.list.desks') }}">Ver Todos</a>
     </div>
     <div class="card-body">
     @if (!$errors->any() && !session('success'))
@@ -29,13 +29,10 @@
     @endforeach
     </ul>
     @endif
-
     @if ($successMessage = session('success'))
     <div class="alert alert-success" role="alert"> {{ $successMessage }} <strong><a
-      href="{{ route('company.list.users') }}">Ver lista para editar!</a></strong></div>
+      href="{{ route('unit.list.desks') }}">Ver lista para editar!</a></strong></div>
     @endif
-
-
     <div class="row">
       <div class="col-md-6">
       <div class="form-group mb-3">
@@ -50,23 +47,22 @@
       </div>
       </div>
     </div>
-
-    <input type="hidden" name="company_id" value="{{ Auth::user()->company_id }}">
+    <input type="hidden" name="unit_id" value="{{ Auth::user()->unit_id }}">
+    <input type="hidden" name="active" value="0">
 
     <div class="row">
-
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-12">
       <label class="form-label" for="exampleSelect1">Função</label>
       <select class="form-select" id="exampleSelect1" disabled>
-        <option>Aten</option>
+        <option>Atendente</option>
       </select>
       </div>
     </div>
     <div class="form-group">
       <label class="form-label" for="exampleSelect1">Ativado/Desativado</label>
-      <select name="active" class="form-select" id="exampleSelect1">
-      <option value="1">Ativado</option>
+      <select name="active" class="form-select" id="exampleSelect1" disabled>
       <option value="0">Desactivado</option>
+      <option value="1">Ativado</option>
       </select>
     </div>
     <div class="row">

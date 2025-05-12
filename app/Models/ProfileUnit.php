@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Desk extends Model
+class ProfileUnit extends Model
 {
     //
 }

@@ -57,7 +57,7 @@
         </li>
 
         <li class="pc-item pc-caption">
-          <label>Mensagem</label>
+          <label>Notificações</label>
           <i class="ti ti-brand-chrome"></i>
         </li>
         <li class="pc-item">
@@ -78,8 +78,14 @@
             <span class="pc-mtext">Enviado</span>
           </a>
         </li>
+        <li class="pc-item">
+          <a href="{{ route('company.notification.histories')  }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-report"></i></span>
+            <span class="pc-mtext">Históricos de Notificações</span>
+          </a>
+        </li>
 
-        <li class="pc-item pc-caption">
+        <!-- <li class="pc-item pc-caption">
           <label>Notificações</label>
           <i class="ti ti-brand-chrome"></i>
         </li>
@@ -96,8 +102,15 @@
             <span class="pc-micon"><i class="ti ti-report"></i></span>
             <span class="pc-mtext">Históricos de Notificações</span>
           </a>
-        </li>
+        </li> -->
+        <hr>
 
+        <li class="pc-item">
+          <a href="{{ route('company.licence.index')  }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-key"></i></span>
+            <span class="pc-mtext">Licença</span>
+          </a>
+        </li>
 
         <li class="pc-item pc-hasmenu">
           <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-menu"></i></span><span

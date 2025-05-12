@@ -59,40 +59,40 @@
               <img class="rounded-circle img-fluid wid-70"
                 src="{{ asset('assets/images/user/avatar-5.jpg') }}" alt="User image">
               </div>
-              <h5 class="mb-0">Nome da Empresa</h5>
-              <p class="text-muted text-sm">Nome da Empresa</p>
+              <h5 class="mb-0">{{ $companyData->company_name }}</h5>
+              <p class="text-muted text-sm">{{ $unitData->unit_name }}</p>
               <hr class="my-3">
               <div class="row g-3">
               <div class="col-4">
-                <h5 class="mb-0">86</h5>
-                <small class="text-muted">Usuários</small>
+                <h5 class="mb-0">{{ $unitUserCount }}</h5>
+                <small class="text-muted">Atendentes</small>
               </div>
               <div class="col-4 border border-top-0 border-bottom-0">
-                <h5 class="mb-0">40</h5>
-                <small class="text-muted">Agências</small>
+                <h5 class="mb-0">0</h5>
+                <small class="text-muted">Balcões</small>
               </div>
               <div class="col-4">
-                <h5 class="mb-0">4.5K</h5>
+                <h5 class="mb-0">0</h5>
                 <small class="text-muted">Tickets</small>
               </div>
               </div>
               <hr class="my-3">
               <div class="d-inline-flex align-items-center justify-content-between w-100 mb-3">
               <i class="ti ti-mail"></i>
-              <p class="mb-0">testando</p>
+              <p class="mb-0">{{ $unitData->email }}</p>
               </div>
               <div class="d-inline-flex align-items-center justify-content-between w-100 mb-3">
               <i class="ti ti-phone"></i>
-              <p class="mb-0">(+1-876) 8654 239 581</p>
+              <p class="mb-0">{{ $unitData->unit_phone }}</p>
               </div>
               <div class="d-inline-flex align-items-center justify-content-between w-100 mb-3">
               <i class="ti ti-map-pin"></i>
-              <p class="mb-0">New York</p>
+              <p class="mb-0">Angola</p>
               </div>
               <div class="d-inline-flex align-items-center justify-content-between w-100">
               <i class="ti ti-link"></i>
               <a href="#" class="link-primary">
-                <p class="mb-0">https://anshan.dh.url</p>
+                <p class="mb-0">url_company</p>
               </a>
               </div>
             </div>
@@ -101,29 +101,22 @@
 
           </div>
           <div class="col-lg-8 col-xxl-9">
+
           <div class="card">
             <div class="card-header">
-            <h5>Sobre a Empresa</h5>
-            </div>
-            <div class="card-body">
-            <p class="mb-0">---------------------------------------------</p>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header">
-            <h5>Dados da Empresa</h5>
+            <h5>Dados da Unidade</h5>
             </div>
             <div class="card-body">
             <ul class="list-group list-group-flush">
               <li class="list-group-item px-0 pt-0">
               <div class="row">
                 <div class="col-md-6">
-                <p class="mb-1 text-muted">Nome Da Empresa</p>
-                <p class="mb-0">---</p>
+                <p class="mb-1 text-muted">Nome da Unidade</p>
+                <p class="mb-0">{{ $unitData->unit_name }}</p>
                 </div>
                 <div class="col-md-6">
-                <p class="mb-1 text-muted">NIF</p>
-                <p class="mb-0">---</p>
+                <p class="mb-1 text-muted">Correio Electrónico</p>
+                <p class="mb-0">{{ $unitData->unit_email}}</p>
                 </div>
               </div>
               </li>
@@ -131,7 +124,7 @@
               <div class="row">
                 <div class="col-md-6">
                 <p class="mb-1 text-muted">Telefone</p>
-                <p class="mb-0">-----</p>
+                <p class="mb-0">{{ $unitData->unit_phone }}</p>
                 </div>
                 <div class="col-md-6">
                 <p class="mb-1 text-muted">País</p>
@@ -143,7 +136,7 @@
               <div class="row">
                 <div class="col-md-6">
                 <p class="mb-1 text-muted">Localização</p>
-                <p class="mb-0">---------</p>
+                <p class="mb-0">{{ $unitData->unit_address }}</p>
                 </div>
               </div>
               </li>
@@ -160,7 +153,7 @@
           <div class="col-lg-12">
           <div class="card">
             <div class="card-header">
-            <h5>Personal Information</h5>
+            <h5>Dados do Gerente</h5>
             </div>
             <div class="card-body">
             <div class="row">
@@ -203,30 +196,46 @@
 
           <div class="col-12 text-end btn-page">
           <div class="btn btn-outline-secondary">Cancelar</div>
-          <div class="btn btn-primary">Atualizar Perfil</div>
+          <div class="btn btn-primary">Atualizar</div>
           </div>
         </div>
         </div>
 
+
         <div class="tab-pane" id="profile-4" role="tabpanel" aria-labelledby="profile-tab-4">
-        <div class="card">
+        <form action="{{ route('auth.password.change') }}" method="post" class="card">
+          @csrf
+
           <div class="card-header">
           <h5>Mudar Password</h5>
           </div>
           <div class="card-body">
           <div class="row">
+            @if ($successMessage = session('success'))
+        <div class="alert alert-success" role="alert"> {{ $successMessage }} <a
+          href="{{ route('auth.logout') }}">Sair do sistema</a> </div>
+        @endif
+            @if ($errors->any())
+          <ul class="alert alert-danger ">
+          @foreach ($errors->all() as $error)
+        <li class="ps-1">{{ $error }}</li>
+        @endforeach
+          </ul>
+        @endif
             <div class="col-sm-6">
             <div class="form-group">
-              <label class="form-label">Antiga Password</label>
-              <input type="password" class="form-control">
+              <label class="form-label">Actual Password</label>
+              <input name="actual_password" type="password" class="form-control" required
+              placeholder="Password Actual">
             </div>
             <div class="form-group">
               <label class="form-label">Nova Password</label>
-              <input type="password" class="form-control">
+              <input name="password" type="password" class="form-control" required placeholder="Nova Password">
             </div>
             <div class="form-group">
               <label class="form-label">Confirmar Password</label>
-              <input type="password" class="form-control">
+              <input name="password_confirmation" require type="password" class="form-control"
+              placeholder="Confirmar Password">
             </div>
             </div>
             <div class="col-sm-6">
@@ -246,11 +255,10 @@
           </div>
           <div class="card-footer text-end btn-page">
           <button type="reset" class="btn btn-outline-secondary">Limpar campos</button>
-          <button type="submit" class="btn btn-primary">Atualizar Perfil</button>
+          <button type="submit" class="btn btn-primary">Atualizar</button>
           </div>
+        </form>
         </div>
-        </div>
-
 
       </div>
       </div>
