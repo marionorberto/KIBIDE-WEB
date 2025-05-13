@@ -6,6 +6,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CounterController;
 use App\Http\Controllers\DeskController;
 use App\Http\Controllers\MentorController;
+use App\Http\Controllers\OperationController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UnitController;
@@ -104,6 +105,8 @@ Route::prefix('kibide/unit')->group(function () {
     Route::post('/services/store', [ServiceController::class, 'store'])->name('unit.store.service');
     Route::post('/counters/store', [CounterController::class, 'store'])->name('units.counter.store');
 
+    // unit.store.operation
+    Route::post('/operations/store', [OperationController::class, 'store'])->name('unit.store.operation');
 
     Route::get('/operations/create', [UnitController::class, 'createOperation'])->name('unit.create.operation');
     Route::get('/operations/list', [UnitController::class, 'listOperation'])->name('unit.list.operation');

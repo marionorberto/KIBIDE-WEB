@@ -28,7 +28,7 @@ class AttendanceLinesController extends Controller
      */
     public function store(StoreAttendanceLinesRequest $request)
     {
-
+        dd('ALERTA');
     }
 
     /**

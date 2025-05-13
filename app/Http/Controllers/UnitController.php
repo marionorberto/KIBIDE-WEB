@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUnitRequest;
 use App\Models\Company;
 use App\Models\Counter;
+use App\Models\Operations;
 use App\Models\Service;
 use App\Models\Unit;
 use App\Models\User;
@@ -209,7 +210,20 @@ class UnitController extends Controller
 
     public function listOperation()
     {
-        return view('unit.dashboard.operations.create');
+
+        // $operations = Operations::with(['service', 'counter'])
+        //     ->where('unit_id', Auth::user()->unit_id)
+        //     ->get();
+
+        $operations = Operations::query()
+            ->with(['service', 'counter'])
+            ->where('unit_id', Auth::user()->unit_id)
+            ->get();
+        // $operations = Operations::where('unit_id', Auth::user()->unit_id)->get();
+
+        // dd($operations);
+
+        return view('unit.dashboard.operations.list', compact('operations'));
     }
 
     public function operationSettings()

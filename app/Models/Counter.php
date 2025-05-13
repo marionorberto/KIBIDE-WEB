@@ -51,4 +51,9 @@ class Counter extends Model
     {
         return $this->belongsToMany(Service::class, 'counter_service', 'counter_id', 'service_id');
     }
+
+    public function operations()
+    {
+        return $this->hasMany(Operations::class);
+    }
 }

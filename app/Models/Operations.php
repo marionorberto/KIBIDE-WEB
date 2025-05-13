@@ -41,4 +41,14 @@ class Operations extends Model
     protected $attributes = [
         'active' => true,       // garanti que a campo active receba true como padrão
     ];
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class, 'service_id', 'id_service');
+    }
+
+    public function counter()
+    {
+        return $this->belongsTo(Counter::class, 'counter_id', 'id_counter');
+    }
 }
