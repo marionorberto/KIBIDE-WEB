@@ -29,7 +29,7 @@
 
     @if ($successMessage = session('success'))
     <div class="alert alert-success" role="alert"> {{ $successMessage }} <strong><a
-      href="{{ route('unit.services.list') }}">Ver lista para editar!</a></strong></div>
+      href="{{ route('unit.list.operation') }}">Ver lista para editar!</a></strong></div>
     @endif
 
     @if (session('error'))
@@ -42,19 +42,16 @@
     <div class="row">
       <input type="hidden" name="linhas_servicos" id="linhas_servicos">
 
-      <div class="col-md-6">
-      <div class="form-group mb-3">
-        <label class="form-label">Nome do operação*</label>
-        <input type="text" name="name" class="form-control" placeholder="Nome do operação" value="{{ old('name') }}"
-        required>
-      </div>
-      </div>
-      <div class="col-md-6">
+      <input hidden type="text" name="name" value="fixo" class="form-control name" placeholder="Nome do operação"
+      value="{{ old('name') }}" required>
+
+
+      <div class="col-md-12">
       <div class="form-group">
         <label class="form-label" for="exampleSelect1">Data de Realização</label>
         <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="input-group date">
-          <input name="realization_date" type="date" class="form-control" placeholder="Select date"
+          <input name="realization_date" type="date" class="form-control realization_date" placeholder="Select date"
           id="pc-datepicker-2" value="{{ now()->format('Y-m-d') }}">
           <span class="input-group-text">
           <i class="feather icon-calendar"></i>
@@ -133,6 +130,10 @@
     function adicionarItem() {
     const lineSelect = document.querySelector(".line-data");
     const serviceSelect = document.querySelector(".service-data");
+    const name = document.querySelector(".name").value;
+    const realization_date = document.querySelector(".realization_date").value;
+    const realization_input = document.querySelector(".realization_date");
+
 
     const lineOption = lineSelect.options[lineSelect.selectedIndex];
     const serviceOption = serviceSelect.options[serviceSelect.selectedIndex];
@@ -157,7 +158,21 @@
       return;
       }
 
-      itens.push({ line, service });
+      if (itens.length >= 1) {
+      const result = itens.some((item) => item.realization_date !== realization_date);
+
+      if (result == true) {
+        mostrarErro("Não pode trocar a data uma vez definida!.");
+        return;
+      }
+      }
+
+      itens.push({ name, realization_date, line, service, });
+
+      realization_input.disabled = true
+
+      console.log(itens);
+
       atualizarTabela();
       limparCampos();
       limparErro();
@@ -174,8 +189,6 @@
     tbody.innerHTML = ""; // limpa
 
     itens.forEach((item, index) => {
-
-
 
       if (!item.line.id || !item.service.id) return;
 
@@ -214,6 +227,8 @@
     const campoHidden = document.getElementById("linhas_servicos");
     campoHidden.value = JSON.stringify(itens);
     }
+
+
 
     function limparCampos() {
     document.getElementById("linhaAtendimento").value = "";

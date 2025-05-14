@@ -5,12 +5,14 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Requests\StoreChangePasswordRequest;
 use App\Models\Operations;
+use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 // Route::middleware('auth:sanctum')->group(function () {
 //   Route::get('/users', [UserController::class, 'index']);
@@ -72,7 +74,8 @@ Route::get('/listService', function () {
   try {
     $operations = Operations::query()
       ->with(['service', 'counter'])
-      ->where('unit_id', '0196c3d6-a80c-72b1-a524-f2ce1d7b936d')
+      ->where('unit_id', '0196cee1-44ff-714a-8bfc-51c4eaa3799b')
+      ->whereDate('realization_date', Carbon::today())
       ->get();
 
     return response()->json([
@@ -80,6 +83,28 @@ Route::get('/listService', function () {
       'data' => $operations,
     ], 200);
 
+  } catch (\Exception $e) {
+    Log::error('Erro no registan serviço: ' . $e->getMessage());
+
+    return response()->json([
+      'message' => 'Ocorreu um erro ao tentar fazer login. Tente novamente mais tarde.'
+    ], 500);
+  }
+});
+
+
+Route::post('/generate-ticket', function (Request $request) {
+  try {
+
+    $firstTicketGeneratedToday = Ticket::where('created_at', Carbon::today())->get();
+
+
+
+    return response()->json([
+      'message' => 'ok!',
+      'data' => $request->operations,
+      'first' => $firstTicketGeneratedToday
+    ], 200);
   } catch (\Exception $e) {
     Log::error('Erro no registan serviço: ' . $e->getMessage());
 

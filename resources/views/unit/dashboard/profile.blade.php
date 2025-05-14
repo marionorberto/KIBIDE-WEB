@@ -60,7 +60,7 @@
                 src="{{ asset('assets/images/user/avatar-5.jpg') }}" alt="User image">
               </div>
               <h5 class="mb-0">{{ $companyData->company_name }}</h5>
-              <p class="text-muted text-sm">{{ $unitData->unit_name }}</p>
+              <p class="text-muted text-sm">{{ $unitData->unit_name ?? '----' }}</p>
               <hr class="my-3">
               <div class="row g-3">
               <div class="col-4">
@@ -79,11 +79,11 @@
               <hr class="my-3">
               <div class="d-inline-flex align-items-center justify-content-between w-100 mb-3">
               <i class="ti ti-mail"></i>
-              <p class="mb-0">{{ $unitData->email }}</p>
+              <p class="mb-0">{{ $unitData->unit_email ?? '----' }}</p>
               </div>
               <div class="d-inline-flex align-items-center justify-content-between w-100 mb-3">
               <i class="ti ti-phone"></i>
-              <p class="mb-0">{{ $unitData->unit_phone }}</p>
+              <p class="mb-0">{{ $unitData->unit_phone ?? '----'}}</p>
               </div>
               <div class="d-inline-flex align-items-center justify-content-between w-100 mb-3">
               <i class="ti ti-map-pin"></i>
@@ -116,7 +116,7 @@
                 </div>
                 <div class="col-md-6">
                 <p class="mb-1 text-muted">Correio Electrónico</p>
-                <p class="mb-0">{{ $unitData->unit_email}}</p>
+                <p class="mb-0">{{ $unitData->unit_email ?? '----'}}</p>
                 </div>
               </div>
               </li>

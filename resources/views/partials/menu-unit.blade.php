@@ -120,9 +120,9 @@
 
 <nav class="pc-sidebar">
   <div class="navbar-wrapper">
-    <div class="m-header">
+    <div class="m-header d-flex justify-content-center py-3">
       <a href="/">
-        <img src="{{ asset('assets/images/LOGO.png') }}" alt="" style="height: 70px; width: 70px;">
+        <img src="{{ asset('assets/images/LOGO.png') }}" alt="" style="height: 80px; width: 80px;">
       </a>
     </div>
     <div class="navbar-content">
