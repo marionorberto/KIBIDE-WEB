@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->uuid('id_service')->primary();
             $table->uuid('unit_id');
             $table->string('description');
-            $table->string('Prefix_code');
+            $table->string('prefix_code');
             $table->enum('priority_level', ['normal', 'urgent'])->default('normal');
             $table->boolean('active')->default(true);
             $table->timestamps();

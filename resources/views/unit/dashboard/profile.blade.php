@@ -213,7 +213,8 @@
           <div class="row">
             @if ($successMessage = session('success'))
         <div class="alert alert-success" role="alert"> {{ $successMessage }} <a
-          href="{{ route('auth.logout') }}">Sair do sistema</a> </div>
+          href="{{ route('auth.logout') }}">Sair
+          do sistema</a> </div>
         @endif
             @if ($errors->any())
           <ul class="alert alert-danger ">
@@ -255,7 +256,7 @@
           </div>
           <div class="card-footer text-end btn-page">
           <button type="reset" class="btn btn-outline-secondary">Limpar campos</button>
-          <button type="submit" class="btn btn-primary">Atualizar</button>
+          <button type="submit" class="btn btn-primary">Atualizar Perfil</button>
           </div>
         </form>
         </div>

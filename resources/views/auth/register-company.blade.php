@@ -5,12 +5,13 @@
   <div class="auth-main">
     <div class="auth-wrapper v3">
     <div class="auth-form">
-      <div class="auth-header">
-      <a href="/">
-        <img src="{{ asset('assets/images/LOGO.png') }}" alt="" style="height: 70px; width: 70px;">
+      <div class="auth-header d-flex justify-content-center">
+      <a href="/" class="pt-5">
+        <img class="text-center" src="{{ asset('assets/images/LOGO.png') }}" alt=""
+        style="height: 120px; width: 120px;">
       </a>
       </div>
-      <div class="card my-5">
+      <div class="card mb-5">
       <form method="post" action="{{ route('company.store') }}" class="card-body">
         @csrf
 

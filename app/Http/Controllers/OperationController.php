@@ -31,6 +31,27 @@ class OperationController extends Controller
     public function store(StoreOperationRequest $request)
     {
         try {
+
+
+            // $dados = json_decode($request->input('linhas_servicos'), true);
+
+            // foreach ($dados as $item) {
+            //     $lineId = $item['line']['id'];
+            //     $serviceId = $item['service']['id'];
+
+
+            //     // dd($serviceId);
+            //     Exemplo: salvar no banco
+            //     Operations::create([
+            //         'line_id' => $lineId,
+            //         'service_id' => $serviceId,
+            //         'unit_id' => Auth::user()->unit_id,
+            //         'realization_date' => now(),
+            //         'active' => true,
+            //     ]);
+            // }
+
+
             Operations::create([
                 "description" => $request->description,
                 "name" => $request->name,

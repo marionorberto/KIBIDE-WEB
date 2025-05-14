@@ -40,6 +40,8 @@
 
     <div id="mensagemErro" class="alert alert-danger d-none" role="alert"></div>
     <div class="row">
+      <input type="hidden" name="linhas_servicos" id="linhas_servicos">
+
       <div class="col-md-6">
       <div class="form-group mb-3">
         <label class="form-label">Nome do operação*</label>
@@ -120,7 +122,7 @@
       <!-- Itens adicionados aparecerão aqui -->
       </tbody>
     </table>
-    <button type="submit" class="btn btn-primary me-2">Salvar Operações</button>
+    <button type="submit" onclick="prepararEnvio()" class="btn btn-primary me-2">Salvar Operações</button>
     </div>
   </form>
   </div>
@@ -202,6 +204,17 @@
     atualizarTabela();
     }
 
+    function prepararEnvio() {
+    if (itens.length === 0) {
+      mostrarErro("Adicione pelo menos um item antes de salvar.");
+      event.preventDefault(); // Impede envio se estiver vazio
+      return false;
+    }
+
+    const campoHidden = document.getElementById("linhas_servicos");
+    campoHidden.value = JSON.stringify(itens);
+    }
+
     function limparCampos() {
     document.getElementById("linhaAtendimento").value = "";
     document.getElementById("servico").value = "";
@@ -218,6 +231,7 @@
     divErro.textContent = "";
     divErro.classList.add("d-none");
     }
+
   </script>
 
 

@@ -7,12 +7,13 @@
   <div class="auth-main">
     <div class="auth-wrapper v3">
     <div class="auth-form">
-      <div class="auth-header">
-      <a href="/">
-        <img src="{{ asset('assets/images/LOGO.png') }}" alt="" style="height: 70px; width: 70px;">
+      <div class="auth-header d-flex justify-content-center">
+      <a href="/" class="pt-5">
+        <img class="text-center" src="{{ asset('assets/images/LOGO.png') }}" alt=""
+        style="height: 120px; width: 120px;">
       </a>
       </div>
-      <div class="card my-5">
+      <div class="card mb-5">
       <form action="{{ route('auth.login') }}" method="post" class="card-body">
         @csrf
         @if ($successMessage = session('success'))
@@ -32,9 +33,10 @@
         <input type="text" name="username" class="form-control" placeholder="Username" value="{{ old('username') }}"
           required>
         </div>
-        <div class="form-group mb-3">
+        <div class="form-group mb-3 position-relative">
         <label class="form-label">Password</label>
         <input type="password" name="password" class="form-control" placeholder="Password" required>
+        <!-- <i class="ti ti-eye fs-3 position-absolute right-3 top-3"></i> -->
         </div>
         <div class="d-flex mt-1 justify-content-end">
 

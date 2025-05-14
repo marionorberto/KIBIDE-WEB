@@ -4,6 +4,7 @@ use App\Http\Controllers\api\AuthController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Requests\StoreChangePasswordRequest;
+use App\Models\Operations;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -37,7 +38,6 @@ Route::get('/hello', function () {
 });
 
 Route::post('/login', function (Request $request) {
-
   try {
     $credentials = $request->only(['username', 'password']);
 
@@ -65,3 +65,26 @@ Route::post('/login', function (Request $request) {
     ], 500);
   }
 })->name('login');
+
+
+
+Route::get('/listService', function () {
+  try {
+    $operations = Operations::query()
+      ->with(['service', 'counter'])
+      ->where('unit_id', '0196c3d6-a80c-72b1-a524-f2ce1d7b936d')
+      ->get();
+
+    return response()->json([
+      'message' => 'fetch com sucesso.',
+      'data' => $operations,
+    ], 200);
+
+  } catch (\Exception $e) {
+    Log::error('Erro no registan serviço: ' . $e->getMessage());
+
+    return response()->json([
+      'message' => 'Ocorreu um erro ao tentar fazer login. Tente novamente mais tarde.'
+    ], 500);
+  }
+});

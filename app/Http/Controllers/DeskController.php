@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Models\Unit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DeskController extends Controller
 {
@@ -12,7 +14,8 @@ class DeskController extends Controller
      */
     public function index()
     {
-        return view('desk.dashboard.index');
+        $username = Auth::user()->username;
+        return view('desk.dashboard.index', compact('username'));
     }
 
     /**
@@ -65,6 +68,10 @@ class DeskController extends Controller
 
     public function profile()
     {
-        return view('desk.dashboard.profile');
+        $unitData = Unit::where('id_unit', Auth::user()->unit_id)->first();
+
+        $user = Auth::user();
+
+        return view('desk.dashboard.profile', compact('unitData', 'user'));
     }
 }

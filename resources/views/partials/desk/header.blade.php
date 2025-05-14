@@ -2,8 +2,10 @@
   <div class="header-wrapper">
     <div class="me-auto pc-mob-drp">
       <ul class="list-unstyled">
+        <i class="fa fa-clock-o fs-1"></i>
+
         <li class="pc-h-item pc-sidebar-collapse">
-          <h3>BALCÃO 1 - 05/05/2025</h3>
+          <h3 class="mt-1" id="current-time"></h3>
         </li>
 
       </ul>
@@ -117,3 +119,17 @@
   </div>
 </header>
 <!-- [ Header ] end -->
+
+<script>
+  function updateTime() {
+    const now = new Date();
+    const formatted = now.toLocaleString('pt-BR'); // "12/05/2025 06:47:25"
+    document.getElementById('current-time').textContent = formatted;
+  }
+
+  // Atualiza imediatamente ao carregar
+  updateTime();
+
+  // Atualiza a cada segundo
+  setInterval(updateTime, 1000);
+</script>

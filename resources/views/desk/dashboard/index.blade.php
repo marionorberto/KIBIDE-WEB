@@ -10,8 +10,8 @@
 
       <div class="col-md-12">
       <div class="page-header-title">
-        <h4 class=""><i class="ti ti-user"></i> <strong>Atendente</strong> <br> <span class="text-secondary">Mário
-          Norberto</span></h4>
+        <h4 class=""><i class="ti ti-user"></i> <strong>Atendente</strong> <br> <span class="text-secondary">
+          {{ $username }}</span></h4>
       </div>
       </div>
     </div>

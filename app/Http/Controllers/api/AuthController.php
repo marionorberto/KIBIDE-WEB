@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\api\Controllers;
+namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\StoreChangePasswordRequest;
