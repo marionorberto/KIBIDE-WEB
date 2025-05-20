@@ -209,13 +209,13 @@
               <div class="col-sm-12">
               <div class="form-group">
                 <label class="form-label">Username</label>
-                <input type="text" class="form-control" value="{{ Auth::user()->username }}">
+                <input type="text" class="form-control" value="{{ Auth::user()->username }}" disabled>
               </div>
               </div>
               <div class="col-sm-12">
               <div class="form-group">
                 <label class="form-label">Email</label>
-                <input type="text" class="form-control" value="{{ Auth::user()->email }}">
+                <input type="text" class="form-control " value="{{ Auth::user()->email }}" disabled>
               </div>
               </div>
 

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Requests\StoreChangePasswordRequest;
 use App\Models\Operations;
 use App\Models\Ticket;
+use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,63 +15,43 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
-// Route::middleware('auth:sanctum')->group(function () {
-//   Route::get('/users', [UserController::class, 'index']);
-//   Route::post('/companies', [CompanyController::class, 'store']);
 
-
-//   Route::get('/testing', function () {
-//     return response()->json([
-//       'message' => 'fetched sucessfully!',
-//       'data' => [
-//         'username' => 'marionorberto',
-//         'email' => 'marionorberto2018@gmail.com',
-//       ]
-//     ], 200);
-//   });
-
-// });
-
-
-Route::get('/hello', function () {
-  return response()->json([
-    'message' => 'Olá, esta é uma rota de API funcionando corretamente!',
-    'status' => 'success'
-  ]);
-});
-
-Route::post('/login', function (Request $request) {
+Route::post('/auth/login', function (Request $request) {
   try {
-    $credentials = $request->only(['username', 'password']);
+    $request->validate([
+      'username' => 'required|string',
+      'password' => 'required|string',
+    ]);
 
-    if (Auth::attempt($credentials)) {
-      $user = Auth::user();
-      // $token = $user->createToken('api_token')->plainTextToken; // se estiver usando Sanctum
+    $user = User::where('username', $request->username)->first();
 
-      return response()->json([
-        'message' => 'Login efetuado com sucesso.',
-        'user' => $user,
-        'token' => 'token??',
-        'role' => $user->role,
-      ], 200);
+    if (!$user || !Hash::check($request->password, $user->password)) {
+      return response()->json(['message' => 'Credenciais inválidas'], 401);
+    } else if ($user->role !== 'desk') {
+      return response()->json(['message' => 'Usuário Inválido'], 401);
     }
 
+    $token = $user->createToken('token-app')->plainTextToken;
+
+    $user->load('unit');
+    // $unit = Unit::where('id_unit', $user->unit_id);
+
     return response()->json([
-      'message' => 'Credenciais inválidas.'
-    ], 401);
+      'token' => $token,
+      'unit' => $user->unit,
+      'userDesk' => $user->id_user,
+    ]);
 
   } catch (\Exception $e) {
     Log::error('Erro no login: ' . $e->getMessage());
 
     return response()->json([
-      'message' => 'Ocorreu um erro ao tentar fazer login. Tente novamente mais tarde.'
+      'message' => 'Ocorreu um erro ao tentar fazer login. Tente novamente mais tarde.' . $e->getMessage()
     ], 500);
   }
 })->name('login');
 
-
-
-Route::get('/listService', function () {
+Route::middleware('auth:sanctum')->get('/listService', function () {
   try {
     $operations = Operations::query()
       ->with(['service', 'counter'])
@@ -92,24 +73,50 @@ Route::get('/listService', function () {
   }
 });
 
-
-Route::post('/generate-ticket', function (Request $request) {
+Route::middleware('auth:sanctum')->post('/generateTicket', function (Request $request) {
   try {
 
-    $firstTicketGeneratedToday = Ticket::where('created_at', Carbon::today())->get();
+    $ticketCounter = Ticket::where('unit_id', $request->unit_id)->whereDate('created_at', Carbon::today())
+      ->where('operation_id', $request->operation_id)->count();
 
+    $ticket = Ticket::create([
+      'user_id' => $request->userDeskId,
+      'unit_id' => $request->unit_id,
+      'operation_id' => $request->operation_id,
+      'ticket_number' => $ticketCounter + 1,
+      'requested_at' => now(),
+      'called_at' => null,
+      'status' => 'pending',
+    ]);
 
+    $ticket->load('operation');
+
+    // $operations = Operations::where('id_operation', $request->id_operation)->with(['service', 'counter'])->first();
+    $operations = Operations::query()
+      ->with(['service', 'counter'])
+      ->where('id_operation', $request->operation_id)
+      ->first();
 
     return response()->json([
-      'message' => 'ok!',
-      'data' => $request->operations,
-      'first' => $firstTicketGeneratedToday
-    ], 200);
+      'message' => 'Ticket generated sucessfully!',
+      'data' => [
+        $ticket,
+        $operations
+      ],
+      200
+    ]);
+
   } catch (\Exception $e) {
-    Log::error('Erro no registan serviço: ' . $e->getMessage());
+    Log::error('Erro no tentando criar  ticket: ' . $e->getMessage());
 
     return response()->json([
-      'message' => 'Ocorreu um erro ao tentar fazer login. Tente novamente mais tarde.'
+      'message' => 'Ocorreu um erro ao tentando  criar ticket. Tente novamente mais tarde.'
     ], 500);
   }
+});
+
+
+Route::get('auth/logout', function (Request $request) {
+  $request->user()->currentAccessToken()->delete();
+  return response()->json(['message' => 'Logout feito com sucesso']);
 });

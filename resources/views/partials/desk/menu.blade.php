@@ -1,3 +1,11 @@
+@php
+  use App\Models\Ticket;
+
+  $tickets = Ticket::where('status', 'pending')->get();
+@endphp
+
+
+
 <nav class="pc-sidebar">
   <div class="navbar-wrapper">
     <div class="m-header d-flex justify-content-center py-3">
@@ -13,111 +21,118 @@
             <span class="pc-mtext">Balcão</span>
           </a>
         </li>
-        <li class="pc-item">
-          <a href="{{ route('desk.user.profile') }}" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-camera"></i></span>
-            <span class="pc-mtext">Perfil Atendente</span>
-          </a>
-        </li>
-        <li class="pc-item pc-caption">
-          <label>Tickets Pendentes</label>
-          <i class="ti ti-brand-chrome"></i>
-        </li>
-        <li class="pc-item">
-          <a href="#" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-ticket"></i></span>
-            <span class="pc-mtext">A034 <button type="button"
-                class="btn btn-light-warning p-1 ms-2">Pendente</button></span>
-          </a>
-        </li>
-        <li class="pc-item">
-          <a href="#" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-ticket"></i></span>
-            <span class="pc-mtext">A034 <button type="button"
-                class="btn btn-light-warning p-1 ms-2">Pendente</button></span>
-          </a>
-        </li>
-        <li class="pc-item">
-          <a href="#" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-ticket"></i></span>
-            <span class="pc-mtext">A034 <button type="button"
-                class="btn btn-light-warning p-1 ms-2">Pendente</button></span>
-          </a>
-        </li>
-        <li class="pc-item">
-          <a href="#" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-ticket"></i></span>
-            <span class="pc-mtext">A034 <button type="button"
-                class="btn btn-light-warning p-1 ms-2">Pendente</button></span>
-          </a>
-        </li>
-        <li class="pc-item">
-          <a href="#" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-ticket"></i></span>
-            <span class="pc-mtext">A034 <button type="button"
-                class="btn btn-light-warning p-1 ms-2">Pendente</button></span>
-          </a>
-        </li>
-        <li class="pc-item">
-          <a href="#" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-ticket"></i></span>
-            <span class="pc-mtext">A034 <button type="button"
-                class="btn btn-light-warning p-1 ms-2">Pendente</button></span>
-          </a>
-        </li>
+        <div class="overflow-y-scroll" style="height: 400px; padding-left: 10px">
+
+          <li class="pc-item">
+            <a href="{{ route('desk.user.profile') }}" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-camera"></i></span>
+              <span class="pc-mtext">Perfil Atendente</span>
+            </a>
+          </li>
+
+
+          <li class="pc-item pc-caption">
+            <label>Tickets Pendentes</label>
+            <i class="ti ti-brand-chrome"></i>
+          </li>
+
+          <li class="pc-item">
+            <a href="#" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-ticket"></i></span>
+              <span class="pc-mtext">A034 <button type="button"
+                  class="btn btn-light-warning p-1 ms-2">Pendente</button></span>
+            </a>
+          </li>
+          <li class="pc-item">
+            <a href="#" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-ticket"></i></span>
+              <span class="pc-mtext">A034 <button type="button"
+                  class="btn btn-light-warning p-1 ms-2">Pendente</button></span>
+            </a>
+          </li>
+          <li class="pc-item">
+            <a href="#" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-ticket"></i></span>
+              <span class="pc-mtext">A034 <button type="button"
+                  class="btn btn-light-warning p-1 ms-2">Pendente</button></span>
+            </a>
+          </li>
+          <li class="pc-item">
+            <a href="#" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-ticket"></i></span>
+              <span class="pc-mtext">A034 <button type="button"
+                  class="btn btn-light-warning p-1 ms-2">Pendente</button></span>
+            </a>
+          </li>
+          <li class="pc-item">
+            <a href="#" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-ticket"></i></span>
+              <span class="pc-mtext">A034 <button type="button"
+                  class="btn btn-light-warning p-1 ms-2">Pendente</button></span>
+            </a>
+          </li>
+          <li class="pc-item">
+            <a href="#" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-ticket"></i></span>
+              <span class="pc-mtext">A034 <button type="button"
+                  class="btn btn-light-warning p-1 ms-2">Pendente</button></span>
+            </a>
+          </li>
+        </div>
 
 
         <li class="pc-item pc-caption">
           <label>Tickets Chamados</label>
           <i class="ti ti-brand-chrome"></i>
         </li>
-        <li class="pc-item">
-          <a href="#" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-ticket"></i></span>
-            <span class="pc-mtext">A034 <button type="button"
-                class="btn btn-light-success p-1 ms-2">Chamado</button></span>
-          </a>
-        </li>
-        <li class="pc-item">
-          <a href="#" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-ticket"></i></span>
-            <span class="pc-mtext">A034 <button type="button"
-                class="btn btn-light-success p-1 ms-2">Chamado</button></span>
-          </a>
-        </li>
+        <div class="overflow-y-scroll " style="height: 400px; padding-left: 10px">
+          <li class="pc-item">
+            <a href="#" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-ticket"></i></span>
+              <span class="pc-mtext">A034 <button type="button"
+                  class="btn btn-light-success p-1 ms-2">Chamado</button></span>
+            </a>
+          </li>
+          <li class="pc-item">
+            <a href="#" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-ticket"></i></span>
+              <span class="pc-mtext">A034 <button type="button"
+                  class="btn btn-light-success p-1 ms-2">Chamado</button></span>
+            </a>
+          </li>
 
-        <li class="pc-item">
-          <a href="#" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-ticket"></i></span>
-            <span class="pc-mtext">A034 <button type="button"
-                class="btn btn-light-success p-1 ms-2">Chamado</button></span>
-          </a>
-        </li>
+          <li class="pc-item">
+            <a href="#" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-ticket"></i></span>
+              <span class="pc-mtext">A034 <button type="button"
+                  class="btn btn-light-success p-1 ms-2">Chamado</button></span>
+            </a>
+          </li>
 
-        <li class="pc-item">
-          <a href="#" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-ticket"></i></span>
-            <span class="pc-mtext">A034 <button type="button"
-                class="btn btn-light-success p-1 ms-2">Chamado</button></span>
-          </a>
-        </li>
+          <li class="pc-item">
+            <a href="#" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-ticket"></i></span>
+              <span class="pc-mtext">A034 <button type="button"
+                  class="btn btn-light-success p-1 ms-2">Chamado</button></span>
+            </a>
+          </li>
 
-        <li class="pc-item">
-          <a href="#" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-ticket"></i></span>
-            <span class="pc-mtext">A034 <button type="button"
-                class="btn btn-light-success p-1 ms-2">Chamado</button></span>
-          </a>
-        </li>
+          <li class="pc-item">
+            <a href="#" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-ticket"></i></span>
+              <span class="pc-mtext">A034 <button type="button"
+                  class="btn btn-light-success p-1 ms-2">Chamado</button></span>
+            </a>
+          </li>
 
-        <li class="pc-item">
-          <a href="#" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-ticket"></i></span>
-            <span class="pc-mtext">A034 <button type="button"
-                class="btn btn-light-success p-1 ms-2">Chamado</button></span>
-          </a>
-        </li>
-
+          <li class="pc-item">
+            <a href="#" class="pc-link">
+              <span class="pc-micon"><i class="ti ti-ticket"></i></span>
+              <span class="pc-mtext">A034 <button type="button"
+                  class="btn btn-light-success p-1 ms-2">Chamado</button></span>
+            </a>
+          </li>
+        </div>
 
 
 

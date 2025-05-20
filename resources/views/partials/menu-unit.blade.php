@@ -143,7 +143,7 @@
         </li>
 
         <li class="pc-item">
-          <a target="_blank" href="{{ route('unit.painel.show', ['id' => 'ada']) }}" class="pc-link">
+          <a target="_blank" href="{{ route('unit.painel.show') }}" class="pc-link">
             <button class="span-button">
               <span>
                 <span class="container">
@@ -214,6 +214,12 @@
           <a href="{{ route('unit.create.operation') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-plus"></i></span>
             <span class="pc-mtext">Criar Operação <span class="badge bg-light-primary">hoje</span></span>
+          </a>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('unit.assign.operation') }}" class="pc-link" <span class="pc-micon"><i
+              class="ti ti-unlink"></i></span>
+            <span class="pc-mtext">Atribuir Operação<span class="badge bg-light-primary">hoje</span></span>
           </a>
         </li>
         <li class="pc-item">

@@ -232,3 +232,11 @@ Se quiser, posso ajudar a mover um controller específico da `web` para API como
     </form>
   </div>
 </div>
+
+
+
+// Route::middleware('auth:sanctum')->group(function () {
+//   Route::get('/user', function (Request $request) {
+//     return $request->user(); // Rota protegida
+//   });
+// });

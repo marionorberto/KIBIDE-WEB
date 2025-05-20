@@ -30,7 +30,6 @@ return new class extends Migration {
             $table->foreign('unit_id')->references('id_unit')->on('units')->onDelete('cascade');
             $table->foreign('counter_id')->references('id_counter')->on('counters')->nullOnDelete();
             $table->foreign('service_id')->references('id_service')->on('services')->onDelete('cascade');
-
         });
     }
 

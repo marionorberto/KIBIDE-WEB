@@ -7,12 +7,11 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
-      background-color: #001f3f;
+      background-color: #052f4a;
       color: white;
     }
 
     .side-panel {
-      background-color: #002b5c;
       height: 100vh;
       padding: 15px;
       border-right: 2px solid #004080;
@@ -30,18 +29,29 @@
       font-weight: bold;
     }
 
+    .servico-ativo {
+      background-color: transparent;
+      border: 1px solid #024a70;
+    }
+
     .ticket-espera {
       background-color: #0d6efd;
-      font-size: 1.2rem;
+      font-size: 2rem;
+      color: #ffc107;
+      font-weight: bold;
     }
 
     .balcao-box {
-      background-color: #004d99;
+      background-color: oklch(44.3% 0.11 240.79);
       border-radius: 10px;
       padding: 25px;
+      padding-top: 30px;
       margin: 15px;
+      margin-top: 10px;
       text-align: center;
-      font-size: 1.5rem;
+      width: 20rem;
+      height: 9rem;
+      font-size: 2rem;
       font-weight: bold;
       color: white;
     }
@@ -57,13 +67,39 @@
       color: #ffc107;
       font-weight: bold;
     }
+
+    .letreiro-container {
+      width: 100%;
+      overflow: hidden;
+      background-color: transparent;
+      padding: 3px 0;
+    }
+
+    .letreiro-texto {
+      display: inline-block;
+      white-space: nowrap;
+      color: #ffc107;
+      font-weight: bold;
+      font-size: 3.4rem;
+      animation: mover 8s linear infinite alternate;
+    }
+
+    @keyframes mover {
+      from {
+        transform: translateX(100%);
+      }
+
+      to {
+        transform: translateX(-100%);
+      }
+    }
   </style>
 
   <div class="container-fluid">
     <!-- Topo com Agência e Hora -->
-    <div class="row py-3 px-4" style="background-color: #003366;">
+    <div class="row py-3 px-4" style="background-color: #024a70;">
       <div class="col text-start">
-        <h5>Agência Central</h5>
+        <h5>{{ $unitData->unit_name }} - {{ $unitData->unit_address }}</h5>
       </div>
       <div class="col text-end">
         <span class="fs-4" id="current-time"></span>
@@ -74,36 +110,41 @@
 
     <div class="row">
       <!-- Lado Esquerdo: Fila de Espera -->
-      <div class="col-md-3 side-panel">
-        <h6 class="mb-3">FILA DE ESPERA</h6>
+      <div class="col-md-3 side-panel" style="overflow-y: scroll;">
+        <h6 class="mb-3" style="margin-top: 10px; font-size: 25px;">Linhas de atendimento</h6>
         <!-- Serviços Ativos -->
-        <div class="servico-ativo">BALCÃO 1 - Depósito</div>
-        <div class="servico-ativo">BALCÃO 1 - Leven</div>
-        <div class="servico-ativo">BALCÃO 1 - Outro</div>
+        @foreach ($operations as $item)
+
+      <div class="servico-ativo">{{ $item->counter->counter_name }} - {{ $item->service->description }}</div>
+    @endforeach
+
 
         <!-- Tickets em Espera -->
-        <h6 class="mt-4">Tickets em Espera</h6>
-        <div class="ticket-espera">A034</div>
-        <div class="ticket-espera">B023</div>
-        <div class="ticket-espera">B120</div>
-        <div class="ticket-espera">C012</div>
-        <div class="ticket-espera">B12</div>
-        <div class="ticket-espera">C121</div>
-        <div class="ticket-espera">B093</div>
+        <h6 class="mt-4" style="margin-top: 10px; font-size: 25px;">Fila de espera</h6>
+        <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">A034</div>
+        <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">B023</div>
+        <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">B120</div>
+        <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">C012</div>
+        <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">B12</div>
+        <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">C121</div>
+        <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">B093</div>
       </div>
 
       <!-- Lado Direito: Painel de Chamadas -->
       <div class="col-md-9 text-center d-flex flex-column align-items-center justify-content-evenly py-4">
-        <!-- Balcões Ativos -->
-        <div class="row w-100 justify-content-center">
-          <div class="col-md-3 balcao-box">BALCÃO 1<br><small>A045</small></div>
-          <div class="col-md-3 balcao-box">BALCÃO 2<br><small>B103</small></div>
-          <div class="col-md-3 balcao-box">BALCÃO 3<br><small>C201</small></div>
-          <div class="col-md-3 balcao-box">BALCÃO 4<br><small>D004</small></div>
+        <div class="letreiro-container">
+          <div class="letreiro-texto">
+            Fica atento à chamada do seu ticket
+          </div>
+        </div>
+        <div class="" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); ">
+          @foreach ($counters as $item)
+
+        <div class="col-md-3 balcao-box">{{ $item->counter_name }}<br><small style="color: #ffc107">B034</small></div>
+      @endforeach
         </div>
 
-        <!-- Destaque Chamado -->
-        <div class="text-center">
+        <div class="" style="background-color: #005fa3; padding: 20px; border-radius: 10px;">
           <div class="balcao-destaque">BALCÃO 1</div>
           <div class="ticket-destaque">A045</div>
           <p class="lead">Dirija-se ao balcão indicado</p>

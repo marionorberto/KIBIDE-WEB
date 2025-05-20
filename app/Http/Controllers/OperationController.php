@@ -43,6 +43,11 @@ class OperationController extends Controller
                 $name = $item['name'];
                 $realizationTime = $item['realization_date'];
 
+                // $OperactionsAlreadyExistis = Operations::where('realization_date', $realizationTime)->exists();
+
+                // if ($OperactionsAlreadyExistis) {
+                //     return redirect()->back()->with("danger", 'Operação do dia já criada!');
+                // }
                 // dd($serviceId);
                 Operations::create([
                     'counter_id' => $lineId,

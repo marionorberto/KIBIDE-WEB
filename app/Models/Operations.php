@@ -51,4 +51,9 @@ class Operations extends Model
     {
         return $this->belongsTo(Counter::class, 'counter_id', 'id_counter');
     }
+
+    public function tickets()
+    {
+        return $this->hasMany(Operations::class);
+    }
 }

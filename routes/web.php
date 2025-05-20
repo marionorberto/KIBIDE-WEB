@@ -7,8 +7,10 @@ use App\Http\Controllers\CounterController;
 use App\Http\Controllers\DeskController;
 use App\Http\Controllers\MentorController;
 use App\Http\Controllers\OperationController;
+use App\Http\Controllers\PainelController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -29,9 +31,7 @@ Route::get('kibide/faq', function () {
     return view('faq');
 })->name('faq');
 
-Route::get('kibide/{id}/painel', function () {
-    return view('painel');
-})->name('painel');
+Route::get('kibide/{idCompany}/painel', [PainelController::class, 'index'])->name('painel');
 
 
 Route::prefix('kibide/auth')->group(function () {
@@ -69,8 +69,9 @@ Route::prefix('kibide/company')->group(function () {
 
 Route::prefix('kibide/desk')->group(function () {
     Route::get('/index', [DeskController::class, 'index'])->name('desk.index');
-
     Route::get('/user/profile', [DeskController::class, 'profile'])->name('desk.user.profile');
+
+
 });
 
 
@@ -89,19 +90,14 @@ Route::prefix('kibide/unit')->group(function () {
     Route::get('/tickets/settings', [UnitController::class, 'ticketSettings'])->name('unit.tickets.settings');
     Route::get('/settings/index', [UnitController::class, 'settingsIndex'])->name('unit.settings.index');
     Route::get('/settings/display', [UnitController::class, 'settingsDisplay'])->name('unit.settings.display');
-
     Route::get('/departaments/create', [UnitController::class, 'createDepartaments'])->name('unit.departaments.create');
     Route::get('/departaments/list', [UnitController::class, 'listDepartaments'])->name('unit.departaments.list');
-
     Route::get('/services/create', [UnitController::class, 'createServices'])->name('unit.services.create');
     Route::get('/services/list', [UnitController::class, 'listServices'])->name('unit.services.list');
-
     Route::get('/attendance-lines/create', [UnitController::class, 'createAttendanceLines'])->name('unit.attendance-lines.create');
     Route::get('/attendance-lines/list', [UnitController::class, 'listAttendanceLines'])->name('unit.attendance-lines.list');
-
-    Route::get('/painel/show', [UnitController::class, 'showPainel'])->name('unit.painel.show');
+    Route::get('/painel/show', [PainelController::class, 'index'])->name('unit.painel.show');
     Route::get('/painel/settings', [UnitController::class, 'painelSettings'])->name('unit.painel.settings');
-
     Route::post('/services/store', [ServiceController::class, 'store'])->name('unit.store.service');
     Route::post('/counters/store', [CounterController::class, 'store'])->name('units.counter.store');
 
@@ -109,11 +105,20 @@ Route::prefix('kibide/unit')->group(function () {
     Route::post('/operations/store', [OperationController::class, 'store'])->name('unit.store.operation');
 
     Route::get('/operations/create', [UnitController::class, 'createOperation'])->name('unit.create.operation');
+    Route::get('/operations/assing', [UnitController::class, 'assignOperation'])->name('unit.assign.operation');
     Route::get('/operations/list', [UnitController::class, 'listOperation'])->name('unit.list.operation');
     Route::get('/operations/settings', [UnitController::class, 'operationSettings'])->name('unit.settings.operation');
+    Route::put('/operations/edit/{id}', [UnitController::class, 'edit'])->name('unit.services.edit');
+
 });
 
 Route::prefix('kibide/users')->group(function () {
     Route::post('/store', [UserController::class, 'store'])->name('users.store');
     Route::post('/store/desk', [UserController::class, 'storedesks'])->name('users.desk.store');
+});
+
+
+Route::prefix('kibide/tickets')->group(function () {
+    Route::get('/call-next-ticket', [TicketController::class, 'callNextTicket'])->name('tickets.call.next');
+    // Route::post('/store/desk', [UserController::class, 'storedesks'])->name('users.desk.store');
 });

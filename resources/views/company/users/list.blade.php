@@ -7,21 +7,27 @@
 <div id="modalDeleteUser" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Deletar Usuário</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <form method="POST" action="/confirm-password-before-delete">
+      @csrf
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmPasswordTitle">Confirme sua senha</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <p>Por segurança, confirme sua senha para prosseguir com a exclusão do registro.</p>
+          <div class="mb-3">
+            <label for="confirm_password" class="form-label">Senha</label>
+            <input type="password" class="form-control" id="confirm_password" name="password" required
+              placeholder="Digite sua senha">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-danger">Confirmar e Apagar</button>
+        </div>
       </div>
-      <div class="modal-body">
-        <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in,
-          egestas eget quam. Morbi leo
-          risus, porta ac consectetur ac, vestibulum at eros.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Fechar</button>
-        <button type="button" class="btn btn-primary">Submeter</button>
-      </div>
-    </div>
+    </form>
   </div>
 </div>
 
@@ -106,6 +112,122 @@
             </thead>
             <tbody>
               @foreach ($companyUsers as $item)
+              @php $modalViewUser = 'modalViewUser' . $loop->iteration; @endphp
+              @php $modalEditUser = 'modalEditUser' . $loop->iteration; @endphp
+              @php $modalDeleteUser = 'modalDeleteUser' . $loop->iteration; @endphp
+
+              <div id="{{ $modalViewUser }}" class="modal fade" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalCenterTitle">Visualizar Usuário</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                      <div class="card-body">
+                        <div class="form-group">
+                          <label class="form-label">NOME USUÁRIO</label>
+                          <input type="text" class="form-control form-control" value="{{ $item->username}}" disabled>
+                        </div>
+                        <div class="form-group">
+                          <label class="form-label">EMAIL</label>
+                          <input type="text" class="form-control form-control" value="{{   $item->email }}" disabled>
+                        </div>
+                        <div class="form-group">
+                          <label class="form-label">USUÁRIO CRIADO EM</label>
+                          <input type="text" class="form-control form-control" value="{{   $item->created_at }}"
+                            disabled>
+                        </div>
+                        <div class="form-group">
+                          <label class="form-label">PAPEL</label>
+                          <input type="text" class="form-control form-control" value="{{   $item->role }}" disabled>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="form-label">USUÁRIO ACTIVADA/DESATIVADA</label>
+                          <input type="text" class="form-control form-control"
+                            value="{{   $item->active ? 'activada' : 'desativada' }}" disabled>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Fechar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="{{ $modalEditUser }}" class="modal fade" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalCenterTitle">Editar Operação</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                      <div class="card-body">
+                        <div class="form-group">
+                          <label class="form-label">NOME USUÁRIO</label>
+                          <input type="text" class="form-control form-control" value="{{ $item->username}}">
+                        </div>
+                        <div class="form-group">
+                          <label class="form-label">EMAIL</label>
+                          <input type="text" class="form-control form-control" value="{{   $item->email }}">
+                        </div>
+                        <div class="form-group">
+                          <label class="form-label">USUÁRIO CRIADO EM</label>
+                          <input type="text" class="form-control form-control" value="{{   $item->created_at }}">
+                        </div>
+                        <div class="form-group">
+                          <label class="form-label">PAPEL</label>
+                          <input type="text" class="form-control form-control" value="{{   $item->role }}">
+                        </div>
+
+                        <div class="form-group">
+                          <label class="form-label">USUÁRIO ACTIVADA/DESATIVADA</label>
+                          <input type="text" class="form-control form-control"
+                            value="{{   $item->active ? 'activada' : 'desativada' }}">
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Editar</button>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="{{ $modalDeleteUser }}" class="modal fade" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <form method="POST" action="/confirm-password-before-delete">
+                    @csrf
+                    <div class="modal-content">
+                      <input type="hidden" name="id_user" value="{{ $item->id_user }}">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="confirmPasswordTitle">Confirme sua senha</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Por segurança, confirme sua senha para prosseguir com a exclusão do registro.</p>
+                        <div class="mb-3">
+                          <label for="confirm_password" class="form-label">Senha</label>
+                          <input type="password" class="form-control" id="confirm_password" name="password" required
+                            placeholder="Digite sua senha">
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger">Confirmar e Apagar</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
               <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>unidade</td>
@@ -116,24 +238,24 @@
                 @if($item->active)
           <td><span class="badge bg-light-success  f-12">activo</span> </td>
         @else
-                <td><span class="badge bg-light-dander  f-12">inactivo</span> </td>
+                <td><span class="badge bg-light-danger  f-12">inactivo</span> </td>
                 @endIf
                 <td class="text-center">
                   <ul class="list-inline me-auto mb-0">
                     <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="View">
-                      <a data-bs-toggle="modal" data-bs-target="#modalViewUser" href="#"
+                      <a data-bs-toggle="modal" data-bs-target="#{{ $modalViewUser }}" href="#"
                         class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal" data-bs-target="#cust-modal">
                         <i class="ti ti-eye f-18"></i>
                       </a>
                     </li>
                     <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="Edit">
-                      <a data-bs-toggle="modal" data-bs-target="#modalEditUser"
+                      <a data-bs-toggle="modal" data-bs-target="#{{ $modalEditUser }}"
                         href="../application/ecom_product-add.html" class="avtar avtar-xs btn-link-primary">
                         <i class="ti ti-edit-circle f-18"></i>
                       </a>
                     </li>
                     <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="Delete">
-                      <a data-bs-toggle="modal" data-bs-target="#modalDeleteUser" href="#"
+                      <a data-bs-toggle="modal" data-bs-target="#{{ $modalDeleteUser }}" href="#"
                         class="avtar avtar-xs btn-link-danger">
                         <i class="ti ti-trash f-18"></i>
                       </a>

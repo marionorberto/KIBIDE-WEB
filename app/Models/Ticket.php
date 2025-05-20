@@ -52,13 +52,8 @@ class Ticket extends Model
     }
 
     // 🔗 Relacionamento com o guichê (mesa) que atendeu o ticket
-    public function counter()
+    public function operation()
     {
         return $this->belongsTo(Counter::class);
-    }
-
-    public function service()
-    {
-        return $this->belongsTo(Service::class, 'service_id');
     }
 }

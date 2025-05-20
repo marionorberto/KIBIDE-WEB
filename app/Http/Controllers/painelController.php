@@ -2,36 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Operations;
-use App\Models\Unit;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class PainelController extends Controller
+class painelController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-
-        $operations = Operations::query()
-            ->with(['service', 'counter'])
-            ->where('unit_id', Auth::user()->unit_id)
-            ->whereDate('realization_date', Carbon::today())
-            ->get();
-
-        $counters = Operations::with('counter')
-            ->where('unit_id', Auth::user()->unit_id)
-            ->whereDate('realization_date', Carbon::today())
-            ->get()
-            ->pluck('counter')      // extrai os objetos counter
-            ->unique('id_counter')          // remove duplicados (baseado no ID do counter)
-            ->values();             // reindexa os resultados
-
-        $unitData = Unit::where('id_unit', Auth::user()->unit_id)->first();
-        return view('unit.dashboard.display.painel', compact('unitData', 'operations', 'counters'));
+        //
     }
 
     /**

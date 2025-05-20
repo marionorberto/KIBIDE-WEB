@@ -21,7 +21,7 @@ class Service extends Model
   protected $fillable = [
     'unit_id',
     'description',
-    'Prefix_code',
+    'prefix_code',
     'priority_level', // normal | uregent
     'active',
   ];

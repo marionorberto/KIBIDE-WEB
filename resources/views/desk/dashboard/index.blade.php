@@ -17,8 +17,9 @@
     </div>
     </div>
   </div>
-  <div class="d-flex flex-column justify-content-center align-items-center ">
-    <div class="card trafic-card " style="border-style: dashed">
+  <form method="get" action="{{ route('tickets.call.next') }}"
+    class="d-flex flex-column justify-content-center align-items-center ">
+    <!-- <div class="card trafic-card " style="border-style: dashed">
     <div class="card-header border-black" style="border-style: dashed">
       <h5 class="text-center fs-3">Ticket Actual</h5>
     </div>
@@ -29,10 +30,25 @@
       </h1>
       <h3 class="mt-3 text-secondary text-center">Depósito Bancário</h3>
     </div>
+    </div> -->
+
+    <div class="card trafic-card " style="border-style: dashed">
+    <!-- <div class="card-header border-black" style="border-style: dashed">
+      <h5 class="text-center fs-3">Ticket Actual</h5>
+    </div> -->
+    <div class="card-body border-black" style="border-style: dashed">
+
+      <!-- <h1 class="card-text text-center d-flex flex-column justify-content-center align-items-center gap-1"> -->
+      <!-- <span class="ti ti-ticket text-center fs-1"></span><span class="fs-1">A040</span> -->
+      <!-- </h1> -->
+      <h3 class="mt-3 text-danger text-center">Sem Tickets Disponíveis</h3>
     </div>
-    <button class="btn btn-primary btn-md fs-5 shadow-lg">Próximo Ticket</button>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-md fs-5 shadow-lg">Próximo Ticket</button>
+  </form>
   </div>
   </div>
-  </div>
+
 
 @endsection

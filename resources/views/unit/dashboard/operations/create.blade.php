@@ -32,6 +32,11 @@
       href="{{ route('unit.list.operation') }}">Ver lista para editar!</a></strong></div>
     @endif
 
+    @if ($successMessage = session('danger'))
+    <div class="alert alert-warning" role="alert"> {{ $successMessage }} <strong><a
+      href="{{ route('unit.list.operation') }}">Editar ou Exclutir operações !</a></strong></div>
+    @endif
+
     @if (session('error'))
     <ul class="alert alert-danger ">
       <li class="ps-1">{{ session('error') }}</li>

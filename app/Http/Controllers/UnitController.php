@@ -7,10 +7,12 @@ use App\Models\Company;
 use App\Models\Counter;
 use App\Models\Operations;
 use App\Models\Service;
+use App\Models\Ticket;
 use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class UnitController extends Controller
 {
@@ -19,7 +21,14 @@ class UnitController extends Controller
      */
     public function index()
     {
-        return view('unit.dashboard.index');
+        Carbon::setLocale('pt_BR');
+        $actualMonth = Carbon::now()->translatedFormat('F'); // Ex: "maio"
+        $deskCount = User::where('unit_id', Auth::user()->unit_id)->where('role', 'desk')->count();
+        $desks = User::where('unit_id', Auth::user()->unit_id)->where('role', 'desk')->get();
+        $serviceCount = Service::where('unit_id', Auth::user()->unit_id)->count();
+        $ticketCount = Ticket::where('unit_id', Auth::user()->unit_id)->count();
+        $counterCount = Counter::where('unit_id', Auth::user()->unit_id)->count();
+        return view('unit.dashboard.index', compact('deskCount', 'serviceCount', 'ticketCount', 'counterCount', 'actualMonth', 'desks'));
     }
 
     /**
@@ -65,7 +74,7 @@ class UnitController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        dd($id);
     }
 
     /**
@@ -206,6 +215,14 @@ class UnitController extends Controller
         $counters = Counter::where('unit_id', Auth::user()->unit_id)->get();
 
         return view('unit.dashboard.operations.create', compact('services', 'counters'));
+    }
+
+    public function assignOperation()
+    {
+        $operations = Operations::where('unit_id', Auth::user()->unit_id)->get();
+        $desks = User::where('unit_id', Auth::user()->unit_id)->where('role', 'desk')->get();
+
+        return view('unit.dashboard.operations.assign', compact('desks', 'operations'));
     }
 
     public function listOperation()

@@ -7,21 +7,27 @@
 <div id="modalDeleteUser" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Deletar Atendente</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <form method="POST" action="/confirm-password-before-delete">
+      @csrf
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmPasswordTitle">Confirme sua senha</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <p>Por segurança, confirme sua senha para prosseguir com a exclusão do registro.</p>
+          <div class="mb-3">
+            <label for="confirm_password" class="form-label">Senha</label>
+            <input type="password" class="form-control" id="confirm_password" name="password" required
+              placeholder="Digite sua senha">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-danger">Confirmar e Apagar</button>
+        </div>
       </div>
-      <div class="modal-body">
-        <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in,
-          egestas eget quam. Morbi leo
-          risus, porta ac consectetur ac, vestibulum at eros.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Fechar</button>
-        <button type="button" class="btn btn-primary">Submeter</button>
-      </div>
-    </div>
+    </form>
   </div>
 </div>
 

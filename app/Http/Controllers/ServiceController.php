@@ -64,7 +64,14 @@ class ServiceController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $service = Service::find($id);
+
+        dd($service);
+
+        // $unit->active = true;
+        // $unit->active = true;
+        // $unit->manager_id = $user->id_user;
+        // $unit->save();
     }
 
     /**
