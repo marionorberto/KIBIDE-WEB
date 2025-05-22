@@ -61,4 +61,9 @@ class Service extends Model
   {
     return $this->hasMany(Operations::class);
   }
+
+  public function operationAssociation()
+  {
+    return $this->hasMany(OperationAssociation::class);
+  }
 }

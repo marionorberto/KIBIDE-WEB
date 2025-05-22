@@ -69,4 +69,13 @@ class Unit extends Model
         return $this->hasMany(Service::class, 'unit_id');
     }
 
+    public function dayOperations()
+    {
+        return $this->hasMany(DayOperation::class, 'unit_id');
+    }
+
+    public function OperationAssociation()
+    {
+        return $this->hasMany(DayOperation::class, 'unit_id');
+    }
 }

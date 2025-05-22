@@ -56,4 +56,9 @@ class Counter extends Model
     {
         return $this->hasMany(Operations::class);
     }
+
+    public function operationAssociations()
+    {
+        return $this->hasMany(OperationAssociation::class);
+    }
 }
