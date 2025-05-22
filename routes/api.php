@@ -116,6 +116,32 @@ Route::middleware('auth:sanctum')->post('/generateTicket', function (Request $re
 });
 
 
+
+Route::middleware('auth:sanctum')->post('/verifyPassword', function (Request $request) {
+  try {
+
+    $user = User::where('id_user', $request->id_user);
+
+    if (!$user || !Hash::check($request->password, $user->password)) {
+      return response()->json(['message' => 'Credenciais inválidas'], 401);
+    } else if ($user->role !== 'desk') {
+      return response()->json(['message' => 'Usuário Inválido'], 401);
+    }
+
+    return response()->json([
+      'message' => 'Ticket generated sucessfully!',
+      'status' => 200
+    ]);
+
+  } catch (\Exception $e) {
+    Log::error('Erro no tentando verificar usuário: ' . $e->getMessage());
+
+    return response()->json([
+      'message' => 'Ocorreu um erro ao tentando  verificar usuário. Tente novamente mais tarde.'
+    ], 500);
+  }
+});
+
 Route::get('auth/logout', function (Request $request) {
   $request->user()->currentAccessToken()->delete();
   return response()->json(['message' => 'Logout feito com sucesso']);

@@ -89,4 +89,10 @@ class OperationController extends Controller
     {
         //
     }
+
+
+    public function assignOperation(Request $request)
+    {
+        dd($request->all());
+    }
 }

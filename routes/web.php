@@ -110,6 +110,7 @@ Route::prefix('kibide/unit')->group(function () {
     Route::get('/operations/settings', [UnitController::class, 'operationSettings'])->name('unit.settings.operation');
     Route::put('/operations/edit/{id}', [UnitController::class, 'edit'])->name('unit.services.edit');
 
+    Route::post('/operations/assignOperation', [OperationController::class, 'assignOperation'])->name('unit.store.assign.operation');
 });
 
 Route::prefix('kibide/users')->group(function () {
@@ -122,3 +123,5 @@ Route::prefix('kibide/tickets')->group(function () {
     Route::get('/call-next-ticket', [TicketController::class, 'callNextTicket'])->name('tickets.call.next');
     // Route::post('/store/desk', [UserController::class, 'storedesks'])->name('users.desk.store');
 });
+
+

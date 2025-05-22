@@ -23,8 +23,10 @@ class UnitController extends Controller
     {
         Carbon::setLocale('pt_BR');
         $actualMonth = Carbon::now()->translatedFormat('F'); // Ex: "maio"
+
         $deskCount = User::where('unit_id', Auth::user()->unit_id)->where('role', 'desk')->count();
         $desks = User::where('unit_id', Auth::user()->unit_id)->where('role', 'desk')->get();
+
         $serviceCount = Service::where('unit_id', Auth::user()->unit_id)->count();
         $ticketCount = Ticket::where('unit_id', Auth::user()->unit_id)->count();
         $counterCount = Counter::where('unit_id', Auth::user()->unit_id)->count();
@@ -217,7 +219,7 @@ class UnitController extends Controller
         return view('unit.dashboard.operations.create', compact('services', 'counters'));
     }
 
-    public function assignOperation()
+    public function assignOperation(Request $request)
     {
         $operations = Operations::where('unit_id', Auth::user()->unit_id)->get();
         $desks = User::where('unit_id', Auth::user()->unit_id)->where('role', 'desk')->get();

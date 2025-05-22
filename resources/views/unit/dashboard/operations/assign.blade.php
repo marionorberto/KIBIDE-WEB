@@ -3,10 +3,10 @@
 @section('title', 'dashboard')
 
 @section('content')
-  <form action="{{ route('unit.store.operation') }}" method="post" class="card">
+  <form action="{{ route('unit.store.assign.operation') }}" method="post" class="card">
     @csrf
     <div class="card-header d-flex justify-content-between align-items-center">
-    <h5>Criar Operação diária</h5>
+    <h5>Atribuição de Operação diária</h5>
     <a class="btn btn-primary" href="{{ route('unit.services.list') }}">Ver Todos</a>
     </div>
     <div class="card-body">
@@ -45,10 +45,23 @@
 
     <div id="mensagemErro" class="alert alert-danger d-none" role="alert"></div>
     <div class="row">
-      <input type="hidden" name="linhas_servicos" id="linhas_servicos">
 
-      <input hidden type="text" name="name" value="fixo" class="form-control name" placeholder="Nome do operação"
-      value="{{ old('name') }}" required>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+      <div class="form-group">
+        <label class="form-label" for="exampleSelect1">Data de Realização</label>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="input-group date">
+          <input name="realization_date" type="date" class="form-control realization_date" placeholder="Select date"
+          id="pc-datepicker-2" value="{{ now()->format('Y-m-d') }}">
+          <span class="input-group-text">
+          <i class="feather icon-calendar"></i>
+          </span>
+        </div>
+        </div>
+      </div>
+      </div>
     </div>
     <div class="row">
       <div class="col-md-6">

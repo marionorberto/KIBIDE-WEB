@@ -240,3 +240,8 @@ Se quiser, posso ajudar a mover um controller específico da `web` para API como
 //     return $request->user(); // Rota protegida
 //   });
 // });
+
+
+
+
+// php artisan serve --host=0.0.0.0 --port=8000
