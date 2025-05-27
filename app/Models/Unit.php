@@ -74,8 +74,18 @@ class Unit extends Model
         return $this->hasMany(DayOperation::class, 'unit_id');
     }
 
-    public function OperationAssociation()
+    public function OperationAssociations()
     {
         return $this->hasMany(DayOperation::class, 'unit_id');
+    }
+
+    public function scales()
+    {
+        return $this->hasMany(Scale::class, 'unit_id');
+    }
+
+    public function scaleUsers()
+    {
+        return $this->hasMany(ScaleUser::class, 'unit_id');
     }
 }

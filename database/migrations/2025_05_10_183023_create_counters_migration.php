@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->uuid('id_counter')->primary();
             $table->uuid('unit_id');
             $table->string('counter_name');
-            $table->string('status')->nullable(); // ex: "disponível", "ocupado", etc.
+            $table->string('status')->nullable(); // ex: "available", "occupied", etc.
             $table->boolean('active')->default(true);
             $table->timestamps();
 

@@ -20,6 +20,7 @@ class CounterController extends Controller
                 "counter_name" => $request->counter_name,
                 "active" => $request->active,
                 "unit_id" => Auth::user()->unit_id,
+                "status" => 'unoccupied'
             ]);
 
             return redirect()->back()->with("success", 'Linha de atendimento Cadastrada com sucesso!');

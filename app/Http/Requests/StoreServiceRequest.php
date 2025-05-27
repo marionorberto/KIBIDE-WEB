@@ -24,7 +24,7 @@ class StoreServiceRequest extends FormRequest
         return [
             'description' => 'required|string|max:50',
             'priority_level' => 'required|string|max:50|in:normal,urgent',
-            'Prefix_code' => 'required|string|max:3',
+            'prefix_code' => 'required|string|max:3',
             'active' => 'required|boolean',
         ];
     }
@@ -35,8 +35,8 @@ class StoreServiceRequest extends FormRequest
             'description.required' => 'O nome de usuário é obrigatório.',
             'description.max' => 'O nome de usuário não pode ter mais que 50 caracteres.',
 
-            'Prefix_code.required' => 'O prefixo é o obrigatório',
-            'Prefix_code.max' => 'Prefixo apenas pode ter no máximo 3 caracteres',
+            'prefix_code.required' => 'O prefixo é o obrigatório',
+            'prefix_code.max' => 'Prefixo apenas pode ter no máximo 3 caracteres',
 
             'priority_level.required' => 'O nivel de prioridade é obrigatório.',
             'priority_level.max' => 'O nivel de prioridade  não pode ter mais que 50 caracteres.',

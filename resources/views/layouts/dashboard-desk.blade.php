@@ -34,7 +34,7 @@
   @include('partials.desk.menu')
   @include('partials.desk.header')
 
-  <div class="pc-container">
+  <div class="pc-container" style="padding-left: 70px;">
     <div class="pc-content">
       @yield('content')
     </div>

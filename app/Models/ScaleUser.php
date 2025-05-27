@@ -8,29 +8,28 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 
-class Scale extends Model
+class ScaleUser extends Model
 {
   use HasFactory, HasUuids;
 
   protected $keyType = 'string';
   public $incrementing = false;
-  public $table = 'scales';
-  public $primaryKey = 'id_scale';
-
+  public $table = 'scale_users';
+  public $primaryKey = 'id_scale_user';
 
   protected $fillable = [
     'unit_id',
-    'day_operation_id',
-    'realization_date',
+    'scale_id',
+    'user_id',
   ];
 
   protected static function booted()
   {
     parent::boot();
 
-    static::creating(function ($scale) {
-      if (empty($scale->id_scale)) {
-        $scale->id_scale = (string) Str::uuid();
+    static::creating(function ($scale_users) {
+      if (empty($scale_users->id_scale_user)) {
+        $scale_users->id_scale_user = (string) Str::uuid();
       }
     });
   }
@@ -40,13 +39,13 @@ class Scale extends Model
     return $this->belongsTo(Unit::class, 'unit_id');
   }
 
-  public function dayOperation()
+  public function scale()
   {
-    return $this->belongsTo(DayOperation::class, 'day_operation_id');
+    return $this->belongsTo(Scale::class, 'scale_id');
   }
 
-  public function scaleUsers()
+  public function user()
   {
-    return $this->hasMany(ScaleUser::class, 'scale_id');
+    return $this->belongsTo(User::class, 'user_id');
   }
 }

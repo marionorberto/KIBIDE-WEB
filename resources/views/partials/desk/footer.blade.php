@@ -1,4 +1,4 @@
-<footer class="pc-footer">
+<footer class="pc-footer" style="padding-left: 70px;">
   <div class="footer-wrapper container-fluid">
     <div class="row">
       <div class="col-sm my-1">

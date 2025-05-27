@@ -205,6 +205,22 @@
             <span class="pc-mtext">Listar Linhas</span>
           </a>
         </li>
+        <li class="pc-item pc-caption">
+          <label>Atendentes</label>
+          <i class="ti ti-brand-chrome"></i>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('unit.create.desks') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-plus"></i></span>
+            <span class="pc-mtext">Adicionar Atendentes</span>
+          </a>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('unit.list.desks') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-color-swatch"></i></span>
+            <span class="pc-mtext">Listar Atendentes</span>
+          </a>
+        </li>
 
         <li class="pc-item pc-caption">
           <label>Operacões</label>
@@ -217,15 +233,42 @@
           </a>
         </li>
         <li class="pc-item">
-          <a href="{{ route('unit.assign.operation') }}" class="pc-link" <span class="pc-micon"><i
-              class="ti ti-unlink"></i></span>
-            <span class="pc-mtext">Atribuir Operação<span class="badge bg-light-primary">hoje</span></span>
+          <a href="{{ route('unit.create.day-operation') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-plus"></i></span>
+            <span class="pc-mtext">Operação Diária</span>
           </a>
         </li>
         <li class="pc-item">
+          <a href="{{ route('unit.associate.operation') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-unlink"></i></span>
+            <span class="pc-mtext">Associar Operação</span>
+          </a>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('unit.list.day-operation') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-eye"></i></span>
+            <span class="pc-mtext">Visualizar Operações</span>
+          </a>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('unit.assign.operation') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-unlink"></i></span>
+            <span class="pc-mtext">Escalar Operação</span>
+          </a>
+        </li>
+
+
+
+        <!-- <li class="pc-item">
           <a href="{{ route('unit.list.operation') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-eye"></i></span>
             <span class="pc-mtext">Visualizar Operação<span class="badge bg-light-primary">hoje</span></span>
+          </a>
+        </li> -->
+        <li class="pc-item">
+          <a href="{{ route('unit.list.operation') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-eye"></i></span>
+            <span class="pc-mtext">Visualizar Escala</span>
           </a>
         </li>
         <li class="pc-item">
@@ -243,22 +286,7 @@
           </a>
         </li> -->
 
-        <li class="pc-item pc-caption">
-          <label>Atendentes</label>
-          <i class="ti ti-brand-chrome"></i>
-        </li>
-        <li class="pc-item">
-          <a href="{{ route('unit.create.desks') }}" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-plus"></i></span>
-            <span class="pc-mtext">Adicionar Atendentes</span>
-          </a>
-        </li>
-        <li class="pc-item">
-          <a href="{{ route('unit.list.desks') }}" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-color-swatch"></i></span>
-            <span class="pc-mtext">Listar Atendentes</span>
-          </a>
-        </li>
+
 
 
         <li class="pc-item pc-caption">

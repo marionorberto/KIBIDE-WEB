@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use
+Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -45,6 +46,11 @@ class DayOperation extends Model
 
   public function unit()
   {
-    return $this->belongsTo(Service::class, 'unit_id', 'id_unit');
+    return $this->belongsTo(Unit::class, 'unit_id', 'id_unit');
+  }
+
+  public function operationAssociation()
+  {
+    return $this->hasMany(OperationAssociation::class);
   }
 }

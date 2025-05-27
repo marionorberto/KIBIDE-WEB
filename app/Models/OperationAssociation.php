@@ -15,8 +15,6 @@ class OperationAssociation extends Model
   public $incrementing = false;
   public $table = 'operation_associations';
   public $primaryKey = 'id_operation_association';
-
-
   protected $fillable = [
     'unit_id',
     'day_operation_id',
@@ -28,21 +26,16 @@ class OperationAssociation extends Model
   {
     parent::boot();
 
-    // Gerar UUID automaticamente ao criar o modelo
     static::creating(function ($operation_associations) {
-      if (empty($operation->id_operation)) {
-        $operation_associations->id_operation = (string) Str::uuid();
+      if (empty($operation_associations->id_operation_association)) {
+        $operation_associations->id_operation_association = (string) Str::uuid();
       }
     });
   }
 
-  protected $attributes = [
-    'active' => true,       // garanti que a campo active receba true como padrão
-  ];
-
   public function dayOperation()
   {
-    return $this->hasMany(OperationAssociation::class);
+    return $this->belongsTo(DayOperation::class, 'day_operation_id');
   }
 
   public function service()
@@ -53,5 +46,10 @@ class OperationAssociation extends Model
   public function counter()
   {
     return $this->belongsTo(Counter::class, 'counter_id', 'id_counter');
+  }
+
+  public function tickets()
+  {
+    return $this->hasMany(TicketGenerated::class);
   }
 }

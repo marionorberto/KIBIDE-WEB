@@ -5,14 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUnitRequest;
 use App\Models\Company;
 use App\Models\Counter;
+use App\Models\DayOperation;
+use App\Models\OperationAssociation;
 use App\Models\Operations;
 use App\Models\Service;
 use App\Models\Ticket;
+use App\Models\TicketGenerated;
 use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class UnitController extends Controller
 {
@@ -28,7 +32,7 @@ class UnitController extends Controller
         $desks = User::where('unit_id', Auth::user()->unit_id)->where('role', 'desk')->get();
 
         $serviceCount = Service::where('unit_id', Auth::user()->unit_id)->count();
-        $ticketCount = Ticket::where('unit_id', Auth::user()->unit_id)->count();
+        $ticketCount = TicketGenerated::where('unit_id', Auth::user()->unit_id)->count();
         $counterCount = Counter::where('unit_id', Auth::user()->unit_id)->count();
         return view('unit.dashboard.index', compact('deskCount', 'serviceCount', 'ticketCount', 'counterCount', 'actualMonth', 'desks'));
     }
@@ -219,9 +223,31 @@ class UnitController extends Controller
         return view('unit.dashboard.operations.create', compact('services', 'counters'));
     }
 
+    public function associateOperation()
+    {
+
+        $services = Service::where('unit_id', Auth::user()->unit_id)->get();
+        $counters = Counter::where('unit_id', Auth::user()->unit_id)->get();
+
+        $operations = DayOperation::where('unit_id', Auth::user()->unit_id)->get();
+
+
+        return view('unit.dashboard.operations.associate-operation', compact('services', 'counters', 'operations'));
+    }
+
+
+
+    public function createDayOperation()
+    {
+        // $services = Service::where('unit_id', Auth::user()->unit_id)->get();
+        // $counters = Counter::where('unit_id', Auth::user()->unit_id)->get();
+
+        return view('unit.dashboard.operations.day');
+    }
+
     public function assignOperation(Request $request)
     {
-        $operations = Operations::where('unit_id', Auth::user()->unit_id)->get();
+        $operations = DayOperation::where('unit_id', Auth::user()->unit_id)->get();
         $desks = User::where('unit_id', Auth::user()->unit_id)->where('role', 'desk')->get();
 
         return view('unit.dashboard.operations.assign', compact('desks', 'operations'));
@@ -250,6 +276,42 @@ class UnitController extends Controller
         return view('unit.dashboard.operations.settings');
     }
 
+    public function chooseCounter(string $idOperationAssociation)
+    {
+        try {
+            $operationAssociationData = OperationAssociation::where('id_operation_association', $idOperationAssociation)->first();
+
+            $operation = OperationAssociation::query()
+                ->with(['service', 'counter', 'dayOperation']) // carrega os relacionados
+                ->where('id_operation_association', $operationAssociationData->id_operation_association)
+                ->first();
+
+            $counter = Counter::find($operation->counter->id_counter);
+            $counter->status = $counter->status == 'unoccupied' ? 'occupied' : 'unoccupied';
+            $counter->save();
 
 
+            $counterId = $counter->id_counter;
+
+            $pendingTickets = TicketGenerated::query()
+                ->with(['operationAssociation.service']) // carrega o service da operationAssociation
+                ->whereHas('operationAssociation', function ($query) use ($counterId) {
+                    $query->where('counter_id', $counterId);
+                })
+                ->where('unit_id', $operationAssociationData->unit_id)
+                ->whereDate('created_at', Carbon::today())
+                ->get();
+
+            return response()->json([
+                'data' => [
+                    'tickets' => $pendingTickets
+                ],
+                'status' => 200,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Erro escolher o balcão: ' . $e->getMessage());
+            return response()->json(['data' => [], 'message' => $e->getMessage()]);
+
+        }
+    }
 }

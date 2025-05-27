@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CounterController;
+use App\Http\Controllers\DayOperationController;
 use App\Http\Controllers\DeskController;
 use App\Http\Controllers\MentorController;
 use App\Http\Controllers\OperationController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
+use App\Models\OperationAssociation;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -74,7 +76,6 @@ Route::prefix('kibide/desk')->group(function () {
 
 });
 
-
 Route::prefix('kibide/unit')->group(function () {
     Route::get('/index', [UnitController::class, 'index'])->name('unit.index');
     Route::get('/profile', [UnitController::class, 'profile'])->name('unit.manager.profile');
@@ -103,13 +104,24 @@ Route::prefix('kibide/unit')->group(function () {
 
     // unit.store.operation
     Route::post('/operations/store', [OperationController::class, 'store'])->name('unit.store.operation');
+    Route::post('/operations-association/store', [OperationController::class, 'storeOperationAssociation'])->name('unit.store.operation-association');
 
     Route::get('/operations/create', [UnitController::class, 'createOperation'])->name('unit.create.operation');
+
+    // esse aqui:
+    Route::get('/operations/associate', [UnitController::class, 'associateOperation'])->name('unit.associate.operation');
+    Route::get('/operations/day-operation', [UnitController::class, 'createDayOperation'])->name('unit.create.day-operation');
     Route::get('/operations/assing', [UnitController::class, 'assignOperation'])->name('unit.assign.operation');
     Route::get('/operations/list', [UnitController::class, 'listOperation'])->name('unit.list.operation');
+    Route::get('/operations/list/day-operation', [DayOperationController::class, 'show'])->name('unit.list.day-operation');
+
+    Route::get('/operations/counter/choose', [UnitController::class, 'chooseCounter'])->name('operation.counter.choose');
+
+
     Route::get('/operations/settings', [UnitController::class, 'operationSettings'])->name('unit.settings.operation');
     Route::put('/operations/edit/{id}', [UnitController::class, 'edit'])->name('unit.services.edit');
 
+    Route::post('/operations/createDayOperation', [DayOperationController::class, 'store'])->name('unit.store.day.operation');
     Route::post('/operations/assignOperation', [OperationController::class, 'assignOperation'])->name('unit.store.assign.operation');
 });
 

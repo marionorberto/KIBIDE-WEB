@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Models\Counter;
+use App\Models\DayOperation;
+use App\Models\OperationAssociation;
 use App\Models\Unit;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,8 +18,28 @@ class DeskController extends Controller
      */
     public function index()
     {
+        // try {
+        //     return redirect()->back()->with("error", $e->getMessage());
+
+        // }catch (\Exception $e) {
+        //     return redirect()->back()->with("error", $e->getMessage());
+        // }
         $username = Auth::user()->username;
-        return view('desk.dashboard.index', compact('username'));
+        // $unoccupiedCounters = Counter::where('unit_id', Auth::user()->unit_id)->get();
+
+        $dayOperation = DayOperation::where('unit_id', Auth::user()->unit_id)->where('realization_date', Carbon::today())->first();
+
+
+        $operations = OperationAssociation::query()
+            ->with(['service', 'counter', 'dayOperation']) // carrega os relacionados
+            ->where('unit_id', Auth::user()->unit_id)
+            ->whereHas('dayOperation', function ($query) {
+                $query->whereDate('realization_date', Carbon::today());
+            })
+            ->get();
+
+
+        return view('desk.dashboard.index', compact('username', 'operations'));
     }
 
     /**

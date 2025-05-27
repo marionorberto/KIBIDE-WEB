@@ -1,11 +1,16 @@
 <?php
 
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\OperationController;
+use App\Http\Controllers\UnitController;
+use App\Models\OperationAssociation;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Requests\StoreChangePasswordRequest;
+use App\Models\DayOperation;
 use App\Models\Operations;
 use App\Models\Ticket;
+use App\Models\TicketGenerated;
 use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -51,12 +56,36 @@ Route::post('/auth/login', function (Request $request) {
   }
 })->name('login');
 
-Route::middleware('auth:sanctum')->get('/listService', function () {
+// Route::middleware('auth:sanctum')->get('/listService', function () {
+//   try {
+//     $operations = Operations::query()
+//       ->with(['service', 'counter'])
+//       ->where('unit_id', '0196cee1-44ff-714a-8bfc-51c4eaa3799b')
+//       ->whereDate('realization_date', '2025-05-20')
+//       ->get();
+
+//     return response()->json([
+//       'message' => 'fetch com sucesso.',
+//       'data' => $operations,
+//     ], 200);
+
+//   } catch (\Exception $e) {
+//     Log::error('Erro no registan serviço: ' . $e->getMessage());
+
+//     return response()->json([
+//       'message' => 'Ocorreu um erro ao tentar fazer login. Tente novamente mais tarde.'
+//     ], 500);
+//   }
+// });
+
+Route::middleware('auth:sanctum')->get('/listService/{unit_id}', function (string $unit_id) {
   try {
-    $operations = Operations::query()
-      ->with(['service', 'counter'])
-      ->where('unit_id', '0196cee1-44ff-714a-8bfc-51c4eaa3799b')
-      ->whereDate('realization_date', Carbon::today())
+    $operations = OperationAssociation::query()
+      ->with(['service', 'counter', 'dayOperation']) // carrega os relacionados
+      ->where('unit_id', $unit_id)
+      ->whereHas('dayOperation', function ($query) {
+        $query->whereDate('realization_date', Carbon::today());
+      })
       ->get();
 
     return response()->json([
@@ -68,33 +97,74 @@ Route::middleware('auth:sanctum')->get('/listService', function () {
     Log::error('Erro no registan serviço: ' . $e->getMessage());
 
     return response()->json([
-      'message' => 'Ocorreu um erro ao tentar fazer login. Tente novamente mais tarde.'
+      'message' => $e->getMessage(),
     ], 500);
   }
 });
 
+// Route::middleware('auth:sanctum')->post('/generateTicket', function (Request $request) {
+//   try {
+
+//     $ticketCounter = Ticket::where('unit_id', $request->unit_id)->whereDate('created_at', Carbon::today())
+//       ->where('operation_id', $request->operation_id)->count();
+
+//     $ticket = Ticket::create([
+//       'user_id' => $request->userDeskId,
+//       'unit_id' => $request->unit_id,
+//       'operation_id' => $request->operation_id,
+//       'ticket_number' => $ticketCounter + 1,
+//       'requested_at' => now(),
+//       'called_at' => null,
+//       'status' => 'pending',
+//     ]);
+
+//     $ticket->load('operation');
+
+//     // $operations = Operations::where('id_operation', $request->id_operation)->with(['service', 'counter'])->first();
+//     $operations = Operations::query()
+//       ->with(['service', 'counter'])
+//       ->where('id_operation', $request->operation_id)
+//       ->first();
+
+//     return response()->json([
+//       'message' => 'Ticket generated sucessfully!',
+//       'data' => [
+//         $ticket,
+//         $operations
+//       ],
+//       200
+//     ]);
+
+//   } catch (\Exception $e) {
+//     Log::error('Erro no tentando criar  ticket: ' . $e->getMessage());
+
+//     return response()->json([
+//       'message' => $e->getMessage(),
+//     ], 500);
+//   }
+// });
+
+
+
 Route::middleware('auth:sanctum')->post('/generateTicket', function (Request $request) {
   try {
 
-    $ticketCounter = Ticket::where('unit_id', $request->unit_id)->whereDate('created_at', Carbon::today())
-      ->where('operation_id', $request->operation_id)->count();
+    $ticketCounter = TicketGenerated::where('unit_id', $request->unit_id)->whereDate('created_at', Carbon::today())->where('operation_association_id', $request->operation_id)->count();
 
-    $ticket = Ticket::create([
-      'user_id' => $request->userDeskId,
+    $ticket = TicketGenerated::create([
       'unit_id' => $request->unit_id,
-      'operation_id' => $request->operation_id,
+      'operation_association_id' => $request->operation_id,
       'ticket_number' => $ticketCounter + 1,
-      'requested_at' => now(),
-      'called_at' => null,
+      'called_at' => now(),
       'status' => 'pending',
     ]);
 
-    $ticket->load('operation');
+    $ticket->load('operationAssociation');
 
     // $operations = Operations::where('id_operation', $request->id_operation)->with(['service', 'counter'])->first();
-    $operations = Operations::query()
+    $operations = OperationAssociation::query()
       ->with(['service', 'counter'])
-      ->where('id_operation', $request->operation_id)
+      ->where('id_operation_association', $request->operation_id)
       ->first();
 
     return response()->json([
@@ -110,7 +180,7 @@ Route::middleware('auth:sanctum')->post('/generateTicket', function (Request $re
     Log::error('Erro no tentando criar  ticket: ' . $e->getMessage());
 
     return response()->json([
-      'message' => 'Ocorreu um erro ao tentando  criar ticket. Tente novamente mais tarde.'
+      'message' => $e->getMessage(),
     ], 500);
   }
 });
@@ -146,3 +216,8 @@ Route::get('auth/logout', function (Request $request) {
   $request->user()->currentAccessToken()->delete();
   return response()->json(['message' => 'Logout feito com sucesso']);
 });
+
+
+Route::get('/operation/{id}', [OperationController::class, 'buscarPorData']);
+
+Route::get('/operations/counter/choose/{id}', [UnitController::class, 'chooseCounter']);

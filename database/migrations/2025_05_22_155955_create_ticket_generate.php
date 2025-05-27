@@ -19,7 +19,6 @@ return new class extends Migration {
             $table->string('status')->default('pending'); // Valor padrão caso queira, pode ajustar
             $table->timestamps();
 
-            // Chaves estrangeiras
             $table->foreign('unit_id')->references('id_unit')->on('units')->onDelete('cascade');
             $table->foreign('operation_association_id')->references('id_operation_association')->on('operation_associations')->onDelete('cascade');
         });

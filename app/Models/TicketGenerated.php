@@ -44,6 +44,6 @@ class TicketGenerated extends Model
 
   public function operationAssociation()
   {
-    return $this->belongsTo(OperationAssociation::class);
+    return $this->belongsTo(OperationAssociation::class, 'operation_association_id');
   }
 }

@@ -40,7 +40,7 @@ class ServiceController extends Controller
             $service = Service::create([
                 "description" => $request->description,
                 "priority_level" => $request->priority_level,
-                'Prefix_code' => $request->Prefix_code,
+                'prefix_code' => $request->prefix_code,
                 "unit_id" => Auth::user()->unit_id,
             ]);
 

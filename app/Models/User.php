@@ -61,4 +61,9 @@ class User extends Authenticatable
         return $this->hasOne(Unit::class, 'manager_id', 'id_user');
     }
 
+    public function users()
+    {
+        return $this->hasMany(User::class, 'user_id');
+    }
+
 }

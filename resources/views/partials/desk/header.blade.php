@@ -1,4 +1,4 @@
-<header class="pc-header">
+<header class="pc-header" style="padding-left: 80px;">
   <div class="header-wrapper">
     <div class="me-auto pc-mob-drp">
       <ul class="list-unstyled">
@@ -13,8 +13,6 @@
     <!-- [Mobile Media Block end] -->
     <div class="ms-auto">
       <ul class="list-unstyled">
-
-
         <li class="dropdown pc-h-item">
           <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button"
             aria-haspopup="false" aria-expanded="false">
