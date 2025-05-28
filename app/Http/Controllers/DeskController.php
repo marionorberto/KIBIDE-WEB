@@ -38,8 +38,8 @@ class DeskController extends Controller
             })
             ->get();
 
-
-        return view('desk.dashboard.index', compact('username', 'operations'));
+        $nextPendingTicket = null;
+        return view('desk.dashboard.index', compact('username', 'operations', 'nextPendingTicket'));
     }
 
     /**

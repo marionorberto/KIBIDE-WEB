@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUnitRequest;
 use App\Models\Company;
 use App\Models\Counter;
 use App\Models\DayOperation;
+use App\Models\DeskCounter;
 use App\Models\OperationAssociation;
 use App\Models\Operations;
 use App\Models\Service;
@@ -153,7 +154,13 @@ class UnitController extends Controller
 
     public function ticketGenerated()
     {
-        return view('unit.dashboard.tickets.generated');
+        $unitData = Unit::where('id_unit', Auth::user()->unit_id)->first();
+
+        $tickets = TicketGenerated::query()
+            ->with(['operationAssociation.service', 'operationAssociation.counter'])
+            ->where('unit_id', Auth::user()->unit_id)
+            ->get();
+        return view('unit.dashboard.tickets.generated', compact('tickets', 'unitData'));
     }
 
     public function ticketSettings()
@@ -276,19 +283,45 @@ class UnitController extends Controller
         return view('unit.dashboard.operations.settings');
     }
 
-    public function chooseCounter(string $idOperationAssociation)
+    public function chooseCounter(string $idOperation, string $userId)
     {
         try {
-            $operationAssociationData = OperationAssociation::where('id_operation_association', $idOperationAssociation)->first();
-
             $operation = OperationAssociation::query()
-                ->with(['service', 'counter', 'dayOperation']) // carrega os relacionados
-                ->where('id_operation_association', $operationAssociationData->id_operation_association)
+                ->with(['service', 'counter', 'dayOperation'])
+                ->where('id_operation_association', $idOperation)
                 ->first();
 
             $counter = Counter::find($operation->counter->id_counter);
             $counter->status = $counter->status == 'unoccupied' ? 'occupied' : 'unoccupied';
             $counter->save();
+
+            $alreadyExistsDeskCounterCreatedForToday =
+                DeskCounter::where('unit_id', $operation->unit_id)
+                    ->where('user_id', $userId)
+                    ->where('counter_id', $counter->id_counter)
+                    ->whereDate('created_at', Carbon::today())
+                    ->exists();
+
+            if (!$alreadyExistsDeskCounterCreatedForToday) {
+                DeskCounter::create([
+                    'unit_id' => $operation->unit_id,
+                    'user_id' => $userId,
+                    'counter_id' => $counter->id_counter,
+                    'status' => $counter->status,
+                ]);
+            } else {
+                $deskCounterToUpdateStatus = DeskCounter::where('unit_id', $operation->unit_id)
+                    ->where('user_id', $userId)
+                    ->where('counter_id', $counter->id_counter)
+                    ->whereDate('created_at', Carbon::today())->first();
+
+
+                $deskCounter =
+                    DeskCounter::find($deskCounterToUpdateStatus->id_desk_counter);
+
+                $deskCounter->status = $counter->status;
+                $deskCounter->save();
+            }
 
 
             $counterId = $counter->id_counter;
@@ -298,8 +331,9 @@ class UnitController extends Controller
                 ->whereHas('operationAssociation', function ($query) use ($counterId) {
                     $query->where('counter_id', $counterId);
                 })
-                ->where('unit_id', $operationAssociationData->unit_id)
+                ->where('unit_id', $operation->unit_id)
                 ->whereDate('created_at', Carbon::today())
+                ->where('status', 'pending')
                 ->get();
 
             return response()->json([

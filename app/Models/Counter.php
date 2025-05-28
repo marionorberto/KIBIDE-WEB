@@ -61,4 +61,10 @@ class Counter extends Model
     {
         return $this->hasMany(OperationAssociation::class);
     }
+
+
+    public function deskCounters()
+    {
+        return $this->hasMany(DeskCounter::class, 'counter_id');
+    }
 }

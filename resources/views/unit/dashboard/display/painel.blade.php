@@ -121,13 +121,17 @@
 
         <!-- Tickets em Espera -->
         <h6 class="mt-4" style="margin-top: 10px; font-size: 25px;">Fila de espera</h6>
-        <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">A034</div>
-        <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">B023</div>
-        <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">B120</div>
-        <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">C012</div>
-        <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">B12</div>
-        <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">C121</div>
-        <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">B093</div>
+        @foreach ($pendingTickets as $ticket)
+      <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">
+        {{  $ticket->operationAssociation->service->prefix_code}}0{{  $ticket->ticket_number}}
+      </div>
+    @endforeach
+        <!-- <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">B023</div> -->
+        <!-- <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">B120</div> -->
+        <!-- <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">C012</div> -->
+        <!-- <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">B12</div> -->
+        <!-- <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">C121</div> -->
+        <!-- <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">B093</div> -->
       </div>
 
       <!-- Lado Direito: Painel de Chamadas -->
@@ -149,11 +153,30 @@
           <div class="ticket-destaque">A045</div>
           <p class="lead">Dirija-se ao balcão indicado</p>
         </div>
+
+        <button id="buttonToSpeak">Say something</button>
       </div>
     </div>
   </div>
   </body>
   <script>
+
+    const buttonToSpeak = document.getElementById('buttonToSpeak');
+
+    buttonToSpeak.addEventListener('click', () => {
+
+      alert('ada');
+
+      const uttarance = new SpeechSynthesisUtterance('Say something usefull bitch');
+
+      uttarance.pitch = 1;
+
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(uttarance);
+    })
+
+
+
     function updateTime() {
       const now = new Date();
       const formatted = now.toLocaleString('pt-BR'); // "12/05/2025 06:47:25"

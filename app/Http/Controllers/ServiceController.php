@@ -37,6 +37,12 @@ class ServiceController extends Controller
             if ($serviceExists)
                 return redirect()->back()->with("error", 'Serviço já cadastrado!');
 
+
+            $serviceExistsWithThisPrefixCode = Service::where('unit_id', Auth::user()->unit_id)->where('prefix_code', $request->prefix_code)->first();
+
+            if ($serviceExistsWithThisPrefixCode)
+                return redirect()->back()->with("error", 'Já existe um serviço com esse prefixo cadastrado!');
+
             $service = Service::create([
                 "description" => $request->description,
                 "priority_level" => $request->priority_level,

@@ -17,7 +17,7 @@
           <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button"
             aria-haspopup="false" aria-expanded="false">
             <i class="ti ti-bell"></i>
-            <span class="badge bg-success pc-h-badge">3</span>
+            <span class="badge bg-success pc-h-badge">0</span>
           </a>
           <div class="dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown">
             <div class="dropdown-header d-flex align-items-center justify-content-between">
@@ -29,18 +29,16 @@
               style="max-height: calc(100vh - 215px)">
               <div class="list-group list-group-flush w-100">
                 <a class="list-group-item list-group-item-action">
-                  <div class="d-flex">
+                  <div class="d-flex align-items-center">
                     <div class="flex-shrink-0">
-                      <div class="user-avtar bg-light-primary"><i class="ti ti-message-circle"></i></div>
+                      <div class="user-avtar bg-light-warning"><i class="ti ti-message-circle"></i></div>
                     </div>
                     <div class="flex-grow-1 ms-1">
-                      <span class="float-end text-muted">6:00 PM</span>
-                      <p class="text-body mb-1"><b>Aida Burg</b> commented your post.</p>
-                      <span class="text-muted">5 August</span>
+                      <p class="text-body mb-1 text-muted">Sem notificações no momento.</p>
                     </div>
                   </div>
                 </a>
-                <a class="list-group-item list-group-item-action">
+                <!-- <a class="list-group-item list-group-item-action">
                   <div class="d-flex">
                     <div class="flex-shrink-0">
                       <div class="user-avtar bg-light-danger"><i class="ti ti-settings"></i></div>
@@ -51,7 +49,7 @@
                       <span class="text-muted">7 hours ago</span>
                     </div>
                   </div>
-                </a>
+                </a> -->
 
               </div>
             </div>
@@ -81,7 +79,7 @@
                 </div>
                 <div class="flex-grow-1 ms-3">
                   <h6 class="mb-1">{{ Auth::user()->username }}</h6>
-                  <span>{{ Auth::user()->role }}</span>
+                  <span>{{ Auth::user()->role == 'desk' ? 'Atendente' : 'Desk'}}</span>
                 </div>
                 <a href="{{ route('auth.logout') }}" class="pc-head-link bg-transparent"><i
                     class="ti ti-power text-danger"></i></a>

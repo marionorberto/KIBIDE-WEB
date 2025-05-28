@@ -66,4 +66,9 @@ class User extends Authenticatable
         return $this->hasMany(User::class, 'user_id');
     }
 
+    public function deskCounters()
+    {
+        return $this->hasMany(DeskCounter::class, 'user_id');
+    }
+
 }

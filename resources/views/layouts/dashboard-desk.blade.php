@@ -247,10 +247,128 @@
       </div>
     </div>
   </div>
-  <script src="{{ asset('assets/js/plugins/apexcharts.min.js') }}"></script>
-  <script src="{{ asset('assets/js/pages/dashboard-analytics.js') }}"></script>
 </body>
 
-</html>
 
-<!-- 923 594 7 61 -->
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    let id_operation_association = document.getElementById('id_operation_association');
+    let occupied = false;
+    const warning = document.getElementById('counter-warning');
+    const ticketWarning = document.getElementById('ticket-warning');
+    const userId = document.getElementById('user_id');
+    const buttonOccupied = document.getElementById('button_occupied');
+    const ticketList = document.getElementById('ticket-list');
+    const callTicketBtn = document.getElementById('call-ticket');
+
+    if (id_operation_association) {
+      id_operation_association.disabled = false;
+    }
+
+    if (buttonOccupied) {
+      buttonOccupied.addEventListener('click', chooseCounterOperation);
+    }
+
+    if (callTicketBtn) {
+      callTicketBtn.addEventListener('click', () => {
+        if (!occupied) {
+          if (ticketWarning) {
+            ticketWarning.style.display = 'block';
+          }
+          return;
+        }
+
+        if (ticketWarning) {
+          ticketWarning.style.display = 'none';
+        }
+
+        fetch("{{ route('tickets.call.next') }}")
+          .then(response => response.json())
+          .then(data => {
+            if (data.error) {
+              console.log('okkk', data);
+              return;
+            }
+
+
+            const ticket = data.ticket;
+
+            console.log(data);
+            if (ticket) {
+              document.getElementById('ticket-data').innerText = ticket.operation_association.service.prefix_code + '0' + ticket.ticket_number;
+              document.getElementById('ticket-service').innerText = ticket.operation_association.service.description;
+              anunciarTicket(ticket.ticket_number);
+            } else {
+              document.getElementById('ticket-data').innerText = "Nenhum ticket disponível";
+              document.getElementById('ticket-service').innerText = "";
+            }
+          })
+          .catch(error => {
+            console.log('Erro ao buscar ticket:', error);
+          });
+      });
+    }
+
+
+    function chooseCounterOperation() {
+      const selectedId = id_operation_association.value;
+
+      if (!selectedId) {
+        warning.style.display = 'block';
+        return;
+      } else {
+        warning.style.display = 'none';
+      }
+
+      fetch(`/api/operations/counter/choose/${selectedId}/${userId.value}`)
+        .then(response => {
+          if (!response.ok) throw new Error('Erro na requisição');
+          return response.json();
+        })
+        .then(data => {
+          occupied = !occupied;
+          id_operation_association.disabled = occupied;
+          updateButtonUI();
+
+          if (occupied && data?.data?.tickets?.length > 0) {
+            ticketList.innerHTML = '';
+            data.data.tickets.forEach(ticket => {
+              const li = document.createElement('li');
+              li.className = 'pc-item';
+              li.innerHTML = `
+                <a href="#" class="pc-link">
+                  <span class="pc-micon"><i class="ti ti-ticket"></i></span>
+                  <span class="pc-mtext">
+                    ${ticket.operation_association.service.prefix_code}0${ticket.ticket_number}
+                    <button type="button" class="btn btn-light-warning p-1 ms-2">${ticket.status == 'pending' ? 'Pendente' : ''}</button>
+                  </span>
+                </a>`;
+              ticketList.appendChild(li);
+            });
+          } else {
+            ticketList.innerHTML = '';
+            ticketList.innerHTML = ` <div id="ticket-warning" class="alert alert-warning mt-2" style="display: none;">
+    Sem tickets disponíveis para esse balção.
+    </div > `
+          }
+        })
+        .catch(error => console.log(error));
+    }
+
+    function updateButtonUI() {
+      if (occupied) {
+        buttonOccupied.classList.remove('btn-primary');
+        buttonOccupied.classList.add('btn-dark');
+        buttonOccupied.textContent = 'Desocupar Balcão';
+      } else {
+        buttonOccupied.classList.remove('btn-dark');
+        buttonOccupied.classList.add('btn-primary');
+        buttonOccupied.textContent = 'Ocupar Balcão';
+      }
+    }
+
+  });
+</script>
+
+</html>

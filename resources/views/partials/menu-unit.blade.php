@@ -226,22 +226,11 @@
           <label>Operacões</label>
           <i class="ti ti-brand-chrome"></i>
         </li>
-        <li class="pc-item">
-          <a href="{{ route('unit.create.operation') }}" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-plus"></i></span>
-            <span class="pc-mtext">Criar Operação <span class="badge bg-light-primary">hoje</span></span>
-          </a>
-        </li>
+
         <li class="pc-item">
           <a href="{{ route('unit.create.day-operation') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-plus"></i></span>
             <span class="pc-mtext">Operação Diária</span>
-          </a>
-        </li>
-        <li class="pc-item">
-          <a href="{{ route('unit.associate.operation') }}" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-unlink"></i></span>
-            <span class="pc-mtext">Associar Operação</span>
           </a>
         </li>
         <li class="pc-item">
@@ -250,6 +239,13 @@
             <span class="pc-mtext">Visualizar Operações</span>
           </a>
         </li>
+        <li class="pc-item">
+          <a href="{{ route('unit.associate.operation') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-unlink"></i></span>
+            <span class="pc-mtext">Associar Operação</span>
+          </a>
+        </li>
+
         <li class="pc-item">
           <a href="{{ route('unit.assign.operation') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-unlink"></i></span>

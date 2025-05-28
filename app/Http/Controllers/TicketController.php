@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DeskCounter;
 use App\Models\Ticket;
 use App\Models\TicketGenerated;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
 {
@@ -65,23 +67,68 @@ class TicketController extends Controller
         //
     }
 
+    // public function callNextTicket()
+    // {
+    //     try {
+    //         $desk = DeskCounter::where('unit_id', Auth::user()->unit_id)
+    //             ->where('user_id', Auth::user()->id_user)->where('status', 'occupied')->first();
+
+    //         $nextPendingTicket = TicketGenerated::query()
+    //             ->with(['operationAssociation.service']) // carrega o service da operationAssociation
+    //             ->whereHas('operationAssociation', function ($query) use ($desk) {
+    //                 $query->where('counter_id', $desk->counter_id);
+    //             })
+    //             ->where('unit_id', $desk->unit_id)
+    //             ->whereDate('created_at', Carbon::today())
+    //             ->where('status', 'pending')
+    //             ->orderBy('created_at') // garante que pegará o mais antigo
+    //             ->first();
+
+
+    //         return view('desk.dashboard', compact('nextPendingTicket'));
+
+    //     } catch (\Exception $e) {
+    //         return redirect()->back()->with("error", $e->getMessage());
+    //     }
+
+    // }
+
     public function callNextTicket()
     {
-
         try {
-            $nextTicket = TicketGenerated::whereDate('ticket_generated.created_at', Carbon::today())
-                ->where('ticket_generated.status', 'pending')
-                ->join('operation_associations', 'ticket_generated.operation_association_id', '=', 'operation_associations.id_operation_association')
-                ->where('operation_associations.counter_id', '0196cee3-87b2-7153-8821-6a5ae38229b2')
-                ->orderBy('ticket_generated.ticket_number', 'asc')
-                ->select('ticket_generated.*') // para retornar só colunas do ticket
+            $desk = DeskCounter::where('unit_id', Auth::user()->unit_id)
+                ->where('user_id', Auth::user()->id_user)
+                ->whereDate('created_at', Carbon::today())
+                ->where('status', 'occupied')
                 ->first();
 
-            return view('desk.dashboard', compact('nextTicket'));
+            if (!$desk) {
+                return response()->json(['error' => 'Nenhum balcão ocupado encontrado.'], 404);
+            }
 
+            $nextPendingTicket = TicketGenerated::query()
+                ->with(['operationAssociation.service'])
+                ->where('unit_id', $desk->unit_id)
+                ->whereHas('operationAssociation', function ($query) use ($desk) {
+                    $query->where('counter_id', $desk->counter_id);
+                })
+                ->whereDate('created_at', Carbon::today())
+                ->where('status', 'pending')
+                ->orderBy('created_at', 'asc')
+                ->first();
+
+            if (!$nextPendingTicket) {
+                return response()->json(['ticket' => null]);
+            }
+
+            $nextPendingTicket->status = 'called';
+            $nextPendingTicket->save();
+
+            return response()->json([
+                'ticket' => $nextPendingTicket,
+            ]);
         } catch (\Exception $e) {
-            return redirect()->back()->with("error", $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
     }
 }

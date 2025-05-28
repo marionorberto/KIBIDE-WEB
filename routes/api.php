@@ -220,4 +220,4 @@ Route::get('auth/logout', function (Request $request) {
 
 Route::get('/operation/{id}', [OperationController::class, 'buscarPorData']);
 
-Route::get('/operations/counter/choose/{id}', [UnitController::class, 'chooseCounter']);
+Route::get('/operations/counter/choose/{id}/{user}', [UnitController::class, 'chooseCounter']);

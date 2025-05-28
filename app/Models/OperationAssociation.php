@@ -52,4 +52,10 @@ class OperationAssociation extends Model
   {
     return $this->hasMany(TicketGenerated::class);
   }
+
+
+  public function deskCounters()
+  {
+    return $this->hasMany(DeskCounter::class, 'operation_association_id');
+  }
 }

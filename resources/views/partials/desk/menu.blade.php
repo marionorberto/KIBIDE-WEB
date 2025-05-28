@@ -1,9 +1,7 @@
 @php
-  use App\Models\TicketGenerated;
   use App\Models\DayOperation;
   use App\Models\OperationAssociation;
   use Carbon\Carbon;
-
 
   $dayOperation = DayOperation::where('unit_id', Auth::user()->unit_id)->where('realization_date', Carbon::today())->first();
 
@@ -17,10 +15,7 @@
     $query->where('status', 'unoccupied');
     })
     ->get();
-
 @endphp
-
-
 
 <nav class="pc-sidebar" style="width: 350px;">
   <div class="navbar-wrapper" style="width: 350px;">
@@ -38,26 +33,25 @@
           </a>
         </li>
         <div class="overflow-y-auto" style="padding-left: 10px">
-
           <li class="pc-item">
             <a href="{{ route('desk.user.profile') }}" class="pc-link">
               <span class="pc-micon"><i class="ti ti-camera"></i></span>
               <span class="pc-mtext">Perfil Atendente</span>
             </a>
           </li>
-
           <li class="pc-item">
             <a href="{{ route('desk.user.profile') }}" class="pc-link">
               <span class="pc-micon"><i class="ti ti-report"></i></span>
               <span class="pc-mtext">Históricos de Tickets</span>
             </a>
           </li>
-
           <hr>
-
           <div class="form-group col-md-12 px-4">
             <label class="form-label" for="exampleSelect1">Balcões Disponíveis</label>
-
+            <div id="counter-warning" class="text-danger mt-1 mb-1" style="display: none;">
+              Por favor, selecione um balcão antes de continuar.
+            </div>
+            <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id_user }}">
             <select name="id_operation_association" class="form-select service-data" id="id_operation_association">
               <option value="">selecione um balcão livre</option>
               @foreach ($operations as $operation)
@@ -66,35 +60,23 @@
           </option>
         @endforeach
             </select>
-
-            <!-- Mensagem de aviso (inicialmente escondida) -->
-            <div id="counter-warning" class="text-danger mt-2" style="display: none;">
-              Por favor, selecione um balcão antes de continuar.
-            </div>
-
             <button onclick="chooseCounterOperation()" id="button_occupied" class="btn btn-primary fs-6 shadow-lg mt-2">
               Ocupar Balcão
             </button>
           </div>
           </form>
-
           <hr>
-
           <li class="pc-item pc-caption">
             <label>Tickets Pendentes</label>
             <i class="ti ti-brand-chrome"></i>
           </li>
-
-
           <ul id="ticket-list" class="pc-navbar"></ul>
         </div>
       </ul>
-
     </div>
   </div>
 </nav>
-
-
+<!-- 
 <script>
   let id_operation_association;
   let occupied = false;
@@ -109,6 +91,7 @@
   function chooseCounterOperation() {
     const selectedId = id_operation_association.value;
     const warning = document.getElementById('counter-warning');
+    const userId = document.getElementById('user_id');
 
     // Se nenhum balcão foi selecionado, exibe a mensagem e interrompe a função
     if (!selectedId) {
@@ -118,7 +101,8 @@
       warning.style.display = 'none';
     }
 
-    fetch(`/api/operations/counter/choose/${selectedId}`)
+    console.log('user', userId.value);
+    fetch(`/api/operations/counter/choose/${selectedId}/${userId.value}`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Erro na requisição');
@@ -151,19 +135,16 @@
         </a>
       `;
               list.appendChild(li);
-
-
             });
           } else {
             console.log('Nenhum ticket encontrado.');
+            console.log(data);
           }
         } else {
-
           while (list.firstChild) {
             list.removeChild(list.firstChild);
           }
         }
-
       })
       .catch((error) => {
         console.log(error);
@@ -182,4 +163,4 @@
       button.textContent = 'Ocupar Balcão';
     }
   }
-</script>
+</script> -->

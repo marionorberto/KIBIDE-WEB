@@ -55,46 +55,35 @@
           <tr>
           <th>ID</th>
           <th>UNIDADE</th>
-          <th>USERNAME</th>
-          <th>EMAIL</th>
-          <th>CRIADO EM</th>
-          <th>PAPEL</th>
+          <th>CÓDIGO</th>
+          <th>PRÉFIXO</th>
+          <th>SERVIÇO</th>
+          <th>LINHA</th>
           <th>STATUS</th>
-          <th>AÇÕES</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-          <td>{ $loop->iteration }}</td>
-          <td>unidade</td>
-          <td>{ $item->username }}</td>
-          <td>{ $item->email }}</td>
-          <td>{ $item->created_at }}</td>
-          <td>{ $item->role }}</td>
-          <td><span class="badge bg-light-dander  f-12">inactivo</span> </td>
-          <td class="text-center">
-            <ul class="list-inline me-auto mb-0">
-            <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="View">
-              <a data-bs-toggle="modal" data-bs-target="#modalViewUser" href="#"
-              class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal" data-bs-target="#cust-modal">
-              <i class="ti ti-eye f-18"></i>
-              </a>
-            </li>
-            </ul>
-          </td>
-          </tr>
-
+          @foreach ($tickets as $ticket)
+        <tr>
+        <td>{{ $loop->iteration }}</td>
+        <td>{{ $unitData->unit_name }}</td>
+        <td>0{{ $ticket->ticket_number }}</td>
+        <td>{{ $ticket->operationAssociation->service->prefix_code }}</td>
+        <td>{{ $ticket->operationAssociation->service->description }}</td>
+        <td>{{ $ticket->operationAssociation->counter->counter_name }}</td>
+        <td>{{ $ticket->status }}</td>
+        </tr>
+      @endforeach
         </tbody>
-
         <tfoot>
           <tr>
           <th>ID</th>
-          <th>USERNAME</th>
-          <th>EMAIL</th>
-          <th>CRIADO EM</th>
-          <th>PAPEL</th>
+          <th>UNIDADE</th>
+          <th>CÓDIGO</th>
+          <th>PRÉFIXO</th>
+          <th>SERVIÇO</th>
+          <th>LINHA</th>
           <th>STATUS</th>
-          <th>AÇÕES - obs apenas para ver o card</th>
           </tr>
         </tfoot>
         </table>
@@ -102,8 +91,6 @@
       </div>
     </div>
     </div>
-
-
   </div>
 
 @endsection

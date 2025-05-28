@@ -88,4 +88,9 @@ class Unit extends Model
     {
         return $this->hasMany(ScaleUser::class, 'unit_id');
     }
+
+    public function deskCounters()
+    {
+        return $this->hasMany(DeskCounter::class, 'unit_id');
+    }
 }
