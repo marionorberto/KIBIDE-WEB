@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\QueueDisplayTicketsEvent;
 use App\Models\OperationAssociation;
 use App\Models\Operations;
 use App\Models\TicketGenerated;
@@ -9,6 +10,7 @@ use App\Models\Unit;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class PainelController extends Controller
 {
@@ -22,6 +24,7 @@ class PainelController extends Controller
             ->with(['operationAssociation.service']) // carrega o service da operationAssociation
             ->where('unit_id', Auth::user()->unit_id)
             ->whereDate('created_at', Carbon::today())
+            ->orderBy('created_at', 'DESC')
             ->where('status', 'pending')
             ->get();
 
@@ -47,7 +50,7 @@ class PainelController extends Controller
             ->get()
             ->pluck('counter')      // extrai os objetos counter
             ->unique('id_counter')          // remove duplicados (baseado no ID do counter)
-            ->values();             // reindexa os resultados
+            ->values();
 
 
         $unitData = Unit::where('id_unit', Auth::user()->unit_id)->first();

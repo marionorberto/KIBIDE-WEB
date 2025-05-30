@@ -36,7 +36,7 @@ class AuthController extends Controller
                 } else if ($userRole == 'manager') {
                     return redirect()->route('unit.index');
                 } else {
-                    return back()->with('error', 'Ocorreu um erro ao tentar fazer login. Tente novamente mais tarde.');
+                    return redirect()->back()->with('error', 'Ocorreu um erro ao tentar fazer login. Tente novamente mais tarde.');
                 }
             }
 

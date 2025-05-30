@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\TestEvent;
+use App\Events\TicketCalled;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
@@ -14,6 +16,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\CheckSession;
 use App\Models\OperationAssociation;
 use Illuminate\Support\Facades\Route;
 
@@ -33,7 +36,7 @@ Route::get('kibide/faq', function () {
     return view('faq');
 })->name('faq');
 
-Route::get('kibide/{idCompany}/painel', [PainelController::class, 'index'])->name('painel');
+Route::get('kibide/{idCompany}/painel', [PainelController::class, 'index'])->name('painel')->middleware(CheckSession::class);
 
 
 Route::prefix('kibide/auth')->group(function () {
@@ -70,14 +73,12 @@ Route::prefix('kibide/company')->group(function () {
 });
 
 Route::prefix('kibide/desk')->group(function () {
-    Route::get('/index', [DeskController::class, 'index'])->name('desk.index');
+    Route::get('/index', [DeskController::class, 'index'])->name('desk.index')->middleware(CheckSession::class);
     Route::get('/user/profile', [DeskController::class, 'profile'])->name('desk.user.profile');
-
-
 });
 
 Route::prefix('kibide/unit')->group(function () {
-    Route::get('/index', [UnitController::class, 'index'])->name('unit.index');
+    Route::get('/index', [UnitController::class, 'index'])->name('unit.index')->middleware(CheckSession::class);
     Route::get('/profile', [UnitController::class, 'profile'])->name('unit.manager.profile');
     Route::post('/store', [UnitController::class, 'store'])->name('units.store');
     Route::get('/create/desks', [UnitController::class, 'createDesks'])->name('unit.create.desks');
@@ -137,3 +138,29 @@ Route::prefix('kibide/tickets')->group(function () {
 });
 
 
+
+Route::get('/testing', function () {
+    return view('testing');
+});
+
+Route::get('/trigger', function () {
+    $ticket = [
+        'id' => 1,
+        'nome' => 'Ticket de Exemplo',
+        'prioridade' => 'Alta'
+    ];
+    event(new TestEvent($ticket));
+});
+
+
+// Route::get('/testar-evento', function () {
+//     $ticket = [
+//         'id' => 1,
+//         'nome' => 'Ticket de Exemplo',
+//         'prioridade' => 'Alta'
+//     ];
+
+//     event(new TicketCalled($ticket));
+
+//     return 'Evento emitido!';
+// });

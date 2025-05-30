@@ -57,10 +57,6 @@ class Service extends Model
     return $this->belongsToMany(Counter::class, 'counter_service', 'service_id', 'counter_id');
   }
 
-  public function operations()
-  {
-    return $this->hasMany(Operations::class);
-  }
 
   public function operationAssociation()
   {

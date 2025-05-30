@@ -4,6 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Painel de Atendimento</title>
+  <link rel="icon" href="{{ asset('./favicon.ico') }}" type="image/x-icon">
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
@@ -115,23 +117,15 @@
         <!-- Serviços Ativos -->
         @foreach ($operations as $item)
 
-      <div class="servico-ativo">{{ $item->counter->counter_name }} - {{ $item->service->description }}</div>
-    @endforeach
-
-
-        <!-- Tickets em Espera -->
-        <h6 class="mt-4" style="margin-top: 10px; font-size: 25px;">Fila de espera</h6>
-        @foreach ($pendingTickets as $ticket)
-      <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">
-        {{  $ticket->operationAssociation->service->prefix_code}}0{{  $ticket->ticket_number}}
+      <div id="servico-ativo" class="servico-ativo">{{ $item->counter->counter_name }} -
+        {{ $item->service->description }}
       </div>
     @endforeach
-        <!-- <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">B023</div> -->
-        <!-- <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">B120</div> -->
-        <!-- <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">C012</div> -->
-        <!-- <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">B12</div> -->
-        <!-- <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">C121</div> -->
-        <!-- <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">B093</div> -->
+
+
+        <h6 class="mt-4" style="margin-top: 10px; font-size: 25px;">Fila de espera</h6>
+
+
       </div>
 
       <!-- Lado Direito: Painel de Chamadas -->
@@ -143,51 +137,55 @@
         </div>
         <div class="" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); ">
           @foreach ($counters as $item)
-
         <div class="col-md-3 balcao-box">{{ $item->counter_name }}<br><small style="color: #ffc107">B034</small></div>
       @endforeach
         </div>
-
         <div class="" style="background-color: #005fa3; padding: 20px; border-radius: 10px;">
           <div class="balcao-destaque">BALCÃO 1</div>
           <div class="ticket-destaque">A045</div>
           <p class="lead">Dirija-se ao balcão indicado</p>
         </div>
-
-        <button id="buttonToSpeak">Say something</button>
       </div>
     </div>
   </div>
   </body>
+  @vite('resources/js/app.js')
+
   <script>
+    const queueTickets = document.getElementById('ticket-espera');
+    // updateTime();
+    // setInterval(updateTime, 1000);
+    // function updateTime() {
+    //   const now = new Date();
+    //   const formatted = now.toLocaleString('pt-BR'); // "12/05/2025 06:47:25"
+    //   document.getElementById('current-time').textContent = formatted;
+    // }
 
-    const buttonToSpeak = document.getElementById('buttonToSpeak');
-
-    buttonToSpeak.addEventListener('click', () => {
-
-      alert('ada');
-
-      const uttarance = new SpeechSynthesisUtterance('Say something usefull bitch');
-
-      uttarance.pitch = 1;
-
-      window.speechSynthesis.cancel();
-      window.speechSynthesis.speak(uttarance);
-    })
-
-
-
-    function updateTime() {
-      const now = new Date();
-      const formatted = now.toLocaleString('pt-BR'); // "12/05/2025 06:47:25"
-      document.getElementById('current-time').textContent = formatted;
-    }
-
-    // Atualiza imediatamente ao carregar
-    updateTime();
-
-    // Atualiza a cada segundo
-    setInterval(updateTime, 1000);
+    setTimeout(() => {
+      window.Echo.channel('queue-display-tickets-channel')
+        .listen('QueueDisplayTicketsEvent', (data) => {
+          try {
+            if (occupied && data?.data?.tickets?.length > 0) {
+              queueTickets.innerHTML = '';
+              data.data.forEach(ticket => {
+                const div = document.createElement('div');
+                div.className = 'pc-item';
+                div.innerHTML = `
+                      <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">${ticket.operation_association.service.prefix_code}0${ticket.ticket_number}</div>
+                    `;
+                ticketList.appendChild(li);
+              });
+            } else {
+              queueTickets.innerHTML = '';
+              queueTickets.innerHTML = `<div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">Sem Tickets Disponíveis</div>`
+            }
+          } catch (error) {
+            console.log('Error trying to get data from event, event name: queue-display-tickets-channel  | error -> ', error);
+          }
+        });
+    }, 200)
   </script>
+
+
 
 </html>

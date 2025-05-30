@@ -269,18 +269,18 @@ window.addEventListener('load', function () {
 });
 
 // active menu item list start
-var elem = document.querySelectorAll('.pc-sidebar .pc-navbar a');
-for (var l = 0; l < elem.length; l++) {
-  var pageUrl = window.location.href.split(/[?#]/)[0];
-  if (elem[l].href == pageUrl && elem[l].getAttribute('href') != '') {
-    elem[l].parentNode.classList.add('active');
 
-    elem[l].parentNode.parentNode.parentNode.classList.add('pc-trigger');
-    elem[l].parentNode.parentNode.parentNode.classList.add('active');
-    elem[l].parentNode.parentNode.style.display = 'block';
+const elem = document.querySelectorAll('.pc-sidebar .pc-navbar a');
+for (let i = 0; i < elem.length; i++) {
+  const pageUrl = window.location.href.split(/[?#]/)[0];
+  if (elem[i].href == pageUrl && elem[i].getAttribute('href') != '') {
+    elem[i].parentNode.classList.add('active');
+    elem[i].parentNode.parentNode.parentNode.classList.add('pc-trigger');
+    elem[i].parentNode.parentNode.parentNode.classList.add('active');
+    elem[i].parentNode.parentNode.style.display = 'block';
 
-    elem[l].parentNode.parentNode.parentNode.parentNode.parentNode.classList.add('pc-trigger');
-    elem[l].parentNode.parentNode.parentNode.parentNode.style.display = 'block';
+    elem[i].parentNode.parentNode.parentNode.parentNode.parentNode.classList.add('pc-trigger');
+    elem[i].parentNode.parentNode.parentNode.parentNode.style.display = 'block';
   }
 }
 

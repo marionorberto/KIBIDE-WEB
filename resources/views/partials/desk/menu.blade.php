@@ -67,7 +67,9 @@
           </form>
           <hr>
           <li class="pc-item pc-caption">
-            <label>Tickets Pendentes</label>
+            <label>Tickets Pendentes(
+              <a id="queueTicketsCounter">0</a> )</label>
+
             <i class="ti ti-brand-chrome"></i>
           </li>
           <ul id="ticket-list" class="pc-navbar"></ul>
@@ -76,91 +78,3 @@
     </div>
   </div>
 </nav>
-<!-- 
-<script>
-  let id_operation_association;
-  let occupied = false;
-
-  document.addEventListener('DOMContentLoaded', () => {
-    id_operation_association = document.getElementById('id_operation_association');
-    id_operation_association.disabled = false;
-
-    updateButtonUI();
-  });
-
-  function chooseCounterOperation() {
-    const selectedId = id_operation_association.value;
-    const warning = document.getElementById('counter-warning');
-    const userId = document.getElementById('user_id');
-
-    // Se nenhum balcão foi selecionado, exibe a mensagem e interrompe a função
-    if (!selectedId) {
-      warning.style.display = 'block';
-      return;
-    } else {
-      warning.style.display = 'none';
-    }
-
-    console.log('user', userId.value);
-    fetch(`/api/operations/counter/choose/${selectedId}/${userId.value}`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Erro na requisição');
-        }
-        return response.json();
-      })
-      .then(data => {
-        occupied = !occupied;
-
-
-        id_operation_association.disabled = occupied;
-        updateButtonUI();
-        const list = document.getElementById('ticket-list');
-        if (occupied) {
-          if (data?.data?.tickets?.length > 0) {
-            console.log('Tickets recebidos:', data.data.tickets);
-
-            data.data.tickets.forEach(ticket => {
-
-              console.log(ticket);
-              const li = document.createElement('li');
-              li.className = 'pc-item';
-              li.innerHTML = `
-        <a href="#" class="pc-link">
-          <span class="pc-micon"><i class="ti ti-ticket"></i></span>
-          <span class="pc-mtext">
-            ${ticket.operation_association.service.prefix_code}0${ticket.ticket_number}
-            <button type="button" class="btn btn-light-warning p-1 ms-2">${ticket.status}</button>
-          </span>
-        </a>
-      `;
-              list.appendChild(li);
-            });
-          } else {
-            console.log('Nenhum ticket encontrado.');
-            console.log(data);
-          }
-        } else {
-          while (list.firstChild) {
-            list.removeChild(list.firstChild);
-          }
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  function updateButtonUI() {
-    const button = document.getElementById('button_occupied');
-    if (occupied) {
-      button.classList.remove('btn-primary');
-      button.classList.add('btn-dark');
-      button.textContent = 'Desocupar Balcão';
-    } else {
-      button.classList.remove('btn-dark');
-      button.classList.add('btn-primary');
-      button.textContent = 'Ocupar Balcão';
-    }
-  }
-</script> -->

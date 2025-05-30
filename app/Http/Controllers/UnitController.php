@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\TestEvent;
+use App\Events\TicketCalled;
 use App\Http\Requests\StoreUnitRequest;
 use App\Models\Company;
 use App\Models\Counter;
@@ -335,6 +337,7 @@ class UnitController extends Controller
                 ->whereDate('created_at', Carbon::today())
                 ->where('status', 'pending')
                 ->get();
+
 
             return response()->json([
                 'data' => [

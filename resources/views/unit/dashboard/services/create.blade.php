@@ -72,7 +72,7 @@
         <option value="">Selecione o Prefixo</option>
         <option value="A">Prefixo - A</option>
         <option value="B">Prefixo - B</option>
-        <option value="A">Prefixo - C</option>
+        <option value="C">Prefixo - C</option>
         <option value="D">Prefixo - D</option>
         <option value="E">Prefixo - E</option>
         <option value="F">Prefixo - F</option>

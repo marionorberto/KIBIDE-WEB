@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\TestEvent;
+use App\Events\TicketCalled;
 use App\Models\DeskCounter;
 use App\Models\Ticket;
 use App\Models\TicketGenerated;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class TicketController extends Controller
 {
@@ -107,7 +110,7 @@ class TicketController extends Controller
             }
 
             $nextPendingTicket = TicketGenerated::query()
-                ->with(['operationAssociation.service'])
+                ->with(['operationAssociation.service', 'operationAssociation.counter'])
                 ->where('unit_id', $desk->unit_id)
                 ->whereHas('operationAssociation', function ($query) use ($desk) {
                     $query->where('counter_id', $desk->counter_id);
@@ -121,6 +124,32 @@ class TicketController extends Controller
                 return response()->json(['ticket' => null]);
             }
 
+            $pendingTickets = TicketGenerated::query()
+                ->with(['operationAssociation.service', 'operationAssociation.counter'])
+                ->where('unit_id', $desk->unit_id)
+                ->whereHas('operationAssociation', function ($query) use ($desk) {
+                    $query->where('counter_id', $desk->counter_id);
+                })
+                ->whereDate('created_at', Carbon::today())
+                ->where('status', 'pending')
+                ->orderBy('created_at', 'asc')
+                ->get();
+
+            // Emissão de evento isolada com log de erro se falhar
+            try {
+                $pendingTicketsSimplified = $pendingTickets->map(function ($ticket) {
+                    return [
+                        'ticket_number' => $ticket->ticket_number,
+                        'status' => $ticket->status,
+                        'prefix_code' => $ticket->operationAssociation->service->prefix_code
+                    ];
+                });
+                event(new TestEvent($pendingTicketsSimplified));
+            } catch (\Throwable $e) {
+                Log::error($e->getMessage());
+                return response()->json(['error' => 'Erro ao emitir o evento.'], 500);
+            }
+
             $nextPendingTicket->status = 'called';
             $nextPendingTicket->save();
 
@@ -128,7 +157,9 @@ class TicketController extends Controller
                 'ticket' => $nextPendingTicket,
             ]);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            Log::error('Erro inesperado no método callNextTicket: ' . $e->getMessage());
+            return response()->json(['error' => 'Erro interno do servidor.'], 500);
         }
     }
+
 }

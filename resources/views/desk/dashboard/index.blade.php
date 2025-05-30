@@ -1,9 +1,6 @@
 @extends('layouts.dashboard-desk')
-
-@section('title', 'Desk Index')
-
+@section('title', 'Página Inicial - Atendente')
 @section('content')
-
   <div class="page-header ">
     <div class="page-block">
     <div class="row align-items-center">
@@ -39,34 +36,8 @@
     Por favor, selecione e ocupe um balcão primeiro.
     </div>
     <button id="call-ticket" type="button" class="btn btn-warning btn-md fs-5 shadow-lg">Próximo Ticket</button>
-    </d>
+  </div>
   </div>
   </div>
 
-  <!-- <script>
-    document.getElementById('call-ticket').addEventListener('click', function () {
-    // alert('sd');
-    fetch("{{ route('tickets.call.next') }}")
-      .then(response => response.json())
-      .then(data => {
-      if (data.error) {
-      console.log(data.error);
-      return;
-      }
-
-      const ticket = data.ticket;
-      console.log(ticket);
-      if (ticket) {
-      document.getElementById('ticket-data').innerText = ticket.operation_association.service.prefix_code + '0' + ticket.ticket_number;
-      document.getElementById('ticket-service').innerText = ticket.operation_association.service.description;
-      } else {
-      document.getElementById('ticket-id').innerText = "Nenhum ticket disponível";
-      document.getElementById('ticket-service').innerText = "";
-      }
-      })
-      .catch(error => {
-      console.error('Erro ao buscar ticket:', error);
-      });
-    });
-    </script> -->
 @endsection

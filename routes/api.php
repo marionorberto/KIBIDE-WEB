@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\QueueDisplayTicketsEvent;
+use App\Events\TestEvent;
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\OperationController;
 use App\Http\Controllers\UnitController;
@@ -167,11 +169,62 @@ Route::middleware('auth:sanctum')->post('/generateTicket', function (Request $re
       ->where('id_operation_association', $request->operation_id)
       ->first();
 
+    $pendingTickets = TicketGenerated::query()
+      ->with(['operationAssociation.service', 'operationAssociation.counter'])
+      ->where('unit_id', $request->unit_id)
+      ->whereHas('operationAssociation', function ($query) use ($operations) {
+        $query->where('counter_id', $operations->counter->id_counter);
+      })
+      ->whereDate('created_at', Carbon::today())
+      ->where('status', 'pending')
+      ->orderBy('created_at', 'asc')
+      ->get();
+
+    // Emissão de evento isolada com log de erro se falhar
+    try {
+      $pendingTicketsSimplified = $pendingTickets->map(function ($ticket) {
+        return [
+          'ticket_number' => $ticket->ticket_number,
+          'status' => $ticket->status,
+          'prefix_code' => $ticket->operationAssociation->service->prefix_code
+        ];
+      });
+      event(new TestEvent($pendingTicketsSimplified));
+    } catch (\Throwable $e) {
+      Log::error($pendingTickets);
+      return response()->json(['error' => 'Erro ao emitir o evento.'], 500);
+    }
+
+    $pendingTicketsForDisplay = TicketGenerated::query()
+      ->with(['operationAssociation.service']) // carrega o service da operationAssociation
+      ->where('unit_id', Auth::user()->unit_id)
+      ->whereDate('created_at', Carbon::today())
+      ->orderBy('created_at', 'DESC')
+      ->where('status', 'pending')
+      ->take(10)
+      ->get();
+
+    // Emissão de evento isolada com log de erro se falhar
+    try {
+      $pendingTicketsSimplified = $pendingTicketsForDisplay->map(function ($ticket) {
+        return [
+          'ticket_number' => $ticket->ticket_number,
+          'status' => $ticket->status,
+          'prefix_code' => $ticket->operationAssociation->service->prefix_code
+        ];
+      });
+      event(new QueueDisplayTicketsEvent($pendingTicketsSimplified));
+    } catch (\Throwable $e) {
+      Log::error($e);
+      return response()->json(['error' => 'Erro ao emitir o evento QueueDisplayTicketsEvent: ERROR->' . $e->getMessage()], 500);
+    }// reindexa os resultados
+
+
     return response()->json([
       'message' => 'Ticket generated sucessfully!',
       'data' => [
         $ticket,
-        $operations
+        $operations,
       ],
       200
     ]);
