@@ -10,21 +10,17 @@ use Illuminate\Support\Str;
 class ProfileCompany extends Model
 {
     use HasFactory, HasUuids;
-    protected $table = "profile_company";
-
-
+    protected $table = "profile_companies";
     protected $keyType = 'string';
     public $incrementing = false;
     public $primaryKey = 'id_profile_company';
     protected $fillable = [
-        "company_id",
-        "sector_industry",
-        "number_of_employees",
-        "founded_at",
-        "website_url",
-        "facebook_url",
-        "instagram_url",
-        "active",
+        'company_id',
+        'photo',
+        'site_url',
+        'facebook_url',
+        'instagram_url',
+        'linkedin_url',
     ];
 
     protected static function booted()
@@ -32,21 +28,15 @@ class ProfileCompany extends Model
         parent::boot();
 
         // Gerar UUID automaticamente ao criar o modelo
-        static::creating(function ($profile_company) {
-            if (empty($profile_company->id_profile_company)) {
-                $profile_company->id_profile_company = (string) Str::uuid();
+        static::creating(function ($profile_companies) {
+            if (empty($profile_companies->id_profile_company)) {
+                $profile_companies->id_profile_company = (string) Str::uuid();
             }
         });
     }
-
-    protected $attributes = [
-        'active' => true,       // garanti que a campo active receba true como padrão
-    ];
 
     public function company()
     {
         return $this->belongsTo(Company::class);
     }
-
-
 }

@@ -28,6 +28,7 @@ class Company extends Model
         'company_nif',
         'company_address',
         'active',
+        'photo',
     ];
 
     protected static function booted()

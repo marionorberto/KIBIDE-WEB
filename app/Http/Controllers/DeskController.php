@@ -7,9 +7,13 @@ use App\Models\Counter;
 use App\Models\DayOperation;
 use App\Models\OperationAssociation;
 use App\Models\Unit;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class DeskController extends Controller
 {
@@ -77,17 +81,44 @@ class DeskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function destroy(string $id, Request $request)
     {
-        //
-    }
+        DB::beginTransaction();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        try {
+            // Validação básica da senha
+            $request->validate([
+                'password' => ['required'],
+            ]);
+
+            $user = Auth::user();
+
+            // Verifica se a senha está correta
+            if (!Hash::check($request->password, $user->password)) {
+                return redirect()->back()->with('error', 'Senha incorreta. A desativação foi cancelada.');
+            }
+
+            // Localiza o user e desativá-o
+            $user = User::findOrFail($id);
+            $user->active = false;
+            $user->save();
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'Atendente desactivado com sucesso.');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            Log::error('Erro ao deletar serviço: ' . $e->getMessage(), [
+                'service_id' => $id,
+                'user_id' => Auth::id(),
+                'request_data' => $request->except('password') // Evita logar a senha
+            ]);
+
+            return redirect()->back()->with('error', 'Erro ao excluir o serviço. Tente novamente mais tarde.');
+        }
+
     }
 
     public function profile()

@@ -4,9 +4,6 @@
 
 @section('content')
 
-
-
-
 <div class="page-header">
   <div class="page-block">
     <div class="row align-items-center">
@@ -21,14 +18,31 @@
 <div class="row">
   <div class="col-sm-12">
     <div class="card">
-      <div class="card-header d-flex justify-content-between items-align-center">
-        <div>
-          <h5>Visualização dos dados dos Linhas Atenimentos</h5>
-          <small>Configure, edite, visualize e apague os dados dos Linhas Atenimentos da sua empresa. </small>
+      <div class="card-header">
+        <div class="d-flex justify-content-between items-align-center">
+          <div>
+            <h5>Visualização dos dados das Linhas Atendimentos</h5>
+            <small>Configure, edite, visualize e apague os dados das Linhas Atendimentos da sua unidade. </small>
+          </div>
+          <a class="btn btn-primary" href="{{ route('unit.services.create') }}">Criar Serviço</a>
         </div>
-        <a class="btn btn-primary" href="{{ route('unit.services.create') }}">Criar Serviço</a>
+        @if ($errors->any())
+        <ul class="alert alert-danger mt-3">
+          @foreach ($errors->all() as $error)
+        <li class="ps-1">{{ $error }}</li>
+        @endforeach
+        </ul>
+    @endif
 
+        @if ($successMessage = session('success'))
+      <div class="alert alert-success mt-3" role="alert"> {{ $successMessage }} </div>
+    @endif
+
+        @if ($errorMessage = session('error'))
+      <div class="alert alert-danger mt-3" role="alert"> {{ $errorMessage }}</div>
+    @endif
       </div>
+
       <div class="card-body">
         <div class="dt-responsive table-responsive overflow-hidden">
           <table id="myTable" class="table table-striped table-bordered nowrap">
@@ -64,15 +78,15 @@
                             disabled>
                         </div>
                         <div class="form-group">
-                          <label class="form-label">STATUS</label>
+                          <label class="form-label">ESTADO</label>
                           <input type="text" class="form-control form-control"
-                            value="{{   $item->active ? 'activado' : 'desativado'}}" disabled>
+                            value="{{   $item->active ? 'Activado' : 'Desativado'}}" disabled>
                         </div>
 
 
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Fechar</button>
                       </div>
                     </div>
                   </div>
@@ -81,40 +95,45 @@
               <div id="{{ $modalEditLine }}" class="modal fade" tabindex="-1" role="dialog"
                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalCenterTitle">Editar Linha de Atendimento</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-
-                      <div class="card-body">
-
-                        <div class="form-group">
-                          <label class="form-label">NOME</label>
-                          <input type="text" class="form-control form-control" value="{{   $item->counter_name }}">
-                        </div>
-                        <div class="form-group">
-                          <label class="form-label">STATUS</label>
-                          <input type="text" class="form-control form-control"
-                            value="{{   $item->active ? 'activado' : 'desativado'}}">
-                        </div>
-
+                  <form method="POST" action="{{ route('counters.update', $item->id_counter) }}">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Editar Linha de Atendimento</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Editar</button>
+                      <div class="modal-body">
+                        <div class="card-body">
+                          <div class="form-group">
+                            <label class="form-label">NOME</label>
+                            <input type="text" name="counter_name" class="form-control form-control"
+                              value="{{   $item->counter_name }}">
+                          </div>
+                          <div class="form-group">
+                            <label class="form-label">ESTADO</label>
+                            <select name="prefix_code" class="form-select service-data" id="exampleSelect1">
+                              <option value="0" {{ $item->active == false ? 'selected' : '' }}>Desactivado</option>
+                              <option value="1" {{ $item->active ? 'selected' : '' }}>Activado</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Fechar</button>
+                          <button type="submit" class="btn btn-primary">Editar</button>
 
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </form>
                 </div>
               </div>
               <div id="{{ $modalDeleteLine }}" class="modal fade" tabindex="-1" role="dialog"
                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
-                  <form method="POST" action="/confirm-password-before-delete">
+                  <form method="POST" action="{{ route('counters.destroy', $item->id_counter) }}">
                     @csrf
+                    @method('DELETE')
                     <div class="modal-content">
                       <input type="hidden" name="id_counter" value="{{ $item->id_counter }}">
                       <div class="modal-header">
@@ -130,7 +149,7 @@
                         </div>
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-danger">Confirmar e Apagar</button>
                       </div>
                     </div>

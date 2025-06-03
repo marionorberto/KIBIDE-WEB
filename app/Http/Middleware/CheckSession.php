@@ -17,7 +17,7 @@ class CheckSession
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::check()) {
-            return redirect('/')
+            return redirect()->route('auth.login.show')
                 ->with('error', 'Sua sessão expirou. Faça login novamente.');
         }
 

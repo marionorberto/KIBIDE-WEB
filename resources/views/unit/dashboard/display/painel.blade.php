@@ -117,15 +117,19 @@
         <!-- Serviços Ativos -->
         @foreach ($operations as $item)
 
-      <div id="servico-ativo" class="servico-ativo">{{ $item->counter->counter_name }} -
-        {{ $item->service->description }}
-      </div>
+      <div class="servico-ativo">{{ $item->counter->counter_name }} - {{ $item->service->description }}</div>
     @endforeach
 
 
+        <!-- Tickets em Espera -->
         <h6 class="mt-4" style="margin-top: 10px; font-size: 25px;">Fila de espera</h6>
-
-
+        <div id="queueTickets"></div>
+        <!-- <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">B023</div> -->
+        <!-- <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">B120</div> -->
+        <!-- <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">C012</div> -->
+        <!-- <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">B12</div> -->
+        <!-- <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">C121</div> -->
+        <!-- <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">B093</div> -->
       </div>
 
       <!-- Lado Direito: Painel de Chamadas -->
@@ -137,14 +141,17 @@
         </div>
         <div class="" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); ">
           @foreach ($counters as $item)
-        <div class="col-md-3 balcao-box">{{ $item->counter_name }}<br><small style="color: #ffc107">B034</small></div>
+        <div class="col-md-3 balcao-box">{{ $item->counter_name }}<br><small style="color: #ffc107">B##</small></div>
       @endforeach
         </div>
-        <div class="" style="background-color: #005fa3; padding: 20px; border-radius: 10px;">
+
+        <!-- <div class="" style="background-color: #005fa3; padding: 20px; border-radius: 10px;">
           <div class="balcao-destaque">BALCÃO 1</div>
           <div class="ticket-destaque">A045</div>
           <p class="lead">Dirija-se ao balcão indicado</p>
-        </div>
+        </div> -->
+
+
       </div>
     </div>
   </div>
@@ -152,28 +159,29 @@
   @vite('resources/js/app.js')
 
   <script>
-    const queueTickets = document.getElementById('ticket-espera');
-    // updateTime();
-    // setInterval(updateTime, 1000);
-    // function updateTime() {
-    //   const now = new Date();
-    //   const formatted = now.toLocaleString('pt-BR'); // "12/05/2025 06:47:25"
-    //   document.getElementById('current-time').textContent = formatted;
-    // }
-
+    const queueTickets = document.getElementById('queueTickets');
+    updateTime();
+    setInterval(updateTime, 1000);
+    function updateTime() {
+      const now = new Date();
+      const formatted = now.toLocaleString('pt-BR'); // "12/05/2025 06:47:25"
+      document.getElementById('current-time').textContent = formatted;
+    }
+    console.log('teste se a ', queueTickets);
     setTimeout(() => {
       window.Echo.channel('queue-display-tickets-channel')
         .listen('QueueDisplayTicketsEvent', (data) => {
           try {
-            if (occupied && data?.data?.tickets?.length > 0) {
+            console.log('this data is comming from event ->', data);
+            if (data.data.length > 0) {
               queueTickets.innerHTML = '';
               data.data.forEach(ticket => {
+
+                console.log('single ticket ->', ticket);
                 const div = document.createElement('div');
-                div.className = 'pc-item';
-                div.innerHTML = `
-                      <div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">${ticket.operation_association.service.prefix_code}0${ticket.ticket_number}</div>
-                    `;
-                ticketList.appendChild(li);
+
+                div.innerHTML = `<div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">${ticket.prefix_code}0${ticket.ticket_number}</div>`;
+                queueTickets.appendChild(div);
               });
             } else {
               queueTickets.innerHTML = '';

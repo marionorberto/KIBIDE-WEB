@@ -7,7 +7,6 @@
         <li class="pc-h-item pc-sidebar-collapse">
           <h3 class="mt-1" id="current-time"></h3>
         </li>
-
       </ul>
     </div>
     <!-- [Mobile Media Block end] -->
@@ -68,14 +67,38 @@
         <li class="dropdown pc-h-item header-user-profile">
           <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button"
             aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
-            <img src="{{ asset('assets/images/user/avatar-2.jpg') }}" alt="user-image" class="user-avtar">
+            <div class="me-1">
+
+              @if (Auth::user()->photo)
+          <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="User photo"
+          style="width: 25px; height: 25px;" class="rounded-circle">
+        @else
+              {!! Avatar::create(Auth::user()->username)
+        ->setDimension(25, 25) // Define tamanho
+        ->setFontSize(25) // Define tamanho da fonte
+        ->setBackground('#3490dc') // Cor de fundo
+        ->toSvg()
+            !!}
+        @endif
+            </div>
+
             <span>{{ Auth::user()->username }}</span>
           </a>
           <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
             <div class="dropdown-header">
               <div class="d-flex mb-1">
                 <div class="flex-shrink-0">
-                  <img src="{{ asset('assets/images/user/avatar-2.jpg') }}" alt="user-image" class="user-avtar wid-35">
+                  @if (Auth::user()->photo)
+            <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="User photo"
+            style="width: 25px; height: 25px;" class="rounded-circle">
+          @else
+                  {!! Avatar::create(Auth::user()->username)
+          ->setDimension(25, 25) // Define tamanho
+          ->setFontSize(25) // Define tamanho da fonte
+          ->setBackground('#3490dc') // Cor de fundo
+          ->toSvg()
+                !!}
+          @endif
                 </div>
                 <div class="flex-grow-1 ms-3">
                   <h6 class="mb-1">{{ Auth::user()->username }}</h6>
@@ -114,7 +137,6 @@
     </div>
   </div>
 </header>
-<!-- [ Header ] end -->
 
 <script>
   function updateTime() {
@@ -125,7 +147,6 @@
 
   // Atualiza imediatamente ao carregar
   updateTime();
-
   // Atualiza a cada segundo
   setInterval(updateTime, 1000);
 </script>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CounterChoosedEvent;
+use App\Events\QueueDisplayTicketsEvent;
 use App\Events\TestEvent;
 use App\Events\TicketCalled;
 use App\Http\Requests\StoreUnitRequest;
@@ -19,6 +21,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class UnitController extends Controller
@@ -104,17 +107,32 @@ class UnitController extends Controller
 
     public function profile()
     {
-        // por aqui try catch
+        DB::beginTransaction();
+        try {
+            DB::commit();
 
-        $companyData = Company::where('id_company', Auth::user()->company_id)->first();
-        $unitData = Unit::where('manager_id', Auth::user()->id_user)->first();
-        $unitUserCount = User::where('unit_id', Auth::user()->unit_id)->where('role', 'desk')->count();
+            $companyData = Company::where('id_company', Auth::user()->company_id)->first();
+            $unitData = Unit::where('manager_id', Auth::user()->id_user)->first();
+            $unitUserCount = User::where('unit_id', Auth::user()->unit_id)->where('role', 'desk')->count();
+            $countersCount = Counter::where('unit_id', Auth::user()->unit_id)->count();
+            $ticketsCount = TicketGenerated::where('unit_id', Auth::user()->unit_id)->count();
 
-        return view('unit.dashboard.profile', compact(
-            'companyData',
-            'unitData',
-            'unitUserCount'
-        ))->with('section', 'profile-4');
+            DB::commit();
+
+            return view('unit.dashboard.profile', compact(
+                'companyData',
+                'unitData',
+                'unitUserCount',
+                'countersCount',
+                'ticketsCount'
+            ));
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('error' . $e);
+            return redirect()->back()->with('error', 'Não foi possível mostrar o perfil da unidade, por favor tente mais tarde!');
+        }
+
 
     }
 
@@ -125,8 +143,16 @@ class UnitController extends Controller
 
     public function listDesks()
     {
-        $desks = User::where('unit_id', Auth::user()->unit_id)->where('role', 'desk')->get();
-        return view('unit.dashboard.desks.list', compact('desks'));
+        try {
+            $desks = User::where('unit_id', Auth::user()->unit_id)->where('role', 'desk')->get();
+
+            $desks->load('unit');
+
+            return view('unit.dashboard.desks.list', compact('desks'));
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', 'Não foi possível listar os atendentes, Por favor tente mais tarde!');
+        }
     }
 
     public function createSms()
@@ -259,7 +285,7 @@ class UnitController extends Controller
         $operations = DayOperation::where('unit_id', Auth::user()->unit_id)->get();
         $desks = User::where('unit_id', Auth::user()->unit_id)->where('role', 'desk')->get();
 
-        return view('unit.dashboard.operations.assign', compact('desks', 'operations'));
+        return view('unit.dashboard.scales.assign', compact('desks', 'operations'));
     }
 
     public function listOperation()
@@ -325,7 +351,6 @@ class UnitController extends Controller
                 $deskCounter->save();
             }
 
-
             $counterId = $counter->id_counter;
 
             $pendingTickets = TicketGenerated::query()
@@ -337,6 +362,18 @@ class UnitController extends Controller
                 ->whereDate('created_at', Carbon::today())
                 ->where('status', 'pending')
                 ->get();
+
+            try {
+
+                // event(new TestEvent($pendingTicketsSimplified));
+                event(new CounterChoosedEvent([
+                    'counterName' => $operation->counter->counter_name,
+                    'serviceDescription' => $operation->service->description
+                ]));
+            } catch (\Throwable $e) {
+                Log::error($e->getMessage());
+                return response()->json(['error' => 'Erro ao emitir o evento.'], 500);
+            }
 
 
             return response()->json([
@@ -350,5 +387,10 @@ class UnitController extends Controller
             return response()->json(['data' => [], 'message' => $e->getMessage()]);
 
         }
+    }
+
+    public function listScales()
+    {
+        return view('unit.dashboard.scales.list');
     }
 }

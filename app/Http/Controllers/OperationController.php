@@ -39,6 +39,7 @@ class OperationController extends Controller
      */
     public function store(Request $request)
     {
+        DB::beginTransaction();
         try {
             Carbon::setLocale('pt_BR');
             $mesAtual = Carbon::now()->translatedFormat('F');
@@ -66,9 +67,11 @@ class OperationController extends Controller
                     'active' => true,
                 ]);
             }
+            DB::commit();
 
             return redirect()->back()->with("success", 'Lista operações cadastrada com sucesso!');
         } catch (\Exception $e) {
+            DB::rollBack();
             return redirect()->back()->with("error", $e->getMessage());
         }
     }
@@ -221,7 +224,6 @@ class OperationController extends Controller
             return redirect()->back()->with("error", $e->getMessage());
         }
     }
-
     public function storeDayOperation(Request $request)
     {
         try {

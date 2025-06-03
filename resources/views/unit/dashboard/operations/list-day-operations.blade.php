@@ -22,7 +22,7 @@
       <div class="card-header d-flex justify-content-between items-align-center">
         <div>
           <h5>Visualização dos dados das Operações Diárias</h5>
-          <small>Configure, edite, visualize e apague os dados das Operações Diárias da sua empresa. </small>
+          <small>Configure, edite, visualize e apague os dados das Operações Diárias da sua unidade. </small>
         </div>
         <a class="btn btn-primary" href="{{ route('unit.create.day-operation') }}">Criar Operação Diária</a>
 

@@ -17,14 +17,31 @@
 <div class="row">
   <div class="col-sm-12">
     <div class="card">
-      <div class="card-header d-flex justify-content-between items-align-center">
-        <div>
-          <h5>Visualização dos dados dos Serviços</h5>
-          <small>Configure, edite, visualize e apague os dados dos Serviços da sua empresa. </small>
+      <div class="card-header">
+        <div class="d-flex justify-content-between items-align-center">
+          <div>
+            <h5>Visualização dos dados dos Serviços</h5>
+            <small>Configure, edite, visualize e apague os dados dos Serviços da sua empresa. </small>
+          </div>
+          <a class="btn btn-primary" href="{{ route('unit.services.create') }}">Criar Serviço</a>
         </div>
-        <a class="btn btn-primary" href="{{ route('unit.services.create') }}">Criar Serviço</a>
+        @if ($errors->any())
+        <ul class="alert alert-danger mt-3">
+          @foreach ($errors->all() as $error)
+        <li class="ps-1">{{ $error }}</li>
+        @endforeach
+        </ul>
+    @endif
 
+        @if ($successMessage = session('success'))
+      <div class="alert alert-success mt-3" role="alert"> {{ $successMessage }} </div>
+    @endif
+
+        @if ($errorMessage = session('error'))
+      <div class="alert alert-danger mt-3" role="alert"> {{ $errorMessage }}</div>
+    @endif
       </div>
+
       <div class="card-body">
         <div class="dt-responsive table-responsive overflow-hidden">
           <table id="myTable" class="table table-striped table-bordered nowrap">
@@ -66,25 +83,14 @@
                             disabled>
                         </div>
                         <div class="form-group col-md-12">
-                          <label class="form-label" for="exampleSelect1">CÓDIGO DO PREFIXO</label>
-                          <select name="" class="form-select service-data" id="exampleSelect1" disabled>
-                            <option value="A" {{ $item->prefix_code == 'A' ? 'selected' : '' }}>Prefixo - A</option>
-                            <option value="B" {{ $item->prefix_code == 'B' ? 'selected' : '' }}>Prefixo - B</option>
-                            <option value="A" {{ $item->prefix_code == 'C' ? 'selected' : '' }}>Prefixo - C</option>
-                            <option value="D" {{ $item->prefix_code == 'D' ? 'selected' : '' }}>Prefixo - D</option>
-                            <option value="E" {{ $item->prefix_code == 'E' ? 'selected' : '' }}>Prefixo - E</option>
-                            <option value="F" {{ $item->prefix_code == 'F' ? 'selected' : '' }}>Prefixo - F</option>
-                            <option value="G" {{ $item->prefix_code == 'G' ? 'selected' : '' }}>Prefixo - G</option>
-                            <option value="H" {{ $item->prefix_code == 'H' ? 'selected' : '' }}>Prefixo - H</option>
-                            <option value="I" {{ $item->prefix_code == 'I' ? 'selected' : '' }}>Prefixo - I</option>
-                            <option value="J" {{ $item->prefix_code == 'J' ? 'selected' : '' }}>Prefixo - J</option>
-                            <option value="K" {{ $item->prefix_code == 'K' ? 'selected' : '' }}>Prefixo - K</option>
-                            <option value="L" {{ $item->prefix_code == 'L' ? 'selected' : '' }}>Prefixo - L</option>
-                          </select>
+                          <label class="form-label">PREFIXO DO SERVIÇO</label>
+
+                          <input type="text" class="form-control form-control"
+                            value="PREFIXO - {{  $item->prefix_code }}" disabled>
                         </div>
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Fechar</button>
                       </div>
                     </div>
                   </div>
@@ -93,120 +99,133 @@
               <div id="{{ $modalEditService }}" class="modal fade" tabindex="-1" role="dialog"
                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalCenterTitle">Editar Serviço</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
+                  <form method="post" action="{{ route('services.edit', $item->id_service) }}">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Editar Serviço</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
 
-                      <div class="card-body">
-                        <div class="form-group">
-                          <label class="form-label">DESCRIÇÃO DO SERVIÇO</label>
-                          <input type="text" name="description" class="form-control form-control"
-                            value="{{ $item->description }}">
+                        <div class="card-body">
+                          <div class="form-group">
+                            <label class="form-label">DESCRIÇÃO DO SERVIÇO</label>
+                            <input type="text" name="description" class="form-control form-control"
+                              value="{{ $item->description }}">
+                          </div>
+                          <div class="form-group">
+                            <label class="form-label">NÍVEL DE PRIORIDADE</label>
+                            <select name="priority_level" class="form-select service-data" id="exampleSelect1">
+                              <option value="normal" {{ $item->priority_level == 'normal' ? 'selected' : '' }}>Normal
+                              </option>
+                              <option value="urgent" {{ $item->priority_level == 'urgent' ? 'selected' : '' }}>Urgente
+                              </option>
+                            </select>
+                            <!-- <input type="text" class="form-control form-control" value="{{   $item->priority_level }}"> -->
+                          </div>
+                          <div class="form-group col-md-12">
+                            <label class="form-label" for="exampleSelect1">PREFIXO DO SERVIÇO</label>
+                            <select name="prefix_code" class="form-select service-data" id="exampleSelect1">
+                              <option value="A" {{ $item->prefix_code == 'A' ? 'selected' : '' }}>Prefixo - A</option>
+                              <option value="B" {{ $item->prefix_code == 'B' ? 'selected' : '' }}>Prefixo - B</option>
+                              <option value="C" {{ $item->prefix_code == 'C' ? 'selected' : '' }}>Prefixo - C</option>
+                              <option value="D" {{ $item->prefix_code == 'D' ? 'selected' : '' }}>Prefixo - D</option>
+                              <option value="E" {{ $item->prefix_code == 'E' ? 'selected' : '' }}>Prefixo - E</option>
+                              <option value="F" {{ $item->prefix_code == 'F' ? 'selected' : '' }}>Prefixo - F</option>
+                              <option value="G" {{ $item->prefix_code == 'G' ? 'selected' : '' }}>Prefixo - G</option>
+                              <option value="H" {{ $item->prefix_code == 'H' ? 'selected' : '' }}>Prefixo - H</option>
+                              <option value="I" {{ $item->prefix_code == 'I' ? 'selected' : '' }}>Prefixo - I</option>
+                              <option value="J" {{ $item->prefix_code == 'J' ? 'selected' : '' }}>Prefixo - J</option>
+                              <option value="K" {{ $item->prefix_code == 'K' ? 'selected' : '' }}>Prefixo - K</option>
+                              <option value="L" {{ $item->prefix_code == 'L' ? 'selected' : '' }}>Prefixo - L</option>
+                            </select>
+                          </div>
+                          <input type="hidden" name="id_service" value="{{ $item->id_service }}">
                         </div>
-                        <div class="form-group">
-                          <label class="form-label">NÍVEL DE PRIORIDADE</label>
-                          <select name="priority_level" class="form-select service-data" id="exampleSelect1">
-                            <option value="normal" {{ $item->priority_level == 'normal' ? 'selected' : '' }}>Normal
-                            </option>
-                            <option value="urgent" {{ $item->priority_level == 'urgent' ? 'selected' : '' }}>Urgente
-                            </option>
-                          </select>
-                          <!-- <input type="text" class="form-control form-control" value="{{   $item->priority_level }}"> -->
+
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Fechar</button>
+                          <button type="submit" class="btn btn-primary">Editar</button>
                         </div>
-                        <div class="form-group col-md-12">
-                          <label class="form-label" for="exampleSelect1">CÓDIGO DO PREFIXO</label>
-                          <select name="prefix_code" class="form-select service-data" id="exampleSelect1">
-                            <option value="A" {{ $item->prefix_code == 'A' ? 'selected' : '' }}>Prefixo - A</option>
-                            <option value="B" {{ $item->prefix_code == 'B' ? 'selected' : '' }}>Prefixo - B</option>
-                            <option value="A" {{ $item->prefix_code == 'C' ? 'selected' : '' }}>Prefixo - C</option>
-                            <option value="D" {{ $item->prefix_code == 'D' ? 'selected' : '' }}>Prefixo - D</option>
-                            <option value="E" {{ $item->prefix_code == 'E' ? 'selected' : '' }}>Prefixo - E</option>
-                            <option value="F" {{ $item->prefix_code == 'F' ? 'selected' : '' }}>Prefixo - F</option>
-                            <option value="G" {{ $item->prefix_code == 'G' ? 'selected' : '' }}>Prefixo - G</option>
-                            <option value="H" {{ $item->prefix_code == 'H' ? 'selected' : '' }}>Prefixo - H</option>
-                            <option value="I" {{ $item->prefix_code == 'I' ? 'selected' : '' }}>Prefixo - I</option>
-                            <option value="J" {{ $item->prefix_code == 'J' ? 'selected' : '' }}>Prefixo - J</option>
-                            <option value="K" {{ $item->prefix_code == 'K' ? 'selected' : '' }}>Prefixo - K</option>
-                            <option value="L" {{ $item->prefix_code == 'L' ? 'selected' : '' }}>Prefixo - L</option>
-                          </select>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div id="{{ $modalDeleteService }}" class="modal fade" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <form method="POST" action="{{ route('services.destroy', $item->id_service) }}">
+                    @csrf
+                    @method('DELETE')
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="confirmPasswordTitle">Confirme sua senha</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Por segurança, confirme sua senha para prosseguir com a exclusão do registro.</p>
+                        <div class="mb-3">
+                          <label for="password" class="form-label">Senha</label>
+                          <input type="password" class="form-control" id="password" name="password" required
+                            placeholder="Digite sua senha">
                         </div>
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Editar</button>
-
+                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger">Confirmar e Apagar</button>
                       </div>
                     </div>
-                  </div>
-                  </d>
+                  </form>
                 </div>
-                <div id="{{ $modalDeleteService }}" class="modal fade" tabindex="-1" role="dialog"
-                  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered" role="document">
-                    <form method="POST" action="/confirm-password-before-delete">
-                      @csrf
-                      <div class="modal-content">
-                        <input type="hidden" name="id_service" value="{{ $item->id_service }}">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="confirmPasswordTitle">Confirme sua senha</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-                        </div>
-                        <div class="modal-body">
-                          <p>Por segurança, confirme sua senha para prosseguir com a exclusão do registro.</p>
-                          <div class="mb-3">
-                            <label for="confirm_password" class="form-label">Senha</label>
-                            <input type="password" class="form-control" id="confirm_password" name="password" required
-                              placeholder="Digite sua senha">
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Cancelar</button>
-                          <button type="submit" class="btn btn-danger">Confirmar e Apagar</button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-                <tr>
-                  <td>{{ $loop->iteration }}</td>
-                  <td>{{ $item->description }}</td>
-                  <td>{{ $item->priority_level }}</td>
-                  <td>{{ $item->prefix_code }}</td>
+              </div>
+              @if ($errors->any() || session('error'))
+          <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            const modal = document.getElementById('{{ $modalDeleteService }}');
+            modal.show();
+          });
+          </script>
+        @endif
+              <tr>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $item->description }}</td>
+                <td>{{ $item->priority_level }}</td>
+                <td>{{ $item->prefix_code }}</td>
 
-                  @if($item->active)
-            <td><span class="badge bg-light-success  f-12">activo</span> </td>
-          @else
-                  <td><span class="badge bg-light-dander  f-12">inactivo</span> </td>
-                  @endIf
-                  <td class="text-center">
-                    <ul class="list-inline me-auto mb-0">
-                      <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="View">
-                        <a data-bs-toggle="modal" data-bs-target="#{{ $modalViewService }}" href="#"
-                          class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal" data-bs-target="#cust-modal">
-                          <i class="ti ti-eye f-18"></i>
-                        </a>
-                      </li>
-                      <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="Edit">
-                        <a data-bs-toggle="modal" data-bs-target="#{{  $modalEditService}}"
-                          href="../application/ecom_product-add.html" class="avtar avtar-xs btn-link-primary">
-                          <i class="ti ti-edit-circle f-18"></i>
-                        </a>
-                      </li>
-                      <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="Delete">
-                        <a data-bs-toggle="modal" data-bs-target="#{{  $modalDeleteService}}" href="#"
-                          class="avtar avtar-xs btn-link-danger">
-                          <i class="ti ti-trash f-18"></i>
-                        </a>
-                      </li>
+                @if($item->active)
+          <td><span class="badge bg-light-success  f-12">activo</span> </td>
+        @else
+                <td><span class="badge bg-light-dander  f-12">inactivo</span> </td>
+                @endIf
+                <td class="text-center">
+                  <ul class="list-inline me-auto mb-0">
+                    <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="View">
+                      <a data-bs-toggle="modal" data-bs-target="#{{ $modalViewService }}" href="#"
+                        class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal" data-bs-target="#cust-modal">
+                        <i class="ti ti-eye f-18"></i>
+                      </a>
+                    </li>
+                    <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="Edit">
+                      <a data-bs-toggle="modal" data-bs-target="#{{  $modalEditService}}"
+                        href="../application/ecom_product-add.html" class="avtar avtar-xs btn-link-primary">
+                        <i class="ti ti-edit-circle f-18"></i>
+                      </a>
+                    </li>
+                    <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="Delete">
+                      <a data-bs-toggle="modal" data-bs-target="#{{  $modalDeleteService}}" href="#"
+                        class="avtar avtar-xs btn-link-danger">
+                        <i class="ti ti-trash f-18"></i>
+                      </a>
+                    </li>
 
 
-                    </ul>
-                  </td>
-                </tr>
-                @endforeach
+                  </ul>
+                </td>
+              </tr>
+              @endforeach
 
             </tbody>
 

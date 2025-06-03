@@ -46,6 +46,7 @@
     <div id="mensagemErro" class="alert alert-danger d-none" role="alert"></div>
 
     <div class="row">
+      <h5 class="mb-4">Escolha uma data para associar a operação diária já criada previamente!</h5>
       <input type="hidden" name="dataToRequest" id="dataToRequest">
       <input hidden type="text" name="name" value="fixo" class="form-control name" required>
 
@@ -68,7 +69,9 @@
       </div>
     </div>
 
+    <hr>
     <div class="row mt-3">
+      <h5 class="mb-4">Associe serviços e linhas de atendimento à operação escolhida!</h5>
       <div class="col-md-6">
       <div class="form-group">
         <label class="form-label" for="exampleSelect1">Linha de Atendimento</label>
@@ -98,8 +101,8 @@
     <button type="reset" class="btn btn-light">Limpar Campos</button>
 
     <hr>
-    <h5 class="mt-3">Lista de Operações</h5>
-    <table class="table table-striped table-bordered nowrap">
+    <h5 id="title-list-operations" class="mt-3" style="display: none;">Lista de Operações</h5>
+    <table id="table-list-operations" class="table table-striped table-bordered nowrap" style="display: none;">
       <thead>
       <tr>
         <th>Nº</th>
@@ -110,10 +113,10 @@
       </tr>
       </thead>
       <tbody id="tabelaItens">
-      <!-- Itens adicionados aparecerão aqui -->
       </tbody>
     </table>
-    <button type="submit" onclick="prepararEnvio()" class="btn btn-primary me-2">Salvar Operações</button>
+    <button id="button-save-operations" type="submit" onclick="prepararEnvio()" class="btn btn-primary me-2"
+      style="display: none;">Salvar Operações</button>
     </div>
   </form>
 
@@ -121,29 +124,23 @@
     let itens = [];
     let contador = 1;
 
-    document.querySelector('.realization_date').addEventListener('change', async function () {
-    const date = this.value;
+    async function buscarOperacaoPorData(date) {
     const select = document.getElementById('dayOperationSelect');
-
     if (!date) return;
 
-    select.innerHTML = '<option value="">Carregando...</option>';
+    select.innerHTML = '';
     select.disabled = true;
 
     try {
       const response = await fetch(`/api/operation/${date}`);
       const data = await response.json();
 
-      console.log(data);
-
       if (data.status == 200) {
-      select.innerHTML = '<option value="">Selecione a operação diária</option>';
       const option = document.createElement('option');
       option.value = data.data.id_day_operation;
       option.text = `${data.data.name} - ${data.data.created_at}`;
       option.setAttribute('data-name', data.data.name);
       select.appendChild(option);
-
       select.disabled = false;
       } else {
       select.innerHTML = '<option value="">Nenhuma operação encontrada</option>';
@@ -152,6 +149,15 @@
       console.error('Erro ao buscar operações:', error);
       select.innerHTML = '<option value="">Nenhuma operação encontrada</option>';
     }
+    }
+
+    document.querySelector('.realization_date').addEventListener('change', function () {
+    buscarOperacaoPorData(this.value);
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+    const defaultDate = document.querySelector('.realization_date').value;
+    buscarOperacaoPorData(defaultDate);
     });
 
     function adicionarItem() {
@@ -180,6 +186,11 @@
       id: operationOption.value,
       nome: operationOption.getAttribute('data-name') || operationOption.textContent
     };
+
+    if (!line.id || !service.id) {
+      mostrarErro('Escolha uma Linha de atendimento e um serviço!');
+      return;
+    }
 
     if (line && service && operation.id) {
       const jaExiste = itens.some(item =>
@@ -212,6 +223,14 @@
 
     function atualizarTabela() {
     limparErro();
+    const titleListOperations = document.getElementById('title-list-operations');
+    const tableListOperations = document.getElementById('table-list-operations');
+    const buttonSaveOperations = document.getElementById('button-save-operations');
+
+    titleListOperations.style.display = 'block';
+    tableListOperations.style.display = 'block';
+    buttonSaveOperations.style.display = 'block';
+
     const tbody = document.getElementById("tabelaItens");
     tbody.innerHTML = "";
 
@@ -263,8 +282,8 @@
 
     function limparErro() {
     const divErro = document.getElementById("mensagemErro");
-    divErro.textContent = "";
     divErro.classList.add("d-none");
+    divErro.textContent = "";
     }
   </script>
 @endsection

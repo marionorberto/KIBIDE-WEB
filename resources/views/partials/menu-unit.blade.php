@@ -1,3 +1,15 @@
+@php
+  use App\Models\DayOperation;
+  use App\Models\OperationAssociation;
+  use App\Models\ProfileCompany;
+  use Carbon\Carbon;
+
+  $companyData = ProfileCompany::where('company_id', Auth::user()->company_id)->first();
+
+
+@endphp
+
+
 <Style>
   @import "normalize.css";
 
@@ -122,8 +134,13 @@
   <div class="navbar-wrapper">
     <div class="m-header d-flex justify-content-center py-3">
       <a href="/">
-        <img src="{{ asset('assets/images/LOGO.png') }}" alt="" style="height: 80px; width: 80px;">
+        @if ($companyData->photo)
+      <img src="{{ asset('storage/' . $companyData->photo)  }}" style="height: 120px; width: 120px;">
+
+    @endif
       </a>
+      </a>
+
     </div>
     <div class="navbar-content">
       <ul class="pc-navbar">
@@ -253,16 +270,8 @@
           </a>
         </li>
 
-
-
-        <!-- <li class="pc-item">
-          <a href="{{ route('unit.list.operation') }}" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-eye"></i></span>
-            <span class="pc-mtext">Visualizar Operação<span class="badge bg-light-primary">hoje</span></span>
-          </a>
-        </li> -->
         <li class="pc-item">
-          <a href="{{ route('unit.list.operation') }}" class="pc-link">
+          <a href="{{ route('unit.list.scales') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-eye"></i></span>
             <span class="pc-mtext">Visualizar Escala</span>
           </a>
@@ -361,7 +370,7 @@
         <div class="card-body">
           <h5>Atenção</h5>
           <p>Salve alterações pendentes antes de sair!</p>
-          <a href="{{ route('auth.logout') }}" class="btn btn-success">sair</a>
+          <a href="{{ route('auth.logout') }}" class="btn btn-primary">sair</a>
         </div>
       </div>
     </div>

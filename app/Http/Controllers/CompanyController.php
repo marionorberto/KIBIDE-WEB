@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCompanyUserRequest;
 use App\Models\Company;
+use App\Models\ProfileCompany;
 use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -98,6 +99,29 @@ class CompanyController extends Controller
                 'password' => Hash::make($request->password),
                 'role' => 'admin', // fixo como admin
                 'active' => true,
+            ]);
+
+            // Upload de imagem se existir
+            $photoPath = null;
+
+            if ($request->hasFile('photo') && $request->file('photo')->isValid()) {
+                $file = $request->file('photo');
+
+                // Gera um nome único com hash e extensão original
+                $filename = hash('sha256', uniqid('', true)) . '.' . $file->getClientOriginalExtension();
+
+                // Salva o arquivo com o nome hash na pasta 'logos', disco 'public'
+                $photoPath = $file->storeAs('logos', $filename, 'public');
+            }
+
+            // Criar perfil da empresa
+            ProfileCompany::create([
+                'company_id' => $company->id_company,
+                'site_url' => $request->site_url,
+                'facebook_url' => $request->facebook_url,
+                'instagram_url' => $request->instagram_url,
+                'linkedin_url' => $request->linkedin_url,
+                'photo' => $photoPath, // Campo deve existir na tabela
             ]);
 
             // 4. Atualizar a unidade para setar o manager_id

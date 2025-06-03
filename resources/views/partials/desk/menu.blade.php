@@ -1,6 +1,7 @@
 @php
   use App\Models\DayOperation;
   use App\Models\OperationAssociation;
+  use App\Models\ProfileCompany;
   use Carbon\Carbon;
 
   $dayOperation = DayOperation::where('unit_id', Auth::user()->unit_id)->where('realization_date', Carbon::today())->first();
@@ -15,13 +16,20 @@
     $query->where('status', 'unoccupied');
     })
     ->get();
+
+  $companyData = ProfileCompany::where('company_id', Auth::user()->company_id)->first();
+
+
 @endphp
 
 <nav class="pc-sidebar" style="width: 350px;">
   <div class="navbar-wrapper" style="width: 350px;">
     <div class="m-header d-flex justify-content-center py-3">
       <a href="/">
-        <img src="{{ asset('assets/images/LOGO.png') }}" alt="" style="height: 80px; width: 80px;">
+        <!-- <img src="{{ asset('assets/images/LOGO.png') }}" alt="" style="height: 80px; width: 80px;"> -->
+        @if ($companyData->photo)
+      <img src="{{ asset('storage/' . $companyData->photo)  }}" style="height: 120px; width: 120px;">
+    @endif
       </a>
     </div>
     <div class="navbar-content">
@@ -40,7 +48,7 @@
             </a>
           </li>
           <li class="pc-item">
-            <a href="{{ route('desk.user.profile') }}" class="pc-link">
+            <a href="{{ route('desk.tickets.histories') }}" class="pc-link">
               <span class="pc-micon"><i class="ti ti-report"></i></span>
               <span class="pc-mtext">Históricos de Tickets</span>
             </a>
@@ -67,11 +75,12 @@
           </form>
           <hr>
           <li class="pc-item pc-caption">
-            <label>Tickets Pendentes(
+            <label id="pending-ticket-menu-desk" style="display: none;">Tickets Pendentes(
               <a id="queueTicketsCounter">0</a> )</label>
 
             <i class="ti ti-brand-chrome"></i>
           </li>
+          <div id="ticket-warning"></div>
           <ul id="ticket-list" class="pc-navbar"></ul>
         </div>
       </ul>

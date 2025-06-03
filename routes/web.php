@@ -18,6 +18,7 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckSession;
 use App\Models\OperationAssociation;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -36,19 +37,17 @@ Route::get('kibide/faq', function () {
     return view('faq');
 })->name('faq');
 
-Route::get('kibide/{idCompany}/painel', [PainelController::class, 'index'])->name('painel')->middleware(CheckSession::class);
+Route::get('kibide/{idCompany}/painel', [PainelController::class, 'index'])->name('painel')->middleware(CheckSession::class)->middleware(CheckSession::class);
+Route::get('kibide/display', function () {
+    return view('unit.dashboard.display.display');
+})->name('display');
 
 
 Route::prefix('kibide/auth')->group(function () {
-
     Route::get('/index', [AuthController::class, 'index'])->name('auth.login.show');
-
     Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
-
     Route::get('/forgot-password', [AuthController::class, 'forgotPassword'])->name('auth.forgot');
-
     Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-
     Route::post('/changer-password', [AuthController::class, 'changePassword'])->name('auth.password.change');
 });
 
@@ -72,12 +71,14 @@ Route::prefix('kibide/company')->group(function () {
 
 });
 
-Route::prefix('kibide/desk')->group(function () {
-    Route::get('/index', [DeskController::class, 'index'])->name('desk.index')->middleware(CheckSession::class);
+Route::middleware(CheckSession::class)->prefix('kibide/desk')->group(function () {
+    Route::get('/index', [DeskController::class, 'index'])->name('desk.index');
     Route::get('/user/profile', [DeskController::class, 'profile'])->name('desk.user.profile');
+    Route::get('/tickets/histories', [TicketController::class, 'histories'])->name('desk.tickets.histories');
+    Route::delete('/destroy/{id}', [DeskController::class, 'destroy'])->name('desk.destroy');
 });
 
-Route::prefix('kibide/unit')->group(function () {
+Route::middleware(CheckSession::class)->prefix('kibide/unit')->group(function () {
     Route::get('/index', [UnitController::class, 'index'])->name('unit.index')->middleware(CheckSession::class);
     Route::get('/profile', [UnitController::class, 'profile'])->name('unit.manager.profile');
     Route::post('/store', [UnitController::class, 'store'])->name('units.store');
@@ -106,7 +107,6 @@ Route::prefix('kibide/unit')->group(function () {
     // unit.store.operation
     Route::post('/operations/store', [OperationController::class, 'store'])->name('unit.store.operation');
     Route::post('/operations-association/store', [OperationController::class, 'storeOperationAssociation'])->name('unit.store.operation-association');
-
     Route::get('/operations/create', [UnitController::class, 'createOperation'])->name('unit.create.operation');
 
     // esse aqui:
@@ -115,52 +115,38 @@ Route::prefix('kibide/unit')->group(function () {
     Route::get('/operations/assing', [UnitController::class, 'assignOperation'])->name('unit.assign.operation');
     Route::get('/operations/list', [UnitController::class, 'listOperation'])->name('unit.list.operation');
     Route::get('/operations/list/day-operation', [DayOperationController::class, 'show'])->name('unit.list.day-operation');
-
+    Route::get('/operations/scales/list', [UnitController::class, 'listScales'])->name('unit.list.scales');
     Route::get('/operations/counter/choose', [UnitController::class, 'chooseCounter'])->name('operation.counter.choose');
-
-
     Route::get('/operations/settings', [UnitController::class, 'operationSettings'])->name('unit.settings.operation');
     Route::put('/operations/edit/{id}', [UnitController::class, 'edit'])->name('unit.services.edit');
-
     Route::post('/operations/createDayOperation', [DayOperationController::class, 'store'])->name('unit.store.day.operation');
     Route::post('/operations/assignOperation', [OperationController::class, 'assignOperation'])->name('unit.store.assign.operation');
 });
 
-Route::prefix('kibide/users')->group(function () {
+
+Route::middleware(CheckSession::class)->prefix('kibide/users')->group(function () {
     Route::post('/store', [UserController::class, 'store'])->name('users.store');
     Route::post('/store/desk', [UserController::class, 'storedesks'])->name('users.desk.store');
+    Route::put('/update/photo/{id}', [UserController::class, 'updatePhoto'])->name('user.upload.photo');
+    Route::put('/update/user/{id}', [UserController::class, 'update'])->name('users.update');
 });
 
 
-Route::prefix('kibide/tickets')->group(function () {
+
+Route::middleware(CheckSession::class)->prefix('kibide/tickets')->group(function () {
     Route::get('/call-next-ticket', [TicketController::class, 'callNextTicket'])->name('tickets.call.next');
     // Route::post('/store/desk', [UserController::class, 'storedesks'])->name('users.desk.store');
 });
 
 
-
-Route::get('/testing', function () {
-    return view('testing');
+Route::middleware(CheckSession::class)->prefix('kibide/services')->group(function () {
+    Route::put('/service/edit/{id}', [ServiceController::class, 'edit'])->name('services.edit');
+    Route::delete('/service/delete/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
+    // Route::post('/store/desk', [UserController::class, 'storedesks'])->name('users.desk.store');
 });
 
-Route::get('/trigger', function () {
-    $ticket = [
-        'id' => 1,
-        'nome' => 'Ticket de Exemplo',
-        'prioridade' => 'Alta'
-    ];
-    event(new TestEvent($ticket));
+Route::middleware(CheckSession::class)->prefix('kibide/counters')->group(function () {
+    Route::put('/counter/update/{id}', [CounterController::class, 'update'])->name('counters.update');
+    Route::delete('/counter/delete/{id}', [CounterController::class, 'destroy'])->name('counters.destroy');
+    // Route::post('/store/desk', [UserController::class, 'storedesks'])->name('users.desk.store');
 });
-
-
-// Route::get('/testar-evento', function () {
-//     $ticket = [
-//         'id' => 1,
-//         'nome' => 'Ticket de Exemplo',
-//         'prioridade' => 'Alta'
-//     ];
-
-//     event(new TicketCalled($ticket));
-
-//     return 'Evento emitido!';
-// });

@@ -31,8 +31,6 @@
       <div class="loader-fill"></div>
     </div>
   </div>
-
-
   @include('partials.desk.menu')
   @include('partials.desk.header')
   <div class="pc-container" style="padding-left: 70px;">
@@ -41,7 +39,6 @@
     </div>
   </div>
   </div>
-
   @include('partials.desk.footer')
   <script src="{{ asset('assets/js/plugins/popper.min.js')}}"></script>
   <script src="{{ asset('assets/js/plugins/simplebar.min.js')}}"></script>
@@ -249,6 +246,10 @@
       const buttonOccupied = document.getElementById('button_occupied');
       const ticketList = document.getElementById('ticket-list');
       const callTicketBtn = document.getElementById('call-ticket');
+      const displayCounterName = document.getElementById('display-counter-name');
+      const displayServiceName = document.getElementById('display-service-name');
+      const pendingTicketMenuDesk = document.getElementById('pending-ticket-menu-desk');
+
 
       if (id_operation_association) {
         id_operation_association.disabled = false;
@@ -365,11 +366,14 @@
                   </a>`;
                 ticketList.appendChild(li);
               });
-            } else {
-              ticketList.innerHTML = '';
-              ticketList.innerHTML = ` <div id="ticket-warning" class="alert alert-warning mt-2" style="display: none;">
+            } else if (occupied && data?.data?.tickets?.length <= 0) {
+              const div = document.createElement('div');
+              div.innerHTML = ` <div class="alert alert-warning  mx-2">
       Sem tickets disponíveis para esse balção.
       </div > `
+              ticketList.innerHTML = '';
+              ticketList.appendChild(div);
+
             }
           })
           .catch(error => console.log(error));
@@ -399,7 +403,7 @@
             const ticketsCounter = data.data.length;
             queueTicketsCounter.innerHTML = ticketsCounter;
 
-            data.data.forEach(ticket => {
+            occupied && data.data.forEach(ticket => {
               const li = document.createElement('li');
               li.className = 'pc-item';
               li.innerHTML = `
@@ -418,6 +422,16 @@
           }
         });
 
+      window.Echo.channel('counter-choosed-channel')
+        .listen('CounterChoosedEvent', (data) => {
+          try {
+            pendingTicketMenuDesk.style.display = 'block';
+            displayCounterName.innerHTML = data.data.counterName + ' - ';
+            displayServiceName.innerHTML = data.data.serviceDescription;
+          } catch (error) {
+            console.log('ephaa', error);
+          }
+        });
     });
 
 

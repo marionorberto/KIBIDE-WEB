@@ -67,7 +67,7 @@
       </div>
       <div class="col-md-6">
       <div class="form-group">
-        <label class="form-label" for="exampleSelect1">Código de Prefixação</label>
+        <label class="form-label" for="exampleSelect1">Código de Prefixação*</label>
         <select name="prefix_code" class="form-select" id="exampleSelect1">
         <option value="">Selecione o Prefixo</option>
         <option value="A">Prefixo - A</option>

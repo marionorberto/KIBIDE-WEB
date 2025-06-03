@@ -28,6 +28,7 @@ class User extends Authenticatable
         'password',
         'role',
         'active',
+        'photo',
     ];
 
     protected static function booted()

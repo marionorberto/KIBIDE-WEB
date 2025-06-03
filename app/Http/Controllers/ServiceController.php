@@ -6,6 +6,9 @@ use App\Http\Requests\StoreServiceRequest;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class ServiceController extends Controller
 {
@@ -35,7 +38,7 @@ class ServiceController extends Controller
             $serviceExists = Service::where('unit_id', Auth::user()->unit_id)->where('description', $request->description)->first();
 
             if ($serviceExists)
-                return redirect()->back()->with("error", 'Serviço já cadastrado!');
+                return redirect()->back()->with("error", 'Serviço com esse nome já cadastrado, por favor escolha outro nome/descrição!');
 
 
             $serviceExistsWithThisPrefixCode = Service::where('unit_id', Auth::user()->unit_id)->where('prefix_code', $request->prefix_code)->first();
@@ -68,17 +71,52 @@ class ServiceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id, Request $request)
     {
-        $service = Service::find($id);
+        DB::beginTransaction();
 
-        dd($service);
+        try {
+            $alreadyExistAServiceWithThisNameCreated = Service::where('unit_id', Auth::user()->unit_id)
+                ->where('description', $request->description)
+                ->where('id_service', '!=', $id)
+                ->first();
 
-        // $unit->active = true;
-        // $unit->active = true;
-        // $unit->manager_id = $user->id_user;
-        // $unit->save();
+            if ($alreadyExistAServiceWithThisNameCreated)
+                return redirect()->back()->with('error', 'Já existe um serviço com esse *NOME criado, por favor escolha outro nome!');
+
+
+            $alreadyExistAPrefixWithThisNameCreated = Service::where('unit_id', Auth::user()->unit_id)
+                ->where('prefix_code', $request->prefix_code)
+                ->where('id_service', '!=', $id)
+                ->first();
+
+            if ($alreadyExistAPrefixWithThisNameCreated)
+                return redirect()->back()->with('error', 'Já existe um serviço com esse *PREFIXO criado, por favor escolha outro Prefixo!');
+
+
+            $service = Service::findOrFail($id); // Usa o ID da rota, não do request
+
+            $service->active = $request->input('status', $service->active);
+            $service->prefix_code = $request->input('prefix_code', $service->prefix_code);
+            $service->description = $request->input('description', $service->description);
+            $service->priority_level = $request->input('priority_level', $service->priority_level);
+
+            $service->save();
+
+            DB::commit();
+            return redirect()->back()->with('success', 'Serviço editado com sucesso!');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Erro ao editar serviço: ' . $e->getMessage(), [
+                'service_id' => $id,
+                'request_data' => $request->all()
+            ]);
+
+            return redirect()->back()->with('error', 'Erro ao editar este serviço. Verifique os dados e tente novamente.');
+        }
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -91,8 +129,42 @@ class ServiceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id, Request $request)
     {
-        //
+
+        DB::beginTransaction();
+
+        try {
+            // Validação básica da senha
+            $request->validate([
+                'password' => ['required'],
+            ]);
+
+            $user = Auth::user();
+
+            // Verifica se a senha está correta
+            if (!Hash::check($request->password, $user->password)) {
+                return redirect()->back()->with('error', 'Senha incorreta. A exclusão foi cancelada.');
+            }
+
+            // Localiza o serviço e deleta
+            $service = Service::findOrFail($id);
+            $service->delete();
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'Serviço excluído com sucesso.');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            Log::error('Erro ao deletar serviço: ' . $e->getMessage(), [
+                'service_id' => $id,
+                'user_id' => Auth::id(),
+                'request_data' => $request->except('password') // Evita logar a senha
+            ]);
+
+            return redirect()->back()->with('error', 'Erro ao excluir o serviço. Tente novamente mais tarde.');
+        }
     }
 }

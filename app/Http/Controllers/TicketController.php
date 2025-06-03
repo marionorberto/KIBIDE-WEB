@@ -7,9 +7,12 @@ use App\Events\TicketCalled;
 use App\Models\DeskCounter;
 use App\Models\Ticket;
 use App\Models\TicketGenerated;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class TicketController extends Controller
@@ -65,9 +68,44 @@ class TicketController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id, Request $request)
     {
-        //
+        // DB::beginTransaction();
+
+        // try {
+        //     // Validação básica da senha
+        //     $request->validate([
+        //         'password' => ['required'],
+        //     ]);
+
+        //     $user = Auth::user();
+
+        //     // Verifica se a senha está correta
+        //     if (!Hash::check($request->password, $user->password)) {
+        //         return redirect()->back()->with('error', 'Senha incorreta. A exclusão foi cancelada.');
+        //     }
+
+        //     // Localiza o user e desativá-o
+        //     $user = User::findOrFail($id);
+        //     $user->active = false;
+        //     $user->save();
+
+        //     DB::commit();
+
+        //     return redirect()->back()->with('success', 'Serviço excluído com sucesso.');
+
+        // } catch (\Exception $e) {
+        //     DB::rollBack();
+
+        //     Log::error('Erro ao deletar serviço: ' . $e->getMessage(), [
+        //         'service_id' => $id,
+        //         'user_id' => Auth::id(),
+        //         'request_data' => $request->except('password') // Evita logar a senha
+        //     ]);
+
+        //     return redirect()->back()->with('error', 'Erro ao excluir o serviço. Tente novamente mais tarde.');
+        // }
+
     }
 
     // public function callNextTicket()
@@ -162,4 +200,13 @@ class TicketController extends Controller
         }
     }
 
+    public function histories()
+    {
+        view('desk.dashboard.tickets-histories');
+    }
+
 }
+
+// 938650134
+
+// 975360425 - erica bastos:

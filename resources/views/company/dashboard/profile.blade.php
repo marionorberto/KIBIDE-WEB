@@ -55,10 +55,13 @@
               <span class="badge bg-primary">Pro</span>
             </div>
             <div class="text-center mt-3">
-              <div class="chat-avtar d-inline-flex mx-auto">
-              <div class="rounded-circle img-fluid  wid-70 bg-black"></div>
-              <!-- <img class="rounded-circle img-fluid wid-70"
-    src="{{ asset('assets/images/user/avatar-5.jpg') }}" alt="User image"> -->
+              <div class="">
+              {!! Avatar::create(Auth::user()->username)
+    ->setDimension(65, 65) // Define tamanho
+    ->setFontSize(25) // Define tamanho da fonte
+    ->setBackground('#000') // Cor de fundo
+    ->toSvg()
+      !!}
               </div>
               <h5 class="mb-0">{{ $companyData->company_name }}</h5>
               <p class="text-muted text-sm">{{ $companyData->company_name }}</p>
@@ -197,7 +200,12 @@
             <div class="row">
               <div class="col-sm-12 text-center mb-3">
               <div class="user-upload wid-75">
-                <img src="{{ asset('assets/images/user/avatar-4.jpg') }}" alt="img" class="img-fluid">
+                {!! Avatar::create(Auth::user()->username)
+    ->setDimension(65, 65) // Define tamanho
+    ->setFontSize(25) // Define tamanho da fonte
+    ->setBackground('#000') // Cor de fundo
+    ->toSvg()
+      !!}
                 <label for="uplfile" class="img-avtar-upload">
                 <i class="ti ti-camera f-24 mb-1"></i>
                 <span>Upload</span>

@@ -42,10 +42,10 @@
     <div class="card">
       <div class="card-header d-flex justify-content-between items-align-center">
       <div>
-        <h5>Visualização dos dados dos usuários</h5>
-        <small>Configure, edite, visualize e apague os dados dos usuários da sua empresa. </small>
+        <h5>Visualização dos dados dos tickets gerados</h5>
+        <small>Visualize todos os tickets gerados pela sua unidade até agora.</small>
       </div>
-      <a class="btn btn-primary" href="{{ route('company.create.users') }}">Criar Usuário</a>
+      <a class="btn btn-primary" href="{{ route('unit.tickets.settings') }}">Configurações de tickets</a>
 
       </div>
       <div class="card-body">
@@ -71,7 +71,11 @@
         <td>{{ $ticket->operationAssociation->service->prefix_code }}</td>
         <td>{{ $ticket->operationAssociation->service->description }}</td>
         <td>{{ $ticket->operationAssociation->counter->counter_name }}</td>
-        <td>{{ $ticket->status }}</td>
+        @if ($ticket->status == 'pending')
+        <td>Pendente</td>
+      @elseif($ticket->status == 'called')
+        <td>Atendido</td>
+      @endif
         </tr>
       @endforeach
         </tbody>

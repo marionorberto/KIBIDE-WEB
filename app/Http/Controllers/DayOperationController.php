@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DayOperation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DayOperationController extends Controller
 {
@@ -29,13 +30,14 @@ class DayOperationController extends Controller
      */
     public function store(Request $request)
     {
+        DB::beginTransaction();
         try {
             $unit_id = Auth::user()->unit_id;
 
-            $OperactionsAlreadyExistis = DayOperation::where('realization_date', $request->realization_date)->exists();
+            $OperactionsAlreadyExistis = DayOperation::where('unit_id', Auth::user()->unit_id)->where('realization_date', $request->realization_date)->exists();
 
             if ($OperactionsAlreadyExistis) {
-                return redirect()->back()->with("danger", 'Operação do dia já criada!');
+                return redirect()->back()->with("danger", 'Operação do dia com essa data já criada!');
             }
 
             DayOperation::create([
@@ -47,8 +49,12 @@ class DayOperationController extends Controller
                 "end_date" => $request->end_date,
                 "active" => $request->active
             ]);
+            DB::commit();
+
             return redirect()->back()->with("success", 'Operação diária cadastrada com sucesso!');
         } catch (\Exception $e) {
+            DB::rollBack();
+
             return redirect()->back()->with("error", $e->getMessage());
         }
     }

@@ -1,10 +1,10 @@
 @extends('layouts.auth')
-@section('title', 'registar mentor')
+@section('title', 'Criar Nova Empresa')
 @section('content')
 
   <div class="auth-main">
     <div class="auth-wrapper v3">
-    <div class="auth-form">
+    <div class="auth-form " style="width: 150%">
       <div class="auth-header d-flex justify-content-center">
       <a href="/" class="pt-5">
         <img class="text-center" src="{{ asset('assets/images/LOGO.png') }}" alt=""
@@ -12,7 +12,7 @@
       </a>
       </div>
       <div class="card mb-5">
-      <form method="post" action="{{ route('company.store') }}" class="card-body">
+      <form method="post" action="{{ route('company.store') }}" class="card-body" enctype="multipart/form-data">
         @csrf
 
         @if ($errors->any())
@@ -59,9 +59,50 @@
         </div>
         <div class=" col-md-6">
           <div class="form-group mb-3">
-          <label class="form-label">Terminal Telefónico</label>
+          <label class="form-label">Terminal Telefónico*</label>
           <input name="company_phone" type="text" class="form-control" placeholder="Terminal Telefónico"
             value="{{ old('company_phone') }}">
+          </div>
+        </div>
+        </div>
+
+        <div class=" row">
+        <div class="col-md-6">
+          <div class="form-group mb-3">
+          <label class="form-label">Logotipo</label>
+          <input name="photo" type="file" class="form-control @error('photo') is-invalid @enderror"
+            accept="image/png, image/jpeg">
+          @error('photo')
+        <div class="invalid-feedback">{{ $message }}</div>
+      @enderror
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group mb-3">
+          <label class="form-label">Website</label>
+          <input name="site_url" type="url" class="form-control" placeholder="Ex: meu.site.com"
+            value="{{ old('site_url') }}">
+          </div>
+        </div>
+        <div class=" col-md-4">
+          <div class="form-group mb-3">
+          <label class="form-label">Linkedin</label>
+          <input name="linkedin_url" type="url" class="form-control"
+            placeholder="http:linkedin.com/nome-da-minha-conta" value="{{ old('linkedin_url') }}">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group mb-3">
+          <label class="form-label">Facebook</label>
+          <input name="facebook_url" type="url" class="form-control"
+            placeholder="Ex: https://facebook.com/minha-perfil" value="{{ old('facebook_url') }}">
+          </div>
+        </div>
+        <div class=" col-md-4">
+          <div class="form-group mb-3">
+          <label class="form-label">Instagram</label>
+          <input name="instagram_url" type="url" class="form-control"
+            placeholder="Ex: https://instagram.com/minha-conta-instagram" value="{{ old('instagram_url') }}">
           </div>
         </div>
         </div>

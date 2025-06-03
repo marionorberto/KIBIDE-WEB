@@ -4,6 +4,14 @@
 
 @section('content')
 
+  @php
+    use \App\Models\ProfileCompany;
+    use \App\Models\TicketGenerated;
+
+    $profileCompany = ProfileCompany::where('company_id', Auth::user()->company_id)->first();
+
+    @endphp
+
   <div class="page-header">
     <div class="page-block">
     <div class="row align-items-center">
@@ -13,6 +21,21 @@
       <div class="col-md-12">
       <div class="page-header-title">
         <h2 class="mb-0">Perfil Atendente</h2>
+        @if ($errors->any())
+        <ul class="alert alert-danger mt-3">
+        @foreach ($errors->all() as $error)
+      <li class="ps-1">{{ $error }}</li>
+      @endforeach
+        </ul>
+      @endif
+
+        @if ($successMessage = session('success'))
+      <div class="alert alert-success mt-3" role="alert"> {{ $successMessage }} </div>
+      @endif
+
+        @if ($errorMessage = session('error'))
+      <div class="alert alert-danger mt-3" role="alert"> {{ $errorMessage }}</div>
+      @endif
       </div>
       </div>
     </div>
@@ -26,7 +49,7 @@
         <li class="nav-item">
         <a class="nav-link active" id="profile-tab-1" data-bs-toggle="tab" href="#profile-1" role="tab"
           aria-selected="true">
-          <i class="ti ti-user me-2"></i>Perfil
+          <i class="ti ti-user me-2"></i>Minha Conta
         </a>
         </li>
 
@@ -51,10 +74,31 @@
 
             <div class="text-center mt-3">
               <div class="chat-avtar d-inline-flex mx-auto">
-              <img class="rounded-circle img-fluid wid-70"
-                src="{{ asset('assets/images/user/avatar-5.jpg') }}" alt="User image">
+              <form method="post" action="{{ route('user.upload.photo', Auth::user()->id_user) }}"
+                class="user-upload wid-75" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                @if (Auth::user()->photo)
+          <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="User photo"
+          style="width: 65px; height: 65px;" class="rounded-circle">
+          @else
+                {!! Avatar::create(Auth::user()->username)
+          ->setDimension(65, 65) // Define tamanho
+          ->setFontSize(25) // Define tamanho da fonte
+          ->setBackground('#3490dc') // Cor de fundo
+          ->toSvg()
+            !!}
+          @endif
+
+                <label for="uplfile" class="img-avtar-upload">
+                <i class="ti ti-camera f-24 mb-1"></i>
+                <span>Trocar Fotografia</span>
+                </label>
+                <input type="file" name="photo" id="uplfile" class="d-none" accept=".jpeg,.png">
+                <button type="submit" class="btn btn-primary btn-sm">submeter</button>
+              </form>
               </div>
-              <h5 class="mb-0">{{ $user->username }}</h5>
+              <h5 class="mb-0 mt-2">{{ $user->username }}</h5>
               <p class="text-muted text-sm">Atendente</p>
               <hr class="my-3">
               <div class="row g-3">
@@ -85,7 +129,7 @@
               <div class="d-inline-flex align-items-center justify-content-between w-100">
               <i class="ti ti-link"></i>
               <a href="#" class="link-primary">
-                <p class="mb-0">---</p>
+                <p class="mb-0">{{ $profileCompany->site_url ?? '------' }}</p>
               </a>
               </div>
             </div>
@@ -126,7 +170,11 @@
               </div>
               </li>
             </ul>
+            <div class="col-12 text-end btn-page">
+              <div class="btn btn-primary">Editar Dados</div>
             </div>
+            </div>
+
           </div>
 
 

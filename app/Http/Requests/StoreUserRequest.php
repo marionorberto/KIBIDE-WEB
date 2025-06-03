@@ -28,6 +28,7 @@ class StoreUserRequest extends FormRequest
                     ->uncompromised()
             ],
             'active' => 'required|boolean',
+            'photo' => 'nullable',
             'unit_id' => 'required|string',
         ];
     }

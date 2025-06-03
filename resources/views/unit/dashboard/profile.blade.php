@@ -4,6 +4,17 @@
 
 @section('content')
 
+  @php
+    use App\Models\DayOperation;
+    use App\Models\OperationAssociation;
+    use App\Models\ProfileCompany;
+    use Carbon\Carbon;
+
+    $companyProfileData = ProfileCompany::where('company_id', Auth::user()->company_id)->first();
+
+
+  @endphp
+
   <div class="page-header">
     <div class="page-block">
     <div class="row align-items-center">
@@ -12,7 +23,7 @@
       </div>
       <div class="col-md-12">
       <div class="page-header-title">
-        <h2 class="mb-0">Perfil</h2>
+        <h2 class="mb-0">Perfil Da Unidade</h2>
       </div>
       </div>
     </div>
@@ -26,13 +37,13 @@
         <li class="nav-item">
         <a class="nav-link active" id="profile-tab-1" data-bs-toggle="tab" href="#profile-1" role="tab"
           aria-selected="true">
-          <i class="ti ti-user me-2"></i>Perfil
+          <i class="ti ti-file-text me-2"></i>Perfil da Unidade
         </a>
         </li>
         <li class="nav-item">
         <a class="nav-link" id="profile-tab-2" data-bs-toggle="tab" href="#profile-2" role="tab"
           aria-selected="true">
-          <i class="ti ti-file-text me-2"></i>Minha conta
+          <i class="ti ti-user me-2"></i>Minha conta
         </a>
         </li>
 
@@ -56,10 +67,22 @@
             </div>
             <div class="text-center mt-3">
               <div class="chat-avtar d-inline-flex mx-auto">
-              <img class="rounded-circle img-fluid wid-70"
-                src="{{ asset('assets/images/user/avatar-5.jpg') }}" alt="User image">
+
+
+              <!-- {!! Avatar::create(Auth::user()->username)
+    ->setDimension(65, 65) // Define tamanho
+    ->setFontSize(25) // Define tamanho da fonte
+    ->setBackground('#000') // Cor de fundo
+    ->toSvg()
+      !!} -->
+
+              @if ($companyProfileData->photo)
+          <img src="{{ asset('storage/' . $companyProfileData->photo)  }}"
+          style="height: 120px; width: 120px;">
+
+        @endif
               </div>
-              <h5 class="mb-0">{{ $companyData->company_name }}</h5>
+              <h5 class="mb-0">{{ $companyProfileData->company_name }}</h5>
               <p class="text-muted text-sm">{{ $unitData->unit_name ?? '----' }}</p>
               <hr class="my-3">
               <div class="row g-3">
@@ -68,11 +91,11 @@
                 <small class="text-muted">Atendentes</small>
               </div>
               <div class="col-4 border border-top-0 border-bottom-0">
-                <h5 class="mb-0">0</h5>
+                <h5 class="mb-0">{{ $countersCount }}</h5>
                 <small class="text-muted">Balcões</small>
               </div>
               <div class="col-4">
-                <h5 class="mb-0">0</h5>
+                <h5 class="mb-0">{{ $ticketsCount }}</h5>
                 <small class="text-muted">Tickets</small>
               </div>
               </div>
@@ -92,7 +115,7 @@
               <div class="d-inline-flex align-items-center justify-content-between w-100">
               <i class="ti ti-link"></i>
               <a href="#" class="link-primary">
-                <p class="mb-0">url_company</p>
+                <p class="mb-0">{{ $companyProfileData->site_url }}</p>
               </a>
               </div>
             </div>
@@ -140,8 +163,10 @@
                 </div>
               </div>
               </li>
-
             </ul>
+            <div class="col-12 text-end btn-page">
+              <div class="btn btn-primary">Editar Dados</div>
+            </div>
             </div>
           </div>
 
@@ -158,14 +183,29 @@
             <div class="card-body">
             <div class="row">
               <div class="col-sm-12 text-center mb-3">
-              <div class="user-upload wid-75">
-                <img src="{{ asset('assets/images/user/avatar-4.jpg') }}" alt="img" class="img-fluid">
+              <form method="post" action="{{ route('user.upload.photo', Auth::user()->id_user) }}"
+                class="user-upload wid-75" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                @if (Auth::user()->photo)
+          <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="User photo"
+          style="width: 65px; height: 65px;" class="rounded-circle">
+          @else
+                {!! Avatar::create(Auth::user()->username)
+          ->setDimension(65, 65) // Define tamanho
+          ->setFontSize(25) // Define tamanho da fonte
+          ->setBackground('#000') // Cor de fundo
+          ->toSvg()
+            !!}
+          @endif
+
                 <label for="uplfile" class="img-avtar-upload">
                 <i class="ti ti-camera f-24 mb-1"></i>
-                <span>Upload</span>
+                <span>Trocar Fotografia</span>
                 </label>
-                <input type="file" id="uplfile" class="d-none">
-              </div>
+                <input type="file" name="photo" id="uplfile" class="d-none" accept=".jpeg,.png">
+                <button type="submit" class="btn btn-primary">submeter</button>
+              </form>
               </div>
 
               <div class="col-sm-12">
@@ -183,7 +223,7 @@
 
               <div class="col-sm-12">
               <div class="form-group">
-                <label class="form-label">Status Conta</label>
+                <label class="form-label">Estado da Conta</label>
                 <select class="form-control" disabled>
                 <option>Activa</option>
                 </select>
@@ -193,10 +233,43 @@
             </div>
           </div>
           </div>
-
           <div class="col-12 text-end btn-page">
-          <div class="btn btn-outline-secondary">Cancelar</div>
-          <div class="btn btn-primary">Atualizar</div>
+          <div class="btn btn-primary">Editar Dados</div>
+          </div>
+        </div>
+
+
+        <div id="modalEditUserManagerData" class="modal fade" tabindex="-1" role="dialog"
+          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+          <form method="post" action="{{ route('users.update', Auth::user()->id_user) }}">
+            @csrf
+            @method('PUT')
+            <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalCenterTitle">Editar Dados do Usuário</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="card-body">
+              <div class="form-group">
+                <label class="form-label">USERNAME</label>
+                <input type="text" name="description" class="form-control form-control"
+                value="{{ Auth::user()->username }}">
+              </div>
+              <div class="form-group">
+                <label class="form-label">EMAIL</label>
+                <input type="text" name="description" class="form-control form-control"
+                value="{{ Auth::user()->email }}">
+              </div>
+              </div>
+              <div class="modal-footer">
+              <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Fechar</button>
+              <button type="submit" class="btn btn-primary">Editar</button>
+              </div>
+            </div>
+            </div>
+          </form>
           </div>
         </div>
         </div>
