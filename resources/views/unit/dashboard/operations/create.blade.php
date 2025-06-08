@@ -63,8 +63,6 @@
           </span>
         </div>
         </div>
-
-        <!-- <input type="date" name="" id=""> -->
       </div>
       </div>
     </div>
@@ -119,15 +117,12 @@
   <script>
     let itens = [];
     let contador = 1;
-
     function adicionarItem() {
     const lineSelect = document.querySelector(".line-data");
     const serviceSelect = document.querySelector(".service-data");
     const name = document.querySelector(".name").value;
     const realization_date = document.querySelector(".realization_date").value;
     const realization_input = document.querySelector(".realization_date");
-
-
     const lineOption = lineSelect.options[lineSelect.selectedIndex];
     const serviceOption = serviceSelect.options[serviceSelect.selectedIndex];
 
@@ -241,47 +236,4 @@
     }
 
   </script>
-
-
-  <!-- 
-    <script>
-    let itens = [];
-
-    function adicionarItem() {
-    const lineSelect = document.querySelector('.line-data');
-    const serviceSelect = document.querySelector('.service-data');
-
-    const lineOption = lineSelect.options[lineSelect.selectedIndex];
-    const serviceOption = serviceSelect.options[serviceSelect.selectedIndex];
-
-    const line = {
-    id: lineOption.value,
-    nome: lineOption.textContent
-    };
-
-    const service = {
-    id: serviceOption.value,
-    nome: serviceOption.getAttribute('data-nome') || serviceOption.textContent
-    };
-
-    if (line.id && service.id) {
-    itens.push({ line, service });
-    atualizarLista();
-    }
-    }
-
-    function atualizarLista() {
-    const ul = document.getElementById('listaItens');
-    ul.innerHTML = '';
-    itens.forEach((item, index) => {
-    ul.innerHTML += `<li>${item.line.nome} - ${item.service.nome}</li>`;
-    });
-    }
-
-    function enviarLista() {
-    document.getElementById('itensInput').value = JSON.stringify(itens);
-    return true;
-    }
-
-    </script> -->
 @endsection

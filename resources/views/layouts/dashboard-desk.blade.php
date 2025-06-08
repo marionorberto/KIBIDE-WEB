@@ -33,7 +33,7 @@
   </div>
   @include('partials.desk.menu')
   @include('partials.desk.header')
-  <div class="pc-container" style="padding-left: 70px;">
+  <div class="pc-container">
     <div class="pc-content">
       @yield('content')
     </div>
@@ -46,11 +46,99 @@
   <script src="{{ asset('assets/js/fonts/custom-font.js')}}"></script>
   <script src="{{ asset('assets/js/pcoded.js')}}"></script>
   <script src="{{ asset('assets/js/plugins/feather.min.js')}}"></script>
-  <!-- <script>layout_change('light');</script>
-  <script>change_box_container('false');</script>
-  <script>layout_rtl_change('false');</script>
-  <script>preset_change("preset-1");</script>
-  <script>font_change("Public-Sans");</script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="{{ asset('assets/js/plugins/jquery.dataTables.min.js') }}"></script>
+  <script src="{{ asset('assets/js/plugins/dataTables.bootstrap5.min.js') }}"></script>
+  <script>
+    // [ Zero Configuration ] start
+    $('#myTable').DataTable({
+      "ordering": true,
+      "paging": true,
+      "searching": true,
+      "oLanguage": {
+        "sEmptyTable": "Nenhum registro encontrado na tabela",
+        "sInfo": "Mostrar _START_ até _END_ de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrar 0 até 0 de 0 Registros",
+        "sInfoFiltered": "(Filtrar de _MAX_ total registros)",
+        "sInfoPostFix": "",
+        "sInfoThousands": ".",
+        "sLengthMenu": "Mostrar _MENU_ registros por página",
+        "sLoadingRecords": "Carregando...",
+        "sProcessing": "Processando...",
+        "sZeroRecords": "Nenhum registro encontrado",
+        "sSearch": "Pesquisar",
+        "oPaginate": {
+          "sNext": "Próximo",
+          "sPrevious": "Anterior",
+          "sFirst": "Primeiro",
+          "sLast": "Último"
+        },
+        "oAria": {
+          "sSortAscending": ": Ordenar colunas de forma ascendente",
+          "sSortDescending": ": Ordenar colunas de forma descendente"
+        }
+      }
+    });
+
+    // [ Default Ordering ] start
+    $('#order-table').DataTable({
+      order: [[3, 'desc']]
+    });
+
+    // [ Multi-Column Ordering ]
+    $('#multi-colum-dt').DataTable({
+      columnDefs: [
+        {
+          targets: [0],
+          orderData: [0, 1]
+        },
+        {
+          targets: [1],
+          orderData: [1, 0]
+        },
+        {
+          targets: [4],
+          orderData: [4, 0]
+        }
+      ]
+    });
+
+    // [ Complex Headers ]
+    $('#complex-dt').DataTable();
+
+    // [ DOM Positioning ]
+    $('#DOM-dt').DataTable({
+      dom: '<"top"i>rt<"bottom"flp><"clear">'
+    });
+
+    // [ Alternative Pagination ]
+    $('#alt-pg-dt').DataTable({
+      pagingType: 'full_numbers'
+    });
+
+    // [ Scroll - Vertical ]
+    $('#scr-vrt-dt').DataTable({
+      scrollY: '200px',
+      scrollCollapse: true,
+      paging: false
+    });
+
+    // [ Scroll - Vertical, Dynamic Height ]
+    $('#scr-vtr-dynamic').DataTable({
+      scrollY: '50vh',
+      scrollCollapse: true,
+      paging: false
+    });
+
+    // [ Language - Comma Decimal Place ]
+    $('#lang-dt').DataTable({
+      language: {
+        decimal: ',',
+        thousands: '.'
+      }
+    });
+  </script>
+
   <div class="offcanvas pct-offcanvas offcanvas-end" tabindex="-1" id="offcanvas_pc_layout">
     <div class="offcanvas-header bg-primary">
       <h5 class="offcanvas-title text-white">KIBIDE</h5>
@@ -235,7 +323,6 @@
   </div>
 
   @vite('resources/js/app.js')
-
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       let id_operation_association = document.getElementById('id_operation_association');
@@ -249,7 +336,73 @@
       const displayCounterName = document.getElementById('display-counter-name');
       const displayServiceName = document.getElementById('display-service-name');
       const pendingTicketMenuDesk = document.getElementById('pending-ticket-menu-desk');
+      const currentTicketCard = document.getElementById('current-ticket');
 
+      fetch(`/api/user/${userId.value}/selected-counter`)
+        .then(response => {
+          if (!response.ok) throw new Error('Erro na requisição para pegar o último balcão selecionado pelo usuário desk!');
+          return response.json();
+        })
+        .then(data => {
+
+          if (data?.data?.tickets?.length > 0) {
+            const queueTicketsCounter = document.getElementById('queueTicketsCounter');
+            const pendingTicketMenuDesk = document.getElementById('pending-ticket-menu-desk');
+
+
+            const ticketsCounter = data.data.tickets.length;
+            pendingTicketMenuDesk.style.display = 'block';
+            queueTicketsCounter.innerHTML = ticketsCounter;
+
+            occupied = true;
+            id_operation_association.disabled = occupied;
+            updateButtonUI();
+
+            const newOption = document.createElement('option');
+
+            newOption.value = data.data.tickets[0].operation_association.id_operation_association;
+            newOption.textContent = `${data.data.tickets[0].operation_association.counter.counter_name} - ${data.data.tickets[0].operation_association.service.description} `;
+            newOption.setAttribute('data-counter-id', data.data.tickets[0].operation_association.id_operation_association);
+            newOption.selected = true;
+
+            // Adiciona a nova opção ao select
+            id_operation_association.appendChild(newOption);
+
+            // Opcional: desmarca outras opções (caso o select não seja múltiplo)
+            Array.from(id_operation_association.options).forEach(option => {
+              if (option !== newOption) {
+                option.selected = false;
+              }
+            });
+
+            ticketList.innerHTML = '';
+            data.data.tickets.forEach(ticket => {
+              const li = document.createElement('li');
+              li.className = 'pc-item';
+              li.innerHTML = `
+              <a a href = "#" class="pc-link" >
+                    <span class="pc-micon"><i class="ti ti-ticket"></i></span>
+                    <span class="pc-mtext">
+                      ${ticket.operation_association.service.prefix_code}0${ticket.ticket_number}
+                      <button type="button" class="btn btn-light-warning p-1 ms-2">${ticket.status == 'pending' ? 'Pendente' : ''}</button>
+                    </span>
+                  </a > `;
+              ticketList.appendChild(li);
+            });
+          } else if (occupied && data?.data?.tickets?.length <= 0) {
+            const pendingTicketMenuDesk = document.getElementById('pending-ticket-menu-desk');
+            pendingTicketMenuDesk.style.display = 'none';
+            const div = document.createElement('div');
+            div.innerHTML = ` <div div class="alert alert-warning  mx-2" >
+              Sem tickets disponíveis para esse balção.
+      </div > `;
+            ticketList.innerHTML = '';
+            ticketList.appendChild(div);
+          }
+        })
+        .catch(error => {
+          console.log("Nenhum balcão selecionado ainda. ", error);
+        });
 
       if (id_operation_association) {
         id_operation_association.disabled = false;
@@ -262,18 +415,24 @@
       if (callTicketBtn) {
         callTicketBtn.addEventListener('click', () => {
           if (!occupied) {
-            if (ticketWarning) {
+            if (!id_operation_association.value) {
+              warning.style.display = 'block';
+              ticketWarning.innerHTML = 'Por favor selecione um balcão desocupado para chamar próximo ticket!';
               ticketWarning.style.display = 'block';
+              currentTicketCard.style.display = 'none';
+              return;
+            } else {
+              warning.style.display = 'none';
+              ticketWarning.style.display = 'none';
+              currentTicketCard.style.display = 'flex';
             }
-            return;
-          }
-
-          if (ticketWarning) {
-            ticketWarning.style.display = 'none';
           }
 
           fetch("{{ route('tickets.call.next') }}")
-            .then(response => response.json())
+            .then(response => {
+              if (!response.ok) throw new Error('Erro na requisição para pegar o último ticket emitido pelo usuário desk!');
+              return response.json();
+            })
             .then(data => {
               if (data.error) {
                 return;
@@ -286,13 +445,20 @@
               } else {
                 document.getElementById('ticket-data').innerText = "Nenhum ticket disponível";
                 document.getElementById('ticket-service').innerText = "";
+                const div = document.createElement('div');
+                div.innerHTML = ` <div div class="alert alert-warning  mx-2" >
+              Sem tickets disponíveis para esse balção.
+      </div > `;
+                ticketList.innerHTML = '';
+                ticketList.appendChild(div);
               }
             })
             .catch(error => {
-              console.log('Erro ao buscar ticket:', error);
+
             });
         });
       }
+
       function falarTexto(ticket, counter) {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -323,9 +489,9 @@
         // Após o som, iniciar a fala
         osc2.onended = () => {
           window.speechSynthesis.cancel();
-          const texto = `SENHA ${ticket} DIRIJA-SE AO ${counter}`;
+          const texto = `SENHA ${ticket} DIRIJA-SE AO ${counter} `;
           const sintese = new SpeechSynthesisUtterance(texto);
-          sintese.lang = "pt-BR";
+          sintese.lang = "pt-PT";
           window.speechSynthesis.speak(sintese);
 
         };
@@ -352,6 +518,10 @@
             updateButtonUI();
 
             if (occupied && data?.data?.tickets?.length > 0) {
+              const queueTicketsCounter = document.getElementById('queueTicketsCounter');
+
+              const ticketsCounter = data.data.tickets.length;
+              queueTicketsCounter.innerHTML = ticketsCounter;
               ticketList.innerHTML = '';
               data.data.tickets.forEach(ticket => {
                 const li = document.createElement('li');
@@ -379,6 +549,8 @@
           .catch(error => console.log(error));
       }
 
+
+
       function updateButtonUI() {
         if (occupied) {
           buttonOccupied.classList.remove('btn-primary');
@@ -391,51 +563,76 @@
         }
       }
 
+      let operationAssociationSelected;
 
-      window.Echo.channel('testchannel')
-        .listen('TestEvent', (data) => {
+      id_operation_association.onchange = () => {
+        operationAssociationSelected = id_operation_association.value;
+      }
 
-          console.log(data);
-          try {
-            ticketList.innerHTML = '';
-            const queueTicketsCounter = document.getElementById('queueTicketsCounter');
+      let echoChannel = null;
 
-            const ticketsCounter = data.data.length;
-            queueTicketsCounter.innerHTML = ticketsCounter;
+      id_operation_association.addEventListener('change', function () {
+        const selectedOption = this.options[this.selectedIndex];
+        const operationAssociationId = selectedOption.getAttribute('data-counter-id');
 
-            occupied && data.data.forEach(ticket => {
-              const li = document.createElement('li');
-              li.className = 'pc-item';
-              li.innerHTML = `
-                      <a href="#" class="pc-link">
-                        <span class="pc-micon"><i class="ti ti-ticket"></i></span>
-                        <span class="pc-mtext">
-                          ${ticket.prefix_code}0${ticket.ticket_number}
-                          <button type="button" class="btn btn-light-warning p-1 ms-2">${ticket.status == 'pending' ? 'Pendente' : ''}</button>
-                        </span>
-                      </a>`;
-              ticketList.appendChild(li);
-            });
+        if (!operationAssociationId) {
+          console.warn('Nenhum balcão selecionado!');
+          return;
+        }
 
-          } catch (error) {
-            console.log(error);
-          }
-        });
+        // Desconecta canal anterior, se existir
+        if (echoChannel) {
+          window.Echo.leave(`counter.${echoChannel}`);
+        }
 
-      window.Echo.channel('counter-choosed-channel')
-        .listen('CounterChoosedEvent', (data) => {
-          try {
-            pendingTicketMenuDesk.style.display = 'block';
-            displayCounterName.innerHTML = data.data.counterName + ' - ';
-            displayServiceName.innerHTML = data.data.serviceDescription;
-          } catch (error) {
-            console.log('ephaa', error);
-          }
-        });
+        echoChannel = operationAssociationId;
+
+        // Conecta ao novo canal
+        window.Echo.channel(`counter.${operationAssociationId}`)
+          .listen('LoadCounterPendingTicket', (data) => {
+            try {
+              ticketList.innerHTML = '';
+              const queueTicketsCounter = document.getElementById('queueTicketsCounter');
+
+              const ticketsCounter = data.data.length;
+              queueTicketsCounter.innerHTML = ticketsCounter;
+
+              occupied && data.data.forEach(ticket => {
+                const li = document.createElement('li');
+                li.className = 'pc-item';
+                li.innerHTML = `
+        <a href="#" class="pc-link">
+          <span class="pc-micon"><i class="ti ti-ticket"></i></span>
+          <span class="pc-mtext">
+            ${ticket.prefix_code}0${ticket.ticket_number}
+            <button type="button" class="btn btn-light-warning p-1 ms-2">${ticket.status == 'pending' ? 'Pendente' : ''}</button>
+          </span>
+        </a>`;
+                ticketList.appendChild(li);
+              });
+
+            } catch (error) {
+              console.log(error);
+            }
+          });
+
+        window.Echo.channel(`counter-choosed-channel.${operationAssociationId}`)
+          .listen('CounterChoosedEvent', (data) => {
+            try {
+              pendingTicketMenuDesk.style.display = 'block';
+              displayCounterName.innerHTML = data.data.counterName + ' - ';
+              displayServiceName.innerHTML = data.data.serviceDescription;
+            } catch (error) {
+              console.log('error trying listening to the channel - counter-choosed-channel', error);
+            }
+          });
+      });
     });
 
-
   </script>
+
+
+
 
 </body>
 

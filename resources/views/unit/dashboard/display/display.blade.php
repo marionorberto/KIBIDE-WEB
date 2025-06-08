@@ -1,85 +1,269 @@
 @extends('layouts.auth')
-
 @section('title', 'Display Unidade')
-
 @section('content')
+  <style>
+    .sign-container {
+    width: 100%;
+    overflow: hidden;
+    background-color: transparent;
+    padding: 0;
+    }
 
-  <div class="auth-main" style="width: 100%; display: flex; flex-direction: row;">
-    <section class="bg-danger px-4 py-4" style="width: 50%; height: 100vh;">
-    <div class="w-100 bg-dark" style="height: 380px;">
-      <h1>adada</h1>
+    .sign-text {
+    display: inline-block;
+    white-space: nowrap;
+    color: #1890ff;
+    font-weight: bold;
+    font-size: 3rem;
+    animation: move 8s linear infinite alternate;
+    }
+
+    @keyframes move {
+    from {
+      transform: translateX(100%);
+    }
+
+    to {
+      transform: translateX(-100%);
+    }
+    }
+  </style>
+
+  <header class="p-2  px-5 d-flex justify-content-between align-items-center">
+    <div>
+    <input type="hidden" id="display-unit-id" value="{{ Auth::user()->unit_id }}">
+    <span class="h4">{{ $unitData->unit_name ?? '---' }}</span> |
+    <span class="text-muted"><i class="ti ti-pin"></i>{{ $unitData->unit_address ?? '---' }}</sp>
     </div>
-    <div class="mt-5">
-      <h1>Tickets em espera</h1>
-      <div>
-      <button>B39</button>
-      <button>SERVICO</button>
-      <button>CAIXA</button>
+    <div>
+    <span class="fs-3 text-muted fw-bold" id="current-time"></span>
+    </div>
+  </header>
+  <div class="auth-main" style="width: 100%; display: flex; flex-direction: row;">
+
+    <section class="bg-white px-4 py-4" style="width: 50%; height: 100vh;">
+    <div class="w-100 bg-secondary d-flex justify-content-center align-items-center" style="height: 380px;">
+      <div class="col-12">
+
+      <div class="card-body pc-component">
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"> </li>
+          <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
+        </ol>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+          <img class="img-fluid d-block w-100" src="{{ asset('assets/images/slider/img-slide-2.jpg') }}"
+            alt="First slide">
+          </div>
+          <div class="carousel-item">
+          <img class="img-fluid d-block w-100" src="{{ asset('assets/images/slider/img-slide-3.jpg') }}"
+            alt="Second slide">
+          </div>
+        </div>
+        </div>
       </div>
-      <div>
-      <button>B39</button>
-      <button>SERVICO</button>
-      <button>CAIXA</button>
       </div>
-      <div>
-      <button>B39</button>
-      <button>SERVICO</button>
-      <button>CAIXA</button>
+    </div>
+    <div class="flex-col mt-5 gap-1">
+      <h4>Tickets a serem atendidos</h4>
+      <div class="flex-row">
+      <div class="rounded-2 bg-white p-2">
+        <button class="btn btn-outline-info bg-gradient fs-5" style="width: 5rem; height: 2.5rem;">B039</button>
+        <button class="btn btn-light bg-gradient text-secondary fs-4"
+        style="width: 10rem; height: 2.5rem; background-color: #d3d4d5;">Reclamações</button>
+        <button class="btn btn-info bg-gradient fs-4" style="width: 15rem; height: 2.5rem;">BALCÃO 2</button>
       </div>
-      <div>
-      <button>B39</button>
-      <button>SERVICO</button>
-      <button>CAIXA</button>
       </div>
-      <div>
-      <button>B39</button>
-      <button>SERVICO</button>
-      <button>CAIXA</button>
-      </div>
-      <div>
-      <button>B39</button>
-      <button>SERVICO</button>
-      <button>CAIXA</button>
-      </div>
-      <div>
-      <button>B39</button>
-      <button>SERVICO</button>
-      <button>CAIXA</button>
-      </div>
+
     </div>
     </section>
-    <section class="bg-warning p-4 flex-col justify-content-center align-items-center" style="width: 60%; height: 100vh;">
-    <h1 class="text-center mt-4">LOGO DA EMPRESA</h1>
-
-    <div class="flex-col">
-      <div class="flex-row">
-      <div>
-        <button>B39</button>
-        <button>SERVICO</button>
-        <button>CAIXA</button>
-      </div>
-      <div>
-        <button>B39</button>
-        <button>SERVICO</button>
-        <button>CAIXA</button>
-      </div>
-      </div>
-      <div class="flex-row">
-      <div>
-        <button>B39</button>
-        <button>SERVICO</button>
-        <button>CAIXA</button>
-      </div>
-      <div>
-        <button>B39</button>
-        <button>SERVICO</button>
-        <button>CAIXA</button>
+    <section class="bg-light p-4 flex-col justify-content-center align-items-between" style="width: 60%; height: 100vh;">
+    <div>
+      <a class="d-flex justify-content-center align-items-center">
+      @if ($companyProfileData->photo)
+      <img src="{{ asset('storage/' . $companyProfileData->photo)  }}" style="height: 120px; width: 150px;">
+    @else
+      <h4 class="text-secondary text-center">LOGO</h4>
+    @endif
+      </a>
+      <div class="sign-container">
+      <div class="sign-text">
+        Atenção!! Fica atento à chamada do seu ticket
       </div>
       </div>
     </div>
-  </div>
 
+    <div class="flex-col mt-2 gap-1">
+      <h3>Tickets na fila de espera</h3>
+      <div id="queue-tickets">
+
+      </div>
+    </div>
+  </div>
   </section>
-
   </div>
+
+  @vite('resources/js/app.js')
+
+  <script>
+    const attendingTickets = [];
+    const queueTickets = document.getElementById('queue-tickets');
+    const unitId = document.getElementById('display-unit-id').value;
+
+    // when the page open must load the tickets
+    loadTicketsInQueue();
+
+    // loadAttendingQueue();
+    updateTime();
+
+    function loadTicketsInQueue() {
+    fetch(`/api/loadTicketsInQueue/${unitId}`)
+      .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+
+      throw new Error('Erro na response: /api/loadTicketsInQueue/${unitId}');
+      }).then((data) => {
+
+      if (data.data.length > 0) {
+        queueTickets.innerHTML = '';
+        data.data.forEach(ticket => {
+
+        const div = document.createElement('div');
+
+        div.innerHTML = `<div class="flex-row">
+    <div class="rounded-2 bg-white p-2">
+    <button class="btn btn-outline-primary bg-gradient fs-3" style="width: 14rem; height: 3rem;">${ticket.prefix_code} 0${ticket.ticket_number} 
+    </button>
+    <button class="btn btn-light bg-gradient text-secondary fs-3"
+    style="width: 15rem; height: 3rem; background-color: #d3d4d5;">${ticket.service}
+    </button>
+    <button class="btn btn-primary bg-gradient fs-4" style="width: 15rem; height: 3rem;">${ticket.counter}</button>
+    </div>
+    </div>`;
+        queueTickets.appendChild(div);
+        });
+      } else {
+        queueTickets.innerHTML = '';
+        queueTickets.innerHTML = `<button class="alert mt-5 alert-warning bg-gradient fs-4 w-full" style="height: 4rem;">Sem Tickets Disponível</button>`
+      }
+      })
+      .catch(err => console.log('Ocurred some error trying to loadTicketsInQueue', err))
+    }
+
+    setInterval(updateTime, 1000);
+    function updateTime() {
+    const now = new Date();
+    const formatted = now.toLocaleString('pt-BR');
+    document.getElementById('current-time').textContent = formatted;
+    }
+
+    //Listenning to the last atending ticket called by one desk user:
+    setTimeout(() => {
+    window.Echo.channel('queue-display-attending-tickets-channel')
+      .listen('QueueDisplayAttendingTicketsEvent', (data) => {
+      try {
+        console.log('next atending ticket', data);
+        attendingTickets.push(data.data);
+
+        if (data.data.length > 0) {
+        queueTickets.innerHTML = '';
+        data.data.forEach(ticket => {
+
+          const div = document.createElement('div');
+
+          div.innerHTML = `<div class="flex-row">
+    <div class="rounded-2 bg-white p-2">
+    <button class="btn btn-outline-primary bg-gradient fs-3" style="width: 14rem; height: 3rem;">${ticket.prefix_code} 0${ticket.ticket_number} 
+    </button>
+    <button class="btn btn-light bg-gradient text-secondary fs-3"
+    style="width: 15rem; height: 3rem; background-color: #d3d4d5;">${ticket.service}
+    </button>
+    <button class="btn btn-primary bg-gradient fs-4" style="width: 15rem; height: 3rem;">${ticket.counter}</button>
+    </div>
+    </div>`;
+          queueTickets.appendChild(div);
+        });
+        } else {
+        queueTickets.innerHTML = '';
+        queueTickets.innerHTML = `<div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">Sem Tickets Disponíveis</div>`
+        }
+      } catch (error) {
+        console.log('occurred some error trying to listenning to the event, channel -> queue-display-attending-tickets-channel | error -> ', err)
+      }
+      });
+    }, 200);
+
+    //Listenning to the lastTicketCalled:
+    setTimeout(() => {
+    window.Echo.channel('queue-display-tickets-channel')
+      .listen('QueueDisplayTicketsEvent', (data) => {
+      try {
+        console.log('event data', data);
+        if (data.data.length > 0) {
+        queueTickets.innerHTML = '';
+        data.data.forEach(ticket => {
+
+          const div = document.createElement('div');
+
+          div.innerHTML = `<div class="flex-row">
+    <div class="rounded-2 bg-white p-2">
+    <button class="btn btn-outline-primary bg-gradient fs-3" style="width: 14rem; height: 3rem;">${ticket.prefix_code} 0${ticket.ticket_number} 
+    </button>
+    <button class="btn btn-light bg-gradient text-secondary fs-3"
+    style="width: 15rem; height: 3rem; background-color: #d3d4d5;">${ticket.service}
+    </button>
+    <button class="btn btn-primary bg-gradient fs-4" style="width: 15rem; height: 3rem;">${ticket.counter}</button>
+    </div>
+    </div>`;
+          queueTickets.appendChild(div);
+        });
+        } else {
+        queueTickets.innerHTML = '';
+        queueTickets.innerHTML = `<div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">Sem Tickets Disponíveis</div>`
+        }
+      } catch (error) {
+        console.log('Error trying to get data from event, event name: queue-display-tickets-channel  | error -> ', error);
+      }
+      });
+    }, 200);
+
+    //Listenning to the lastTicketCalled:
+    setTimeout(() => {
+    window.Echo.channel('counter-assigned-channel')
+      .listen('CounterAssingedEvent', (data) => {
+      console.log('event data');
+      // alert('ok')
+      //   try {
+      //     if (data.data.length > 0) {
+      //     queueTickets.innerHTML = '';
+      //     data.data.forEach(ticket => {
+
+      //       const div = document.createElement('div');
+
+      //       div.innerHTML = `<div class="flex-row">
+      // <div class="rounded-2 bg-white p-2">
+      // <button class="btn btn-outline-primary bg-gradient fs-3" style="width: 14rem; height: 3rem;">${ticket.prefix_code} 0${ticket.ticket_number} 
+      // </button>
+      // <button class="btn btn-light bg-gradient text-secondary fs-3"
+      // style="width: 15rem; height: 3rem; background-color: #d3d4d5;">${ticket.service}
+      // </button>
+      // <button class="btn btn-primary bg-gradient fs-4" style="width: 15rem; height: 3rem;">${ticket.counter}</button>
+      // </div>
+      // </div>`;
+      //       queueTickets.appendChild(div);
+      //     });
+      //     } else {
+      //     queueTickets.innerHTML = '';
+      //     queueTickets.innerHTML = `<div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">Sem Tickets Disponíveis</div>`
+      //     }
+      //   } catch (error) {
+      //     console.log('Error trying to get data from event, event name: queue-display-tickets-channel  | error -> ', error);
+      //   }
+      });
+    }, 200)
+  </script>
+
 @endsection

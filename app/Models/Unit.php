@@ -93,4 +93,9 @@ class Unit extends Model
     {
         return $this->hasMany(DeskCounter::class, 'unit_id');
     }
+
+    public function ticketsDesk()
+    {
+        return $this->hasMany(TicketDesk::class, 'unit_id');
+    }
 }

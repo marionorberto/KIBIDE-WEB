@@ -1,10 +1,22 @@
-<header class="pc-header" style="padding-left: 80px;">
+<header class="pc-header">
   <div class="header-wrapper">
     <div class="me-auto pc-mob-drp">
       <ul class="list-unstyled">
-        <i class="fa fa-clock-o fs-1"></i>
 
         <li class="pc-h-item pc-sidebar-collapse">
+          <a href="#" class="pc-head-link ms-0 me-2" id="sidebar-hide">
+            <i class="ti ti-menu-2"></i>
+          </a>
+        </li>
+        <li class="pc-h-item pc-sidebar-popup">
+          <a href="#" class="pc-head-link ms-0 me-2" id="mobile-collapse">
+            <i class="ti ti-menu-2"></i>
+          </a>
+        </li>
+
+        <i class="fa fa-clock-o fs-1"></i>
+
+        <li class="pc-h-item pc-sidebar-collapse pt-2">
           <h3 class="mt-1" id="current-time"></h3>
         </li>
       </ul>

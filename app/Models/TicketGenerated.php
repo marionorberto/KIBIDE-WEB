@@ -46,4 +46,9 @@ class TicketGenerated extends Model
   {
     return $this->belongsTo(OperationAssociation::class, 'operation_association_id');
   }
+
+  public function ticketsDesk()
+  {
+    return $this->hasMany(TicketDesk::class, 'ticket_id');
+  }
 }

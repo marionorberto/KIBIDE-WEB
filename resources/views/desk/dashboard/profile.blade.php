@@ -1,16 +1,11 @@
 @extends('layouts.dashboard-desk')
-
 @section('title', 'perfil atendente')
-
 @section('content')
 
   @php
     use \App\Models\ProfileCompany;
-    use \App\Models\TicketGenerated;
-
     $profileCompany = ProfileCompany::where('company_id', Auth::user()->company_id)->first();
-
-    @endphp
+  @endphp
 
   <div class="page-header">
     <div class="page-block">
@@ -28,11 +23,9 @@
       @endforeach
         </ul>
       @endif
-
         @if ($successMessage = session('success'))
       <div class="alert alert-success mt-3" role="alert"> {{ $successMessage }} </div>
       @endif
-
         @if ($errorMessage = session('error'))
       <div class="alert alert-danger mt-3" role="alert"> {{ $errorMessage }}</div>
       @endif
@@ -52,16 +45,12 @@
           <i class="ti ti-user me-2"></i>Minha Conta
         </a>
         </li>
-
-
         <li class="nav-item">
         <a class="nav-link" id="profile-tab-4" data-bs-toggle="tab" href="#profile-4" role="tab"
           aria-selected="true">
           <i class="ti ti-lock me-2"></i>Mudar Password
         </a>
         </li>
-
-
       </ul>
       </div>
       <div class="card-body">
@@ -87,9 +76,8 @@
           ->setFontSize(25) // Define tamanho da fonte
           ->setBackground('#3490dc') // Cor de fundo
           ->toSvg()
-            !!}
+          !!}
           @endif
-
                 <label for="uplfile" class="img-avtar-upload">
                 <i class="ti ti-camera f-24 mb-1"></i>
                 <span>Trocar Fotografia</span>
@@ -135,10 +123,8 @@
             </div>
             </div>
           </div>
-
           </div>
           <div class="col-lg-8 col-xxl-9">
-
           <div class="card">
             <div class="card-header">
             <h5>Dados Pessoais</h5>
@@ -171,7 +157,8 @@
               </li>
             </ul>
             <div class="col-12 text-end btn-page">
-              <div class="btn btn-primary">Editar Dados</div>
+              <div class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEditUser">Editar Dados
+              </div>
             </div>
             </div>
 
@@ -592,6 +579,37 @@
               </div>
             </div>
             </div>
+          </div>
+          </div>
+          <div id="modalEditUser" class="modal fade" tabindex="-1" role="dialog"
+          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <form method="post" action="{{ route('users.update', Auth::user()->id_user) }}">
+            @csrf
+            @method('PUT')
+            <div class="modal-content">
+              <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalCenterTitle">Editar Perfil</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+              <div class="card-body">
+                <div class="form-group">
+                <label class="form-label">USERNAME</label>
+                <input type="text" name="username" class="form-control form-control" value="ssssss">
+                </div>
+                <div class="form-group">
+                <label class="form-label">EMAIL</label>
+                <input type="text" name="email" class="form-control form-control" value="ssss">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Fechar</button>
+                <button type="submit" class="btn btn-primary">Editar</button>
+              </div>
+              </div>
+            </div>
+            </form>
           </div>
           </div>
           <div class="col-12 text-end btn-page">

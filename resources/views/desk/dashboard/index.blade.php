@@ -22,7 +22,7 @@
   </div>
   <div class="d-flex flex-column justify-content-center align-items-center ">
 
-    <div class="card trafic-card pt-10" style="border-style: dashed">
+    <div id="current-ticket" class="card trafic-card pt-10" style="border-style: dashed">
 
     <div class="card-header border-black" style="border-style: dashed">
       <h5 class="text-center fs-3">Ticket Actual</h5>
@@ -35,11 +35,13 @@
       </h1>
     </div>
     </div>
-    <div id="ticket-warning" class="alert alert-warning mt-2" style="display: none;">
-    Por favor, selecione e ocupe um balcão primeiro.
+    <div id="ticket-warning" class="alert alert-warning mt-5 mb-4" style="display: none;">
+    Por favor, selecione um balcão antes de continuar.
     </div>
     <button id="call-ticket" type="button" class="btn btn-warning btn-md fs-5 shadow-lg">Próximo Ticket</button>
   </div>
   </div>
   </div>
+
+
 @endsection

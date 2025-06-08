@@ -4,33 +4,31 @@ namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class CounterChoosedEvent implements ShouldBroadcast
+class LoadCounterPendingTicket implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $data;
-    public $idOperation;
+    public $operationId;
 
-    public function __construct($data, $idOperation)
+    public function __construct($data, $operationId)
     {
-        $this->data = $data;
-        $this->idOperation = $idOperation;
+        $this->data = $data->toArray();
+        $this->operationId = $operationId;
     }
 
     public function broadcastOn()
     {
-        return new Channel("counter-choosed-channel.{$this->idOperation}");
+        return new Channel("counter.{$this->operationId}");
     }
 
     public function broadcastWith()
     {
-        // data triggered!
         return [
             'data' => $this->data,
         ];

@@ -37,10 +37,7 @@ Route::get('kibide/faq', function () {
     return view('faq');
 })->name('faq');
 
-Route::get('kibide/{idCompany}/painel', [PainelController::class, 'index'])->name('painel')->middleware(CheckSession::class)->middleware(CheckSession::class);
-Route::get('kibide/display', function () {
-    return view('unit.dashboard.display.display');
-})->name('display');
+Route::get('kibide/{unitId}/painel', [PainelController::class, 'index'])->name('painel')->middleware(CheckSession::class)->middleware(CheckSession::class);
 
 
 Route::prefix('kibide/auth')->group(function () {

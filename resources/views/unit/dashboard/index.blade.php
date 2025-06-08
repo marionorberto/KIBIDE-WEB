@@ -17,7 +17,6 @@
     </div>
   </div>
   <div class="row">
-    <!-- [ sample-page ] start -->
     <div class="col-md-6 col-xl-3">
     <div class="card">
       <div class="card-body">
@@ -101,24 +100,22 @@
       <a href="#" class="list-group-item list-group-item-action">
       <div class="d-flex">
       <div class="flex-shrink-0">
-        <div class="avtar avtar-s rounded-circle text-primary bg-light-primary">
-        <i class="ti ti-user f-18"></i>
-        </div>
+        @if ($desk->photo)
+      <img class="rounded-circle" src="{{ asset('storage/' . $desk->photo) }}" alt="" srcset=""
+      style="width: 35px; height: 35px;">
+      @else
+      <div class="avtar avtar-s rounded-circle text-primary bg-light-primary">
+      <i class="ti ti-user f-18"></i>
+      </div>
+      @endif
       </div>
       <div class="flex-grow-1 ms-3">
         <h6 class="mb-1">{{ $desk->username }}</h6>
         <p class="mb-0 text-muted">Entrada - 8:00 AM</P>
       </div>
-      <div class="flex-shrink-0 text-end">
-        <h6 class="mb-1">Balcão - 1</h6>
-        <p class="mb-0 text-muted">Levantamento</P>
-      </div>
       </div>
       </a>
     @endforeach
-
-
-
       </div>
     </div>
     </div>

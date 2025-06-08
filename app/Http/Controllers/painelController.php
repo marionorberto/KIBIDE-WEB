@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DeskCounter;
 use Illuminate\Http\Request;
 
 class painelController extends Controller
@@ -61,4 +62,23 @@ class painelController extends Controller
     {
         //
     }
+
+    // public function updateCounterForDisplay(string $id)
+    // {
+    //     try {
+    //         $deskCounter = DeskCounter::with('counter', 'operationAssociation') // carregue os dados do balcão
+    //             ->where('user_id', $userId)
+    //             ->whereHas('counter', function ($query) {
+    //                 $query->where('status', 'occupied');
+    //             })
+    //             ->whereDate('created_at', Carbon::today())
+    //             ->orderBy('created_at', 'DESC')
+    //             ->first();
+    //     } catch(err) {
+    //             console.log(err);
+    //     }
+
+    // }
 }
+
+

@@ -84,7 +84,7 @@
         <option value="">Selecione a operação diária</option>
         @foreach ($operations as $operation)
       <option value="{{ $operation->id_day_operation }}">
-      {{ $operation->name }} - {{ $operation->created_at }}
+      {{ $operation->name }}
       </option>
       @endforeach
       </select>

@@ -1,21 +1,14 @@
 <?php
 
+use App\Events\LoadCounterPendingTicket;
 use App\Events\QueueDisplayTicketsEvent;
-use App\Events\TestEvent;
-use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\OperationController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UnitController;
 use App\Models\OperationAssociation;
 use Illuminate\Support\Facades\Route;
-
-use App\Http\Requests\StoreChangePasswordRequest;
-use App\Models\DayOperation;
-use App\Models\Operations;
-use App\Models\Ticket;
 use App\Models\TicketGenerated;
-use App\Models\Unit;
 use App\Models\User;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -41,7 +34,6 @@ Route::post('/auth/login', function (Request $request) {
     $token = $user->createToken('token-app')->plainTextToken;
 
     $user->load('unit');
-    // $unit = Unit::where('id_unit', $user->unit_id);
 
     return response()->json([
       'token' => $token,
@@ -102,7 +94,6 @@ Route::middleware('auth:sanctum')->post('/generateTicket', function (Request $re
 
     $ticket->load('operationAssociation');
 
-    // $operations = Operations::where('id_operation', $request->id_operation)->with(['service', 'counter'])->first();
     $operations = OperationAssociation::query()
       ->with(['service', 'counter'])
       ->where('id_operation_association', $request->operation_id)
@@ -119,7 +110,6 @@ Route::middleware('auth:sanctum')->post('/generateTicket', function (Request $re
       ->orderBy('created_at', 'asc')
       ->get();
 
-    // Emissão de evento isolada com log de erro se falhar
     try {
       $pendingTicketsSimplified = $pendingTickets->map(function ($ticket) {
         return [
@@ -128,15 +118,17 @@ Route::middleware('auth:sanctum')->post('/generateTicket', function (Request $re
           'prefix_code' => $ticket->operationAssociation->service->prefix_code
         ];
       });
-      event(new TestEvent($pendingTicketsSimplified));
+
+      event(new LoadCounterPendingTicket($pendingTicketsSimplified, $request->operation_id));
+
     } catch (\Throwable $e) {
       Log::error($pendingTickets);
       return response()->json(['error' => 'Erro ao emitir o evento.'], 500);
     }
 
     $pendingTicketsForDisplay = TicketGenerated::query()
-      ->with(['operationAssociation.service']) // carrega o service da operationAssociation
-      ->where('unit_id', Auth::user()->unit_id)
+      ->with(['operationAssociation.service', 'operationAssociation.counter']) // carrega o service da operationAssociation
+      ->where('unit_id', $request->unit_id)
       ->whereDate('created_at', Carbon::today())
       ->orderBy('created_at', 'DESC')
       ->where('status', 'pending')
@@ -144,20 +136,21 @@ Route::middleware('auth:sanctum')->post('/generateTicket', function (Request $re
       ->get();
 
     try {
-      $pendingTicketsSimplified = $pendingTicketsForDisplay->map(function ($ticket) {
+      $pendingTicketsSimplifiedForDisplay = $pendingTicketsForDisplay->map(function ($ticket) {
         return [
           'ticket_number' => $ticket->ticket_number,
           'status' => $ticket->status,
-          'prefix_code' => $ticket->operationAssociation->service->prefix_code
+          'prefix_code' => $ticket->operationAssociation->service->prefix_code,
+          'service' => $ticket->operationAssociation->service->description,
+          'counter' => $ticket->operationAssociation->counter->counter_name,
         ];
       });
 
-      event(new QueueDisplayTicketsEvent($pendingTicketsSimplified));
+      event(new QueueDisplayTicketsEvent($pendingTicketsSimplifiedForDisplay));
     } catch (\Throwable $e) {
       Log::error($e);
-      return response()->json(['error' => 'Erro ao emitir o evento QueueDisplayTicketsEvent: ERROR->' . $e->getMessage()], 500);
-    }// reindexa os resultados
-
+      return response()->json(['error' => 'Erro ao emitir o evento pendingTicketsSimplifiedForDisplay: ERROR->' . $e->getMessage()], 500);
+    }
 
     return response()->json([
       'message' => 'Ticket generated sucessfully!',
@@ -176,7 +169,6 @@ Route::middleware('auth:sanctum')->post('/generateTicket', function (Request $re
     ], 500);
   }
 });
-
 
 
 Route::middleware('auth:sanctum')->post('/verifyPassword', function (Request $request) {
@@ -208,7 +200,13 @@ Route::get('auth/logout', function (Request $request) {
   return response()->json(['message' => 'Logout feito com sucesso']);
 });
 
-
-Route::get('/operation/{id}', [OperationController::class, 'buscarPorData']);
+Route::get('/operation/{unitId}/{id}', [OperationController::class, 'getOperationByDate']);
 
 Route::get('/operations/counter/choose/{id}/{user}', [UnitController::class, 'chooseCounter']);
+
+Route::get('/user/{userId}/selected-counter', [UnitController::class, 'getSelectedCounter']);
+
+Route::get('/user/{unitId}/{userId}/all-tickets-generated', [TicketController::class, 'getAllTicketsGeneratedByDesk']);
+Route::get('/user/{unitId}/{userId}/{date}/all-tickets-generated-by-date', [TicketController::class, 'getAllDeskTicketsByDate']);
+
+Route::get('/loadTicketsInQueue/{unitId}', [TicketController::class, 'loadTicketsInQueue']);

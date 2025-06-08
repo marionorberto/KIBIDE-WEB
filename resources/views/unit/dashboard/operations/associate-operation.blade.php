@@ -5,6 +5,7 @@
 @section('content')
   <form action="{{ route('unit.store.operation-association') }}" method="post" class="card">
     @csrf
+    <input type="hidden" name="" id="unit_id-input" value="{{ Auth::user()->unit_id }}">
     <div class="card-header d-flex justify-content-between align-items-center">
     <h4>Associar Operação</h4>
     <a class="btn btn-primary" href="{{ route('unit.services.list') }}">Ver Todos</a>
@@ -126,19 +127,23 @@
 
     async function buscarOperacaoPorData(date) {
     const select = document.getElementById('dayOperationSelect');
+    const unitId = document.getElementById('unit_id-input').value;
+
     if (!date) return;
 
     select.innerHTML = '';
     select.disabled = true;
 
     try {
-      const response = await fetch(`/api/operation/${date}`);
+      const response = await fetch(`/api/operation/${unitId}/${date}`);
       const data = await response.json();
+
+      console.log(data);
 
       if (data.status == 200) {
       const option = document.createElement('option');
       option.value = data.data.id_day_operation;
-      option.text = `${data.data.name} - ${data.data.created_at}`;
+      option.text = `${data.data.name}`;
       option.setAttribute('data-name', data.data.name);
       select.appendChild(option);
       select.disabled = false;

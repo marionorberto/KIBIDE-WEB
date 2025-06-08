@@ -262,10 +262,10 @@
             <span class="pc-mtext">Associar Operação</span>
           </a>
         </li>
-
+        <hr>
         <li class="pc-item">
           <a href="{{ route('unit.assign.operation') }}" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-unlink"></i></span>
+            <span class="pc-micon"><i class="ti ti-layout"></i></span>
             <span class="pc-mtext">Escalar Operação</span>
           </a>
         </li>
@@ -276,22 +276,14 @@
             <span class="pc-mtext">Visualizar Escala</span>
           </a>
         </li>
+
+        <hr>
         <li class="pc-item">
           <a href="{{ route('unit.settings.operation') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-settings"></i></span>
             <span class="pc-mtext">Conf. Operações <span class="badge bg-light-primary">default</span></span>
           </a>
         </li>
-
-        <!-- <button class="show-painel">Mostrar Display</button> -->
-        <!-- <li class="pc-item">
-          <a href="{{ route('unit.list.desks') }}" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-pencil"></i></span>
-            <span class="pc-mtext">Configurar Display</span>
-          </a>
-        </li> -->
-
-
 
 
         <li class="pc-item pc-caption">
@@ -307,7 +299,7 @@
         <li class="pc-item">
           <a href="{{ route('unit.tickets.settings') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-pencil"></i></span>
-            <span class="pc-mtext">Configurações de Tickects</span>
+            <span class="pc-mtext">Configurações de Display</span>
           </a>
         </li>
 

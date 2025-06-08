@@ -193,7 +193,6 @@ class OperationController extends Controller
                 return redirect()->back()->with("error", 'Usuário Atendente Inválido!');
             }
 
-            // Verificação adicional: já existe uma escala com a mesma realization_date?
             $existing = Scale::where('realization_date', $request->input('realization_date'))->exists();
 
             if ($existing) {
@@ -247,20 +246,20 @@ class OperationController extends Controller
         }
     }
 
-    public function buscarPorData(string $id, Request $request)
+    public function getOperationByDate(string $unitId, string $date)
     {
         try {
-
-            // $data = $request->query('data');
-
-            $operacoes = DayOperation::whereDate('realization_date', $id)->first();
-
-            return response()->json(['data' => $operacoes, 'status' => 200,]);
+            $dayOperation = DayOperation::where('unit_id', $unitId)
+                ->where('realization_date', $date)
+                ->first();
+            return response()->json([
+                'data' =>
+                    $dayOperation
+                ,
+                'status' => 200
+            ]);
         } catch (\Exception $e) {
-            Log::error('Erro no tentando verificar usuário: ' . $e->getMessage());
-            return response()->json(['data' => [], 'status' => 404,]);
-
+            return response()->json($e->getMessage());
         }
     }
-
 }

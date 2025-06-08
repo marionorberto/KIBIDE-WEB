@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\QueueDisplayTicketsEvent;
 use App\Models\OperationAssociation;
 use App\Models\Operations;
+use App\Models\ProfileCompany;
 use App\Models\TicketGenerated;
 use App\Models\Unit;
 use Carbon\Carbon;
@@ -19,42 +20,12 @@ class PainelController extends Controller
      */
     public function index()
     {
+        $unitData = Unit::with('company')
+            ->where('id_unit', Auth::user()->unit_id)->first();
 
-        $pendingTickets = TicketGenerated::query()
-            ->with(['operationAssociation.service']) // carrega o service da operationAssociation
-            ->where('unit_id', Auth::user()->unit_id)
-            ->whereDate('created_at', Carbon::today())
-            ->orderBy('created_at', 'DESC')
-            ->where('status', 'pending')
-            ->get();
+        $companyProfileData = ProfileCompany::where('company_id', $unitData->company_id)->first();
 
-        $operations = OperationAssociation::query()
-            ->with(['service', 'counter', 'dayOperation']) // Carrega os relacionados
-            ->where('unit_id', Auth::user()->unit_id)
-            ->whereHas('dayOperation', function ($query) {
-                $query->whereDate('realization_date', Carbon::today());
-            })
-            ->whereHas('counter', function ($query) {
-                $query->where('status', 'occupied');
-            })
-            ->get();
-
-        $counters = OperationAssociation::with(['counter', 'dayOperation'])
-            ->where('unit_id', Auth::user()->unit_id)
-            ->whereHas('dayOperation', function ($query) {
-                $query->whereDate('realization_date', Carbon::today());
-            })
-            ->whereHas('counter', function ($query) {
-                $query->where('status', 'occupied');
-            })
-            ->get()
-            ->pluck('counter')      // extrai os objetos counter
-            ->unique('id_counter')          // remove duplicados (baseado no ID do counter)
-            ->values();
-
-
-        $unitData = Unit::where('id_unit', Auth::user()->unit_id)->first();
-        return view('unit.dashboard.display.painel', compact('unitData', 'operations', 'counters', 'pendingTickets'));
+        return view('unit.dashboard.display.display', compact('unitData', 'companyProfileData'));
     }
 
     /**

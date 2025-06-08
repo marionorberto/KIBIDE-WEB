@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class DeskController extends Controller
 {
@@ -30,6 +31,9 @@ class DeskController extends Controller
         // }
         $username = Auth::user()->username;
         // $unoccupiedCounters = Counter::where('unit_id', Auth::user()->unit_id)->get();
+
+        $userSession = Session::get('user');
+
 
         $dayOperation = DayOperation::where('unit_id', Auth::user()->unit_id)->where('realization_date', Carbon::today())->first();
 

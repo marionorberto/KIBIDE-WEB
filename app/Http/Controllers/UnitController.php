@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CounterAssingedEvent;
 use App\Events\CounterChoosedEvent;
-use App\Events\QueueDisplayTicketsEvent;
-use App\Events\TestEvent;
-use App\Events\TicketCalled;
 use App\Http\Requests\StoreUnitRequest;
 use App\Models\Company;
 use App\Models\Counter;
@@ -14,7 +12,6 @@ use App\Models\DeskCounter;
 use App\Models\OperationAssociation;
 use App\Models\Operations;
 use App\Models\Service;
-use App\Models\Ticket;
 use App\Models\TicketGenerated;
 use App\Models\Unit;
 use App\Models\User;
@@ -314,19 +311,23 @@ class UnitController extends Controller
     public function chooseCounter(string $idOperation, string $userId)
     {
         try {
+
             $operation = OperationAssociation::query()
                 ->with(['service', 'counter', 'dayOperation'])
                 ->where('id_operation_association', $idOperation)
                 ->first();
 
             $counter = Counter::find($operation->counter->id_counter);
+
             $counter->status = $counter->status == 'unoccupied' ? 'occupied' : 'unoccupied';
+
             $counter->save();
 
             $alreadyExistsDeskCounterCreatedForToday =
                 DeskCounter::where('unit_id', $operation->unit_id)
                     ->where('user_id', $userId)
                     ->where('counter_id', $counter->id_counter)
+                    ->where('operation_association_id', $idOperation)
                     ->whereDate('created_at', Carbon::today())
                     ->exists();
 
@@ -335,12 +336,14 @@ class UnitController extends Controller
                     'unit_id' => $operation->unit_id,
                     'user_id' => $userId,
                     'counter_id' => $counter->id_counter,
+                    'operation_association_id' => $idOperation,
                     'status' => $counter->status,
                 ]);
             } else {
                 $deskCounterToUpdateStatus = DeskCounter::where('unit_id', $operation->unit_id)
                     ->where('user_id', $userId)
                     ->where('counter_id', $counter->id_counter)
+                    ->where('operation_association_id', $idOperation)
                     ->whereDate('created_at', Carbon::today())->first();
 
 
@@ -364,17 +367,16 @@ class UnitController extends Controller
                 ->get();
 
             try {
-
-                // event(new TestEvent($pendingTicketsSimplified));
                 event(new CounterChoosedEvent([
                     'counterName' => $operation->counter->counter_name,
                     'serviceDescription' => $operation->service->description
-                ]));
+                ], $idOperation));
+
+                event(new CounterAssingedEvent());
             } catch (\Throwable $e) {
                 Log::error($e->getMessage());
                 return response()->json(['error' => 'Erro ao emitir o evento.'], 500);
             }
-
 
             return response()->json([
                 'data' => [
@@ -387,6 +389,76 @@ class UnitController extends Controller
             return response()->json(['data' => [], 'message' => $e->getMessage()]);
 
         }
+    }
+
+    public function getSelectedCounter(string $userId)
+    {
+        try {
+            $deskCounter = DeskCounter::with('counter', 'operationAssociation') // carregue os dados do balcão
+                ->where('user_id', $userId)
+                ->whereHas('counter', function ($query) {
+                    $query->where('status', 'occupied');
+                })
+                ->whereDate('created_at', Carbon::today())
+                ->orderBy('created_at', 'DESC')
+                ->first();
+
+            if ($deskCounter) {
+                $pendingTickets = TicketGenerated::query()
+                    ->with(['operationAssociation.service', 'operationAssociation.counter']) // carrega o service da operationAssociation
+                    ->whereHas('operationAssociation', function ($query) use ($deskCounter) {
+                        $query->where('counter_id', $deskCounter->counter_id);
+                    })
+                    ->where('unit_id', $deskCounter->unit_id)
+                    ->whereDate('created_at', Carbon::today())
+                    ->where('status', 'pending')
+                    ->get();
+
+                try {
+                    event(new CounterChoosedEvent([
+                        'counterName' => $deskCounter->operationAssociation->counter->counter_name,
+                        'serviceDescription' => $deskCounter->operationAssociation->service->description
+                    ], $deskCounter->operationAssociation->id_operation_association));
+
+                    event(new CounterAssingedEvent());
+
+                    return response()->json([
+                        'data' => [
+                            'tickets' => $pendingTickets
+                        ],
+                        'status' => 200,
+                    ]);
+                } catch (\Throwable $e) {
+                    Log::error('erro ao emitir evento, error -> ' . $e->getMessage(), [$deskCounter]);
+                    return response()->json(['error' => 'Erro ao emitir o evento.'], 500);
+                }
+            }
+
+            return response()->json([null]);
+
+        } catch (\Exception $e) {
+            Log::error('Erro: ' . $e->getMessage());
+            return response()->json(['data' => [], 'message' => $e->getMessage()]);
+        }
+    }
+
+    public function releaseCounter(string $userId)
+    {
+        $deskCounter = DeskCounter::where('user_id', $userId)
+            ->whereDate('created_at', Carbon::today())
+            ->where('status', 'occupied')
+            ->first();
+
+        if ($deskCounter) {
+            $deskCounter->status = 'unoccupied';
+            $deskCounter->save();
+
+            $counter = Counter::find($deskCounter->counter_id);
+            $counter->status = 'unoccupied';
+            $counter->save();
+        }
+
+        return response()->json(['message' => 'Balcão desocupado.']);
     }
 
     public function listScales()

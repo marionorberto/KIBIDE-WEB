@@ -72,4 +72,8 @@ class User extends Authenticatable
         return $this->hasMany(DeskCounter::class, 'user_id');
     }
 
+    public function ticketsDesk()
+    {
+        return $this->hasMany(TicketDesk::class, 'user_id');
+    }
 }
