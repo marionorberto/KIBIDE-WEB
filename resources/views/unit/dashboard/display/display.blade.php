@@ -44,7 +44,6 @@
     <section class="bg-white px-4 py-4" style="width: 50%; height: 100vh;">
     <div class="w-100 bg-secondary d-flex justify-content-center align-items-center" style="height: 380px;">
       <div class="col-12">
-
       <div class="card-body pc-component">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
         <ol class="carousel-indicators">
@@ -65,15 +64,9 @@
       </div>
       </div>
     </div>
-    <div class="flex-col mt-5 gap-1">
+    <div id="display-container-attending-tickets" class="flex-col mt-5 gap-1">
       <h4>Tickets a serem atendidos</h4>
-      <div class="flex-row">
-      <div class="rounded-2 bg-white p-2">
-        <button class="btn btn-outline-info bg-gradient fs-5" style="width: 5rem; height: 2.5rem;">B039</button>
-        <button class="btn btn-light bg-gradient text-secondary fs-4"
-        style="width: 10rem; height: 2.5rem; background-color: #d3d4d5;">Reclamações</button>
-        <button class="btn btn-info bg-gradient fs-4" style="width: 15rem; height: 2.5rem;">BALCÃO 2</button>
-      </div>
+      <div id="container-attending-tickets">
       </div>
 
     </div>
@@ -97,7 +90,6 @@
     <div class="flex-col mt-2 gap-1">
       <h3>Tickets na fila de espera</h3>
       <div id="queue-tickets">
-
       </div>
     </div>
   </div>
@@ -110,11 +102,57 @@
     const attendingTickets = [];
     const queueTickets = document.getElementById('queue-tickets');
     const unitId = document.getElementById('display-unit-id').value;
+    const containerAttendingTickets = document.getElementById('container-attending-tickets');
+
+    setTimeout(() => {
+    window.Echo.channel('counter-assigned-for-display-channel')
+      .listen('CounterAssingnedForDisplayEvent', (data) => {
+
+      console.log('container attending tickets', containerAttendingTickets);
+      console.log('okkk', data);
+
+      fetch(`/api/listServicesForDisplay/${unitId}`)
+        .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        throw new Error('errorrrrr');
+        })
+        .then((data) => {
+        console.log('dataaaaa', data.data);
+
+        containerAttendingTickets.innerHTML = '';
+        if (data.data.length > 0) {
+
+          data.data.forEach(element => {
+          const div = document.createElement('div');
+          div.innerHTML = `<div div class="flex-row" >
+    <div class="rounded-2 bg-white p-2">
+    <button class="btn btn-outline-info bg-gradient fs-5" style="width: 5rem; height: 2.5rem;"></button>
+    <button class="btn btn-light bg-gradient text-secondary fs-4"
+    style="width: 10rem; height: 2.5rem; background-color: #d3d4d5;">${element.service.description}</button>
+    <button class="btn btn-info bg-gradient fs-4" style="width: 15rem; height: 2.5rem;">${element.counter.counter_name}</button>
+    </div>
+    </div >` ;
+          containerAttendingTickets.appendChild(div);
+          });
+        } else {
+          console.log('sem balcoes');
+        }
+
+        })
+        .catch((err) => {
+        console.log('error', error);
+        })
+      });
+    }, 200);
+
 
     // when the page open must load the tickets
     loadTicketsInQueue();
 
-    // loadAttendingQueue();
+    loadAttendingQueue();
     updateTime();
 
     function loadTicketsInQueue() {
@@ -153,6 +191,47 @@
       .catch(err => console.log('Ocurred some error trying to loadTicketsInQueue', err))
     }
 
+
+
+
+    function loadAttendingQueue() {
+    fetch(`/api/listServicesForDisplay/${unitId}`)
+      .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+
+      throw new Error('errorrrrr');
+      })
+      .then((data) => {
+      console.log('dataaaaa', data.data);
+
+      containerAttendingTickets.innerHTML = '';
+      if (data.data.length > 0) {
+
+        data.data.forEach(element => {
+        const div = document.createElement('div');
+        div.innerHTML = `<div div class="flex-row" >
+    <div class="rounded-2 bg-white p-2">
+    <button class="btn btn-outline-info bg-gradient fs-5" style="width: 5rem; height: 2.5rem;"></button>
+    <button class="btn btn-light bg-gradient text-secondary fs-4"
+    style="width: 10rem; height: 2.5rem; background-color: #d3d4d5;">${element.service.description}</button>
+    <button class="btn btn-info bg-gradient fs-4" style="width: 15rem; height: 2.5rem;">${element.counter.counter_name}</button>
+    </div>
+    </div >` ;
+        containerAttendingTickets.appendChild(div);
+        });
+      } else {
+        console.log('sem balcoes');
+      }
+
+      })
+      .catch((err) => {
+      console.log('error', error);
+      })
+    }
+
+
     setInterval(updateTime, 1000);
     function updateTime() {
     const now = new Date();
@@ -161,40 +240,40 @@
     }
 
     //Listenning to the last atending ticket called by one desk user:
-    setTimeout(() => {
-    window.Echo.channel('queue-display-attending-tickets-channel')
-      .listen('QueueDisplayAttendingTicketsEvent', (data) => {
-      try {
-        console.log('next atending ticket', data);
-        attendingTickets.push(data.data);
+    // setTimeout(() => {
+    // window.Echo.channel('queue-display-attending-tickets-channel')
+    //   .listen('QueueDisplayAttendingTicketsEvent', (data) => {
+    //   try {
+    //     console.log('next atending ticket', data);
+    //     attendingTickets.push(data.data);
 
-        if (data.data.length > 0) {
-        queueTickets.innerHTML = '';
-        data.data.forEach(ticket => {
+    //     if (data.data.length > 0) {
+    //     queueTickets.innerHTML = '';
+    //     data.data.forEach(ticket => {
 
-          const div = document.createElement('div');
+    //       const div = document.createElement('div');
 
-          div.innerHTML = `<div class="flex-row">
-    <div class="rounded-2 bg-white p-2">
-    <button class="btn btn-outline-primary bg-gradient fs-3" style="width: 14rem; height: 3rem;">${ticket.prefix_code} 0${ticket.ticket_number} 
-    </button>
-    <button class="btn btn-light bg-gradient text-secondary fs-3"
-    style="width: 15rem; height: 3rem; background-color: #d3d4d5;">${ticket.service}
-    </button>
-    <button class="btn btn-primary bg-gradient fs-4" style="width: 15rem; height: 3rem;">${ticket.counter}</button>
-    </div>
-    </div>`;
-          queueTickets.appendChild(div);
-        });
-        } else {
-        queueTickets.innerHTML = '';
-        queueTickets.innerHTML = `<div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">Sem Tickets Disponíveis</div>`
-        }
-      } catch (error) {
-        console.log('occurred some error trying to listenning to the event, channel -> queue-display-attending-tickets-channel | error -> ', err)
-      }
-      });
-    }, 200);
+    //       div.innerHTML = `<div class="flex-row">
+    // <div class="rounded-2 bg-white p-2">
+    // <button class="btn btn-outline-primary bg-gradient fs-3" style="width: 14rem; height: 3rem;">${ticket.prefix_code} 0${ticket.ticket_number}
+    // </button>
+    // <button class="btn btn-light bg-gradient text-secondary fs-3"
+    // style="width: 15rem; height: 3rem; background-color: #d3d4d5;">${ticket.service}
+    // </button>
+    // <button class="btn btn-primary bg-gradient fs-4" style="width: 15rem; height: 3rem;">${ticket.counter}</button>
+    // </div>
+    // </div>`;
+    //       queueTickets.appendChild(div);
+    //     });
+    //     } else {
+    //     queueTickets.innerHTML = '';
+    //     queueTickets.innerHTML = `<div class="alert alert-info fs-4 mt-4 text-center">Sem Tickets Disponíveis</div>`
+    //     }
+    //   } catch (error) {
+    //     console.log('occurred some error trying to listenning to the event, channel -> queue-display-attending-tickets-channel | error -> ', err)
+    //   }
+    //   });
+    // }, 200);
 
     //Listenning to the lastTicketCalled:
     setTimeout(() => {
@@ -210,7 +289,7 @@
 
           div.innerHTML = `<div class="flex-row">
     <div class="rounded-2 bg-white p-2">
-    <button class="btn btn-outline-primary bg-gradient fs-3" style="width: 14rem; height: 3rem;">${ticket.prefix_code} 0${ticket.ticket_number} 
+    <button class="btn btn-outline-primary bg-gradient fs-3" style="width: 14rem; height: 3rem;">${ticket.prefix_code} 0${ticket.ticket_number}
     </button>
     <button class="btn btn-light bg-gradient text-secondary fs-3"
     style="width: 15rem; height: 3rem; background-color: #d3d4d5;">${ticket.service}
@@ -222,7 +301,7 @@
         });
         } else {
         queueTickets.innerHTML = '';
-        queueTickets.innerHTML = `<div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">Sem Tickets Disponíveis</div>`
+        queueTickets.innerHTML = `<div class="alert alert-warning mt-4">Sem Tickets Disponíveis</div>`
         }
       } catch (error) {
         console.log('Error trying to get data from event, event name: queue-display-tickets-channel  | error -> ', error);
@@ -231,39 +310,7 @@
     }, 200);
 
     //Listenning to the lastTicketCalled:
-    setTimeout(() => {
-    window.Echo.channel('counter-assigned-channel')
-      .listen('CounterAssingedEvent', (data) => {
-      console.log('event data');
-      // alert('ok')
-      //   try {
-      //     if (data.data.length > 0) {
-      //     queueTickets.innerHTML = '';
-      //     data.data.forEach(ticket => {
 
-      //       const div = document.createElement('div');
-
-      //       div.innerHTML = `<div class="flex-row">
-      // <div class="rounded-2 bg-white p-2">
-      // <button class="btn btn-outline-primary bg-gradient fs-3" style="width: 14rem; height: 3rem;">${ticket.prefix_code} 0${ticket.ticket_number} 
-      // </button>
-      // <button class="btn btn-light bg-gradient text-secondary fs-3"
-      // style="width: 15rem; height: 3rem; background-color: #d3d4d5;">${ticket.service}
-      // </button>
-      // <button class="btn btn-primary bg-gradient fs-4" style="width: 15rem; height: 3rem;">${ticket.counter}</button>
-      // </div>
-      // </div>`;
-      //       queueTickets.appendChild(div);
-      //     });
-      //     } else {
-      //     queueTickets.innerHTML = '';
-      //     queueTickets.innerHTML = `<div class="ticket-espera " style="background-color: oklch(44.3% 0.11 240.79);">Sem Tickets Disponíveis</div>`
-      //     }
-      //   } catch (error) {
-      //     console.log('Error trying to get data from event, event name: queue-display-tickets-channel  | error -> ', error);
-      //   }
-      });
-    }, 200)
   </script>
 
 @endsection

@@ -58,10 +58,13 @@
           </div>
         </div>
 
-        <!-- <input type="date" name="" id=""> -->
         </div>
       </div>
-      <div class="dt-responsive table-responsive overflow-hidden">
+      <div class="alert alert-warning text-center mt-5 fw-medium" id="alert-without-ticket-with-this-date">Sem
+        históricos de
+        Tickets para
+        essa data, Pesquise por uma outra data!</div>
+      <div class="dt-responsive table-responsive overflow-hidden myTableHistoriesTicket">
         <table id="myTable" class="table table-striped table-bordered nowrap">
         <thead>
           <tr>
@@ -101,7 +104,12 @@
     const inputIdUserDesk = document.getElementById('input-id-user-desk');
     const inputIdUnitDesk = document.getElementById('input-id-unit-desk');
     const tbodyTicketHistories = document.getElementById('tbody-ticket-histories');
+    const alertWithoutTicketWithThisDate = document.getElementById('alert-without-ticket-with-this-date');
+    const myTableHistoriesTicket = document.querySelector('.myTableHistoriesTicket');
     const date = document.getElementById('get-by-date');
+
+    alertWithoutTicketWithThisDate.style.display = 'none';
+
 
     date.addEventListener('change', () => getAllDeskTicketsByDate(date.value));
 
@@ -123,7 +131,10 @@
 
       console.log(data);
       tbodyTicketHistories.innerHTML = ""; // limpa
+      myTableHistoriesTicket.style.display = 'block';
+
       if (data.length > 0) {
+
         data.forEach((element, index) => {
         let statusTd = '';
         if (element.ticket.status == 'pending') {
@@ -144,22 +155,14 @@
     <td>${element.ticket.operation_association.service.priority_level}</td>
     ${statusTd}
     <td>${element.created_at.split('T')[0]}</td>
-
     </tr>
     `;
         tbodyTicketHistories.innerHTML += row;
         });
       } else {
-        const row = `
-    <tr>
-    <td>Sem nenhum registo com essa data específica!</td>
-    </tr>
-    `;
-        tbodyTicketHistories.innerHTML = '';
-
-        tbodyTicketHistories.innerHTML += row;
+        alertWithoutTicketWithThisDate.style.display = 'block';
+        myTableHistoriesTicket.style.display = 'none';
       }
-
       })
       .catch((err) => {
       console.log('occured some error applying this method - ', erro);
@@ -168,7 +171,6 @@
 
 
     function getAllDeskTicketsByDate(date) {
-
     const idUser = inputIdUserDesk.value;
     const idUnit = inputIdUnitDesk.value;
     fetch(`/api/user/${idUnit}/${idUser}/${date}/all-tickets-generated-by-date`)
@@ -179,10 +181,13 @@
       throw new Erro('Occured some error, trying fetching this method - getAllDeskTickets()')
       })
       .then(({ tickets: data }) => {
+      alertWithoutTicketWithThisDate.style.display = 'none';
 
       console.log(data);
       tbodyTicketHistories.innerHTML = ""; // limpa
       if (data.length > 0) {
+        myTableHistoriesTicket.style.display = 'block';
+
         data.forEach((element, index) => {
         let statusTd = '';
         if (element.ticket.status == 'pending') {
@@ -192,7 +197,6 @@
         } else if (element.ticket.status == 'cancelled') {
           statusTd = `<td><span class="badge bg-light-danger">Cancelado</span></td>`;
         }
-
         const row = `
     <tr>
     <td>${index + 1}</td>
@@ -210,7 +214,8 @@
         // console.log(' # ', element.ticket.operation_association.counter.counter_name);
         });
       } else {
-        // table body no data available
+        alertWithoutTicketWithThisDate.style.display = 'block';
+        myTableHistoriesTicket.style.display = 'none';
       }
 
       })

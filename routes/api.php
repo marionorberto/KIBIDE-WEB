@@ -64,6 +64,7 @@ Route::middleware('auth:sanctum')->get('/listService/{unit_id}', function (strin
       })
       ->get();
 
+
     return response()->json([
       'message' => 'fetch com sucesso.',
       'data' => $operations,
@@ -210,3 +211,31 @@ Route::get('/user/{unitId}/{userId}/all-tickets-generated', [TicketController::c
 Route::get('/user/{unitId}/{userId}/{date}/all-tickets-generated-by-date', [TicketController::class, 'getAllDeskTicketsByDate']);
 
 Route::get('/loadTicketsInQueue/{unitId}', [TicketController::class, 'loadTicketsInQueue']);
+
+
+Route::get('/listServicesForDisplay/{unit_id}', function (string $unit_id) {
+  try {
+    $operations = OperationAssociation::query()
+      ->with(['service', 'counter', 'dayOperation']) // carrega os relacionados
+      ->where('unit_id', $unit_id)
+      ->whereHas('dayOperation', function ($query) {
+        $query->whereDate('realization_date', Carbon::today());
+      })
+      ->whereHas('counter', function ($query) {
+        $query->where('status', 'occupied');
+      })
+      ->get();
+
+    return response()->json([
+      'message' => 'fetch com sucesso.',
+      'data' => $operations,
+    ], 200);
+
+  } catch (\Exception $e) {
+    Log::error('Erro no registan serviço: ' . $e->getMessage());
+
+    return response()->json([
+      'message' => $e->getMessage(),
+    ], 500);
+  }
+});

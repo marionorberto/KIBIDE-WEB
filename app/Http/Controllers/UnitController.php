@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\CounterAssingedEvent;
+use App\Events\CounterAssingnedForDisplayEvent;
 use App\Events\CounterChoosedEvent;
 use App\Http\Requests\StoreUnitRequest;
 use App\Models\Company;
@@ -373,10 +374,13 @@ class UnitController extends Controller
                 ], $idOperation));
 
                 event(new CounterAssingedEvent());
+
             } catch (\Throwable $e) {
                 Log::error($e->getMessage());
                 return response()->json(['error' => 'Erro ao emitir o evento.'], 500);
             }
+
+            event(new CounterAssingnedForDisplayEvent());
 
             return response()->json([
                 'data' => [

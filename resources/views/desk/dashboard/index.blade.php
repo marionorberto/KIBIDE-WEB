@@ -20,18 +20,18 @@
     </div>
 
   </div>
-  <div class="d-flex flex-column justify-content-center align-items-center ">
+  <div class="d-flex flex-column justify-content-center align-items-center mt-5">
 
-    <div id="current-ticket" class="card trafic-card pt-10" style="border-style: dashed">
+    <div id="current-ticket" class="card trafic-card mt-5" style="border-style: dashed; width: 18rem; height: 16rem;">
 
-    <div class="card-header border-black" style="border-style: dashed">
-      <h5 class="text-center fs-3">Ticket Actual</h5>
+    <div class="card-header border-secondary" style="border-style: dashed">
+      <h5 class="text-center fs-3 text-secondary">Ticket Actual</h5>
     </div>
-    <div class="card-body border-black" style="border-style: dashed">
+    <div class="card-body border-secondary" style="border-style: dashed">
 
       <h1 class="card-text text-center d-flex flex-column justify-content-center align-items-center gap-1">
-      <span id="ticket-data" class="ti ti-ticket text-center fs-1"></span><span class="fs-1"></span>
-      <h3 id="ticket-service" class="mt-3 text-secondary text-center"></h3>
+      <span id="ticket-data" class="ti ti-ticket text-center fs-1 "></span><span class="fs-1"></span>
+      <h2 id="ticket-service" class="mt-3  text-center"></h2>
       </h1>
     </div>
     </div>

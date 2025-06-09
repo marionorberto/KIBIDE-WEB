@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCompanyUserRequest;
+use App\Mail\WelcomeMail;
 use App\Models\Company;
 use App\Models\ProfileCompany;
 use App\Models\Unit;
@@ -12,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class CompanyController extends Controller
 {
@@ -128,6 +130,10 @@ class CompanyController extends Controller
             $unit->update([
                 'manager_id' => $user->id_user,
             ]);
+
+
+            Mail::to('marionorberto2018@gmail.com')->send(new WelcomeMail($user->username));
+
 
 
             return redirect(route('auth.login.show'))->with('success', 'Empresa e usuário criados com sucesso!');

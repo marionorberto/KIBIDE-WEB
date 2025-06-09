@@ -8,6 +8,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CounterController;
 use App\Http\Controllers\DayOperationController;
 use App\Http\Controllers\DeskController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\MentorController;
 use App\Http\Controllers\OperationController;
 use App\Http\Controllers\PainelController;
@@ -147,3 +148,6 @@ Route::middleware(CheckSession::class)->prefix('kibide/counters')->group(functio
     Route::delete('/counter/delete/{id}', [CounterController::class, 'destroy'])->name('counters.destroy');
     // Route::post('/store/desk', [UserController::class, 'storedesks'])->name('users.desk.store');
 });
+
+Route::get('send-email', [EmailController::class, 'welcome']);
+
