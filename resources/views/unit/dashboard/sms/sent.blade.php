@@ -4,16 +4,19 @@
 
 @section('content')
 
-  <h3 class="mb-2">Mensagens Enviadas</h3>
 
+  <h3 class="mb-2">Mensagens Enviadas</h3>
   <div class="col-xl-8">
     <div class="card table-card">
+
     <div class="card-header">
       <h5>Mensagens Enviadas <span class="ms-2 f-14 px-2 badge bg-light-secondary rounded-pill">0</span></h5>
     </div>
+    <div class="mx-4 mt-3 alert alert-warning text-center w-full" role="alert"> Sem mensagem enviadas até ao momento!
+    </div>
     <div class="card-body">
       <div class="table-responsive">
-      <table class="table" id="pc-dt-simple">
+      <table class="table" id="pc-dt-simple" style="display: none;">
         <thead>
         <tr>
           <th>Nº</th>
@@ -23,16 +26,10 @@
           <th class="text-end">ACÕES</th>
         </tr>
         </thead>
-        <div class="alert alert-warning text-center w-full" role="alert"> Sem mensagem recebidas até ao momento!
-        </div>
         <!-- <tbody>
-
       <tr>
       <td>
-
-
       </td>
-
       </tr>
       <tr>
       <td>

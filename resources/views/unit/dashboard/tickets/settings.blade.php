@@ -24,56 +24,61 @@
         <h5>Faça a configuração do display de tickets da sua unidade.</h5>
         <small>Configure o display dos tickets. </small>
       </div>
-      <a class="btn btn-primary" href="{{ route('unit.tickets.generated') }}">Ver Tickets Gerados</a>
-
       </div>
       <div class="card-body">
-      <div class="dt-responsive table-responsive overflow-hidden">
-        <table id="myTable" class="table table-striped table-bordered nowrap">
-        <thead>
-          <tr>
-          <th>ID</th>
-          <th>UNIDADE</th>
-          <th>USERNAME</th>
-          <th>EMAIL</th>
-          <th>CRIADO EM</th>
-          <th>PAPEL</th>
-          <th>STATUS</th>
-          <th>AÇÕES</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-          <td>{ $loop->iteration }}</td>
-          <td>unidade</td>
-          <td>{ $item->username }}</td>
-          <td>{ $item->email }}</td>
-          <td>{ $item->created_at }}</td>
-          <td>{ $item->created_at }}</td>
-          <td>{ $item->role }}</td>
-          <td>{ $item->role }}</td>
-          </tr>
 
-        </tbody>
+      <div class="col-sm-8
+      ">
+        <h4>Adicionar Imagens para o painel</h4>
+        <div class="card">
+        <div class="card-body py-2">
+          <!-- [ Main Content ] start -->
 
-        <tfoot>
-          <tr>
-          <th>ID</th>
-          <th>USERNAME</th>
-          <th>EMAIL</th>
-          <th>CRIADO EM</th>
-          <th>PAPEL</th>
-          <th>STATUS</th>
-          <th>AÇÕES - obs apenas para ver o card</th>
-          </tr>
-        </tfoot>
-        </table>
+          <!-- [ breadcrumb ] start -->
+          <div class="page-header">
+          <div class="page-block">
+            <div class="row align-items-center">
+
+            <div class="col-md-12">
+              <div class="page-header-title d-flex justify-content-between align-items-center">
+              <h5 class="mb-0 text-secondary">Upload uma nova imagem para passar no painel da sua unidade</h5>
+              <a href="" class="btn btn-primary">Ver Lista de imagens cadastradas!</a>
+              </div>
+            </div>
+            </div>
+          </div>
+          </div>
+          <!-- [ breadcrumb ] end -->
+
+          <!-- [ Main Content ] start -->
+          <div class="row">
+          <!-- [ file-upload ] start -->
+          <div class="col-sm-12">
+            <div class="card">
+            <div class="card-header">
+              <h5 class="text-secondary">OBS:(Para melhor visualização do seu painel a imagem precisa ser
+              legível e redimensionável!)
+              </h5>
+            </div>
+            <div class="card-body">
+              <form action="../assets/json/file-upload.php" class="dropzone">
+              <div class="fallback">
+                <input name="file" type="file" multiple>
+              </div>
+              </form>
+              <div class="mt-4 ms-auto">
+              <button class="btn btn-primary">Enviar Cadastrar Imagem</button>
+              </div>
+            </div>
+            </div>
+          </div>
+          </div>
+        </div>
+        </div>
       </div>
       </div>
     </div>
     </div>
-
-
   </div>
 
 @endsection

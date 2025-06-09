@@ -101,6 +101,14 @@ class AuthController extends Controller
         return view('auth.forgot-password');
     }
 
+
+    public function forgotPasswordSubmit(Request $request)
+    {
+        // return view('auth.forgot-password');
+        dd($request->all());
+    }
+
+
     public function logout(Request $request): RedirectResponse
     {
         Auth::logout();

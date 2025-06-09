@@ -4,7 +4,7 @@
 
 @section('content')
 
-  <div class="col-xl-6 mb-4">
+  <div class="col-xl-8 mb-4">
     <h3 class="mb-3">Nova Mensagem</h3>
     <div class="card">
 

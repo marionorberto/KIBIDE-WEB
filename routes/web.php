@@ -10,6 +10,7 @@ use App\Http\Controllers\DayOperationController;
 use App\Http\Controllers\DeskController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\MentorController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OperationController;
 use App\Http\Controllers\PainelController;
 use App\Http\Controllers\ServiceController;
@@ -45,6 +46,7 @@ Route::prefix('kibide/auth')->group(function () {
     Route::get('/index', [AuthController::class, 'index'])->name('auth.login.show');
     Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
     Route::get('/forgot-password', [AuthController::class, 'forgotPassword'])->name('auth.forgot');
+    Route::post('/forgot-password', [AuthController::class, 'forgotPasswordSubmit'])->name('auth.forgot.submit');
     Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
     Route::post('/changer-password', [AuthController::class, 'changePassword'])->name('auth.password.change');
 });
@@ -84,7 +86,10 @@ Route::middleware(CheckSession::class)->prefix('kibide/unit')->group(function ()
     Route::get('/list/desks', [UnitController::class, 'listDesks'])->name('unit.list.desks');
     Route::get('/create/sms', [UnitController::class, 'createSms'])->name('unit.create.sms');
     Route::get('/sms/inbox', [UnitController::class, 'smsInbox'])->name('unit.sms.inbox');
+
     Route::get('/sms/sent', [UnitController::class, 'smsSent'])->name('unit.sms.sent');
+    Route::post('/sms/sent/message', [MessageController::class, 'store'])->name('unit.sms.store');
+
     Route::get('/notification/inbox', [UnitController::class, 'notificationInbox'])->name('unit.notification.inbox');
     Route::get('/notification/histories', [UnitController::class, 'notificationHistories'])->name('unit.notification.histories');
     Route::get('/tickets/generated', [UnitController::class, 'ticketGenerated'])->name('unit.tickets.generated');

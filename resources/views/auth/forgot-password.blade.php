@@ -13,7 +13,8 @@
       </a>
       </div>
       <div class="card my-5">
-      <div class="card-body">
+      <form method="post" action="{{ route('auth.forgot.submit') }}" class="card-body">
+        @csrf
         <div class="d-flex justify-content-between align-items-end mb-4">
         <h3 class="mb-0"><b>Esqueci a senha</b></h3>
         <a href="{{ route('auth.login.show') }}" class="link-primary">Voltar para Login</a>
@@ -25,9 +26,9 @@
         </div>
         <p class="mt-4 text-sm text-muted">Não esqueça de checar a caixa <strong>SPAN</strong>.</p>
         <div class="d-grid mt-3">
-        <button type="button" class="btn btn-primary">Submeter</button>
+        <button type="submit" class="btn btn-primary">Submeter</button>
         </div>
-      </div>
+      </form>
       </div>
       <div class="auth-footer row">
       <!-- <div class=""> -->
