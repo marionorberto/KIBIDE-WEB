@@ -5,6 +5,7 @@ use App\Events\QueueDisplayTicketsEvent;
 use App\Http\Controllers\OperationController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UnitController;
+use App\Http\Controllers\UserController;
 use App\Models\OperationAssociation;
 use Illuminate\Support\Facades\Route;
 use App\Models\TicketGenerated;
@@ -239,3 +240,9 @@ Route::get('/listServicesForDisplay/{unit_id}', function (string $unit_id) {
     ], 500);
   }
 });
+
+
+
+Route::get('/user/{unitId}/desks', [UserController::class, 'desksByUnit']);
+Route::get('/user/{companyId}/admin', [UserController::class, 'adminByCompany']);
+

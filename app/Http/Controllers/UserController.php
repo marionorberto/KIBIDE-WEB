@@ -206,4 +206,50 @@ class UserController extends Controller
         }
     }
 
+
+    public function desksByUnit(string $unitId)
+    {
+        DB::beginTransaction();
+        try {
+
+            $users = User::where('unit_id', $unitId)
+                ->where('role', 'desk')
+                ->get();
+
+            DB::commit();
+
+            return response()->json(
+                $users,
+                200
+            );
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::Error('error trying getting: desksByUnit() | error -> ' . $e->getMessage());
+            return redirect()->json('error trying getting: desksByUnit()', 404);
+        }
+    }
+
+    public function adminByCompany(string $companyId)
+    {
+        DB::beginTransaction();
+        try {
+
+            $user = User::where('company_id', $companyId)
+                ->where('role', 'admin')
+                ->first();
+
+            DB::commit();
+
+            return response()->json(
+                $user,
+                200
+            );
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::Error('error trying getting: desksByUnit() | error -> ' . $e->getMessage());
+            return redirect()->json('error trying getting: desksByUnit()', 404);
+        }
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreMessageRequest;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -27,13 +28,8 @@ class MessageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreMessageRequest $request)
     {
-        dd($request->all());
-
-        // pôr o campo unit!!
-
-
 
         DB::beginTransaction();
 
@@ -45,6 +41,7 @@ class MessageController extends Controller
                 'subject' => $request->subject,
                 'content' => $request->content,
                 'is_read' => $request->is_read,
+                'unit_id' => $request->unit_id,
             ]);
 
             DB::commit();
@@ -52,7 +49,7 @@ class MessageController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-
+            return redirect()->back()->with('error', 'Não foi possível enviar notificação, Por favor tente mais tarde!');
         }
     }
 
