@@ -67,7 +67,7 @@
           </a>
         </li>
         <li class="pc-item">
-          <a href="{{ route('company.sms.Inbox') }}" class="pc-link">
+          <a href="{{ route('company.sms.inbox') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-inbox"></i></span>
             <span class="pc-mtext">Caixa de Entrada</span>
           </a>

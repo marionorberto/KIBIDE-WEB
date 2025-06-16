@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\WelcomeMail;
+use App\Services\EmailService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -12,12 +13,19 @@ class EmailController extends Controller
      * Display a listing of the resource.
      */
 
+    protected $emailService;
 
-    public function welcome()
+    public function __construct(EmailService $emailService)
     {
-        Mail::to('marionorberto2018@gmail.com')->send(new WelcomeMail('marionorberto'));
+        $this->emailService = $emailService;
+    }
 
-        return 'email sent sucessfully!';
+
+    public function welcome(string $email, string $username)
+    {
+        $this->emailService->welcome($email, $username);
+
+        return 'Email sent sucessfully!';
     }
 
     public function index()

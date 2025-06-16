@@ -10,6 +10,7 @@ use App\Models\Company;
 use App\Models\Counter;
 use App\Models\DayOperation;
 use App\Models\DeskCounter;
+use App\Models\Message;
 use App\Models\OperationAssociation;
 use App\Models\Operations;
 use App\Models\Service;
@@ -160,12 +161,25 @@ class UnitController extends Controller
 
     public function smsInbox()
     {
-        return view('unit.dashboard.sms.inbox');
+
+        $messages = Message::with(['unit', 'receiver', 'sender'])
+            ->where('unit_id', Auth::user()->unit_id)
+            ->where('receiver_id', Auth::user()->id_user)
+            ->get();
+
+        return view('unit.dashboard.sms.inbox', compact('messages'));
     }
 
     public function smsSent()
     {
-        return view('unit.dashboard.sms.sent');
+
+
+        $messages = Message::with(['unit', 'receiver', 'sender'])
+            ->where('unit_id', Auth::user()->unit_id)
+            ->where('sender_id', Auth::user()->id_user)
+            ->get();
+
+        return view('unit.dashboard.sms.sent', compact('messages'));
     }
 
     public function notificationInbox()

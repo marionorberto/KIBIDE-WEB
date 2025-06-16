@@ -23,7 +23,7 @@
     </ul>
     @endif
     @if ($successMessage = session('success'))
-    <div class="alert alert-success" role="alert"> <i class="ti ti-check-box"></i> {{ $successMessage }} <strong><a
+    <div class="alert alert-success" role="alert"> <i class="ti ti-check"></i> {{ $successMessage }} <strong><a
       href="{{ route('unit.sms.sent') }}">Ver Enviadas!</a></strong></div>
     @endif
 
@@ -103,10 +103,6 @@
     const unit_id = document.querySelector('[name = "unit_id"]');
     const subject = document.querySelector('[name = "subject"]');
     const content = document.querySelector('[name = "content"]');
-
-
-
-
 
     typeUser.addEventListener('change', () => {
     console.log(receiver_id)

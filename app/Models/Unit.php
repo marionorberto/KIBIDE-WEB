@@ -98,4 +98,9 @@ class Unit extends Model
     {
         return $this->hasMany(TicketDesk::class, 'unit_id');
     }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class, 'unit_id');
+    }
 }

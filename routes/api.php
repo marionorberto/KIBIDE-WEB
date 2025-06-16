@@ -241,8 +241,6 @@ Route::get('/listServicesForDisplay/{unit_id}', function (string $unit_id) {
   }
 });
 
-
-
 Route::get('/user/{unitId}/desks', [UserController::class, 'desksByUnit']);
 Route::get('/user/{companyId}/admin', [UserController::class, 'adminByCompany']);
 

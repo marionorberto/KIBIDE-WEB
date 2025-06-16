@@ -4,30 +4,36 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMessageRequest;
 use App\Models\Message;
+use App\Services\EmailService;
+use App\Services\NotificationService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class MessageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public $emailService;
+    public $userService;
+
+    public $notificationService;
+    public function __construct(EmailService $emailService, NotificationService $notificationService, UserService $userService)
+    {
+        $this->emailService = $emailService;
+        $this->userService = $userService;
+        $this->notificationService = $notificationService;
+    }
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(StoreMessageRequest $request)
     {
 
@@ -44,6 +50,19 @@ class MessageController extends Controller
                 'unit_id' => $request->unit_id,
             ]);
 
+            $receiverUserData = $this->userService->findOneById($request->receiver_id);
+            $senderUserData = $this->userService->findOneById($request->sender_id);
+
+            $this->emailService->
+                newMessage(
+                    $receiverUserData['email'],
+                    $receiverUserData['username'],
+                    $senderUserData['username'],
+                    $request->content,
+                );
+
+            $this->notificationService->sendNotification($request->receiver_id, 'Nova mensagem', $receiverUserData['username'] . ', recebeste uma nova mensagem do');
+
             DB::commit();
             return redirect()->back()->with('success', 'Mensagem enviada com sucesso!');
 
@@ -53,33 +72,21 @@ class MessageController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //

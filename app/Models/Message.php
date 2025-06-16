@@ -18,6 +18,7 @@ class Message extends Model
     public $primaryKey = 'id_message';
 
     protected $fillable = [
+        'unit_id',
         'sender_id',
         'receiver_id',
         'subject',
@@ -44,5 +45,10 @@ class Message extends Model
     public function receiver()
     {
         return $this->belongsTo(User::class, 'receiver_id', 'id_user');
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class, 'unit_id', 'id_unit');
     }
 }

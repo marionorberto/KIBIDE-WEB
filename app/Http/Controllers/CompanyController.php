@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCompanyUserRequest;
 use App\Mail\WelcomeMail;
 use App\Models\Company;
+use App\Models\Message;
 use App\Models\ProfileCompany;
+use App\Services\EmailService;
 use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -20,6 +22,14 @@ class CompanyController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    protected $emailService;
+
+    public function __construct(EmailService $emailService)
+    {
+        $this->emailService = $emailService;
+    }
+
     public function index()
     {
         $companyId = Auth::user()->company_id;
@@ -132,9 +142,9 @@ class CompanyController extends Controller
             ]);
 
 
-            Mail::to('marionorberto2018@gmail.com')->send(new WelcomeMail($user->username));
+            // Mail::to('marionorberto2018@gmail.com')->send(new WelcomeMail($user->username));
 
-
+            $this->emailService->welcome($user->email, $user->username);
 
             return redirect(route('auth.login.show'))->with('success', 'Empresa e usuário criados com sucesso!');
 
@@ -257,11 +267,14 @@ class CompanyController extends Controller
         $units = Unit::where('company_id', Auth::user()->company_id)->get();
         return view('company.sms.create', compact('companyUsers', 'units'));
     }
-    public function smsInbox()
+    public function smsInboxCompany()
     {
         $company_id = Auth::user()->company_id;
         $companyUsers = User::where('company_id', $company_id)->get();
-        return view('company.sms.inbox', compact('companyUsers'));
+
+        $myMessages = Message::where('receiver_id', Auth::user()->id_user)->get();
+
+        return view('company.sms.inbox', compact('companyUsers', 'myMessages'));
     }
 
 

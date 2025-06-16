@@ -62,13 +62,12 @@ Route::prefix('kibide/company')->group(function () {
     Route::get('/create/units', [CompanyController::class, 'createUnits'])->name('company.create.units');
     Route::get('/list/units', [CompanyController::class, 'listUnits'])->name('company.list.units');
     Route::get('/create/sms', [CompanyController::class, 'createSms'])->name('company.create.sms');
-    Route::get('/sms/inbox', [CompanyController::class, 'smsInbox'])->name('company.sms.Inbox');
+    Route::get('/sms/inbox/company', [CompanyController::class, 'smsInboxCompany'])->name('company.sms.inbox');
     Route::get('/sms/sent', [CompanyController::class, 'smsSent'])->name('company.sms.sent');
     Route::get('/notification/inbox', [CompanyController::class, 'notificationInbox'])->name('company.notification.inbox');
     Route::get('/notification/histories', [CompanyController::class, 'notificationHistories'])->name('company.notification.histories');
     Route::get('/settings/index', [CompanyController::class, 'settings'])->name('company.settings.index');
     Route::get('/licence/index', [CompanyController::class, 'licence'])->name('company.licence.index');
-
 });
 
 Route::middleware(CheckSession::class)->prefix('kibide/desk')->group(function () {
@@ -155,4 +154,5 @@ Route::middleware(CheckSession::class)->prefix('kibide/counters')->group(functio
 });
 
 Route::get('send-email', [EmailController::class, 'welcome']);
+
 
