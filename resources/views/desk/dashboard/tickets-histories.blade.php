@@ -129,12 +129,10 @@
       })
       .then(({ tickets: data }) => {
 
-      console.log(data);
       tbodyTicketHistories.innerHTML = ""; // limpa
       myTableHistoriesTicket.style.display = 'block';
 
       if (data.length > 0) {
-
         data.forEach((element, index) => {
         let statusTd = '';
         if (element.ticket.status == 'pending') {
@@ -168,7 +166,6 @@
       console.log('occured some error applying this method - ', erro);
       });
     }
-
 
     function getAllDeskTicketsByDate(date) {
     const idUser = inputIdUserDesk.value;
@@ -207,7 +204,6 @@
     <td>${element.ticket.operation_association.service.priority_level}</td>
     ${statusTd}
     <td>${element.created_at.split('T')[0]}</td>
-
     </tr>
     `;
         tbodyTicketHistories.innerHTML += row;
@@ -217,7 +213,6 @@
         alertWithoutTicketWithThisDate.style.display = 'block';
         myTableHistoriesTicket.style.display = 'none';
       }
-
       })
       .catch((err) => {
       console.log('occured some error applying this method - ', erro);

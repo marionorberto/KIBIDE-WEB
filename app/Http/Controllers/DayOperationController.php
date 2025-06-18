@@ -47,7 +47,7 @@ class DayOperationController extends Controller
                 "repeat" => $request->repeat,
                 "start_date" => $request->start_date,
                 "end_date" => $request->end_date,
-                "active" => $request->active
+                "active" => true
             ]);
             DB::commit();
 

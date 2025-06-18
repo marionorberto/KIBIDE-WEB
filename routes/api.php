@@ -145,6 +145,7 @@ Route::middleware('auth:sanctum')->post('/generateTicket', function (Request $re
           'prefix_code' => $ticket->operationAssociation->service->prefix_code,
           'service' => $ticket->operationAssociation->service->description,
           'counter' => $ticket->operationAssociation->counter->counter_name,
+          'counter_id' => $ticket->operationAssociation->counter->id_counter,
         ];
       });
 
@@ -243,4 +244,7 @@ Route::get('/listServicesForDisplay/{unit_id}', function (string $unit_id) {
 
 Route::get('/user/{unitId}/desks', [UserController::class, 'desksByUnit']);
 Route::get('/user/{companyId}/admin', [UserController::class, 'adminByCompany']);
+Route::get('/callNextTicket/{unitId}/{userId}', [TicketController::class, 'callNextTicket']);
+
+
 

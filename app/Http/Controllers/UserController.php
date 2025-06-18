@@ -116,46 +116,62 @@ class UserController extends Controller
         DB::beginTransaction();
 
         try {
+            // Validate required fields first
+            $request->validate([
+                'username' => 'required|string|min:3|max:255',
+                'email' => 'required|email|max:255',
+            ], [
+                'required' => 'O campo :attribute é obrigatório.',
+                'string' => 'O campo :attribute deve ser um texto.',
+                'min' => 'O campo :attribute deve ter pelo menos :min caracteres.', // Mensagem genérica para min
+                'email' => 'Por favor, insira um e-mail válido.',
+                'max' => 'O campo :attribute não pode ter mais que :max caracteres.',
+            ]);
 
-            dd('mexer aqui');
-            // $alreadyExistAServiceWithThisNameCreated = Service::where('unit_id', Auth::user()->unit_id)
-            //     ->where('description', $request->description)
-            //     ->where('id_service', '!=', $id)
-            //     ->first();
+            $user = User::findOrFail($id);
 
-            // if ($alreadyExistAServiceWithThisNameCreated)
-            //     return redirect()->back()->with('error', 'Já existe um serviço com esse *NOME criado, por favor escolha outro nome!');
+            // Check for duplicate username (excluding current user)
+            $alreadyExistAServiceWithThisNameCreated = User::where('unit_id', Auth::user()->unit_id)
+                ->where('username', $request->username)
+                ->where('id_user', '!=', $id)
+                ->first();
 
+            if ($alreadyExistAServiceWithThisNameCreated) {
+                return redirect()->back()->with('error', 'Usuário com esse nome já criado, por favor escolha outro nome!');
+            }
 
-            // $alreadyExistAPrefixWithThisNameCreated = Service::where('unit_id', Auth::user()->unit_id)
-            //     ->where('prefix_code', $request->prefix_code)
-            //     ->where('id_service', '!=', $id)
-            //     ->first();
+            // Check for duplicate email (excluding current user)
+            $alreadyExistAPrefixWithThisNameCreated = User::where('unit_id', Auth::user()->unit_id)
+                ->where('email', $request->email)
+                ->where('id_user', '!=', $id)
+                ->first();
 
-            // if ($alreadyExistAPrefixWithThisNameCreated)
-            //     return redirect()->back()->with('error', 'Já existe um serviço com esse *PREFIXO criado, por favor escolha outro Prefixo!');
+            if ($alreadyExistAPrefixWithThisNameCreated) {
+                return redirect()->back()->with('error', 'Já existe um usuário com esse email criado, por favor escolha outro email!');
+            }
 
+            // Update user data - no need for fallback since we validated the fields
+            $user->username = $request->username;
+            $user->email = $request->email;
 
-            // $service = Service::findOrFail($id); // Usa o ID da rota, não do request
-
-            // $service->active = $request->input('status', $service->active);
-            // $service->prefix_code = $request->input('prefix_code', $service->prefix_code);
-            // $service->description = $request->input('description', $service->description);
-            // $service->priority_level = $request->input('priority_level', $service->priority_level);
-
-            // $service->save();
+            $user->save();
 
             DB::commit();
-            return redirect()->back()->with('success', 'Serviço editado com sucesso!');
+            return redirect()->back()->with('success', 'Dados do usuário editado com sucesso!');
 
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->withErrors($e->validator)
+                ->withInput();
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Erro ao editar serviço: ' . $e->getMessage(), [
-                'service_id' => $id,
+            Log::error('Erro ao editar usuário: ' . $e->getMessage(), [
+                'id_user' => $id,
                 'request_data' => $request->all()
             ]);
 
-            return redirect()->back()->with('error', 'Erro ao editar este serviço. Verifique os dados e tente novamente.');
+            return redirect()->back()->with('error', 'Erro ao editar este usuário. Verifique os dados e tente novamente.');
         }
     }
 

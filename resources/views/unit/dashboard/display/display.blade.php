@@ -28,7 +28,6 @@
     }
     }
   </style>
-
   <header class="p-2  px-5 d-flex justify-content-between align-items-center">
     <div>
     <input type="hidden" id="display-unit-id" value="{{ Auth::user()->unit_id }}">
@@ -40,7 +39,6 @@
     </div>
   </header>
   <div class="auth-main" style="width: 100%; display: flex; flex-direction: row;">
-
     <section class="bg-white px-4 py-4" style="width: 50%; height: 100vh;">
     <div class="w-100 bg-secondary d-flex justify-content-center align-items-center" style="height: 380px;">
       <div class="col-12">
@@ -68,7 +66,6 @@
       <h4>Tickets a serem atendidos</h4>
       <div id="container-attending-tickets">
       </div>
-
     </div>
     </section>
     <section class="bg-light p-4 flex-col justify-content-center align-items-between" style="width: 60%; height: 100vh;">
@@ -86,7 +83,6 @@
       </div>
       </div>
     </div>
-
     <div class="flex-col mt-2 gap-1">
       <h3>Tickets na fila de espera</h3>
       <div id="queue-tickets">
@@ -108,25 +104,19 @@
     window.Echo.channel('counter-assigned-for-display-channel')
       .listen('CounterAssingnedForDisplayEvent', (data) => {
 
-      console.log('container attending tickets', containerAttendingTickets);
-      console.log('okkk', data);
-
       fetch(`/api/listServicesForDisplay/${unitId}`)
         .then((res) => {
         if (res.ok) {
           return res.json();
         }
-
         throw new Error('errorrrrr');
         })
         .then((data) => {
-        console.log('dataaaaa', data.data);
-
         containerAttendingTickets.innerHTML = '';
         if (data.data.length > 0) {
-
           data.data.forEach(element => {
           const div = document.createElement('div');
+          // div.setAttribute('id', `service-listed.${element.counter.id_counter}`);
           div.innerHTML = `<div div class="flex-row" >
     <div class="rounded-2 bg-white p-2">
     <button class="btn btn-outline-info bg-gradient fs-5" style="width: 5rem; height: 2.5rem;"></button>
@@ -136,11 +126,11 @@
     </div>
     </div >` ;
           containerAttendingTickets.appendChild(div);
+
           });
         } else {
-          console.log('sem balcoes');
+          containerAttendingTickets.innerHTML = '';
         }
-
         })
         .catch((err) => {
         console.log('error', error);
@@ -148,12 +138,37 @@
       });
     }, 200);
 
-
     // when the page open must load the tickets
-    loadTicketsInQueue();
-
     loadAttendingQueue();
+    loadTicketsInQueue();
     updateTime();
+
+
+
+    // ---------------
+
+
+    // Suponha que você tenha uma função que lida com o evento de ticket chamado
+    function handleTicketChamado(ticket) {
+    const { balcaoId, servico } = ticket;
+
+    // Atualiza o balcão no display
+    atualizarBalcaoNoDisplay(balcaoId, servico);
+    }
+
+    function atualizarBalcaoNoDisplay(balcaoId, servico) {
+    // Encontra o elemento do balcão no DOM
+    const balcaoElement = document.querySelector(`[data-balcao-id="${balcaoId}"]`);
+
+    if (balcaoElement) {
+      // Atualiza o conteúdo do balcão com o serviço
+      balcaoElement.textContent = `Balcão ${balcaoId} - ${servico}`;
+      // Adiciona uma classe para indicar que está ocupado (opcional)
+      balcaoElement.classList.add('ocupado');
+    }
+    }
+
+    // ---------------
 
     function loadTicketsInQueue() {
     fetch(`/api/loadTicketsInQueue/${unitId}`)
@@ -161,19 +176,18 @@
       if (res.ok) {
         return res.json();
       }
-
       throw new Error('Erro na response: /api/loadTicketsInQueue/${unitId}');
       }).then((data) => {
 
       if (data.data.length > 0) {
         queueTickets.innerHTML = '';
-        data.data.forEach(ticket => {
+        data.data.forEach((ticket, index) => {
 
         const div = document.createElement('div');
 
         div.innerHTML = `<div class="flex-row">
     <div class="rounded-2 bg-white p-2">
-    <button class="btn btn-outline-primary bg-gradient fs-3" style="width: 14rem; height: 3rem;">${ticket.prefix_code} 0${ticket.ticket_number} 
+    <button id="service-listed-counter.${ticket.counter_id}" class="btn btn-outline-primary bg-gradient fs-3" style="width: 14rem; height: 3rem;">${ticket.prefix_code} 0${ticket.ticket_number} 
     </button>
     <button class="btn btn-light bg-gradient text-secondary fs-3"
     style="width: 15rem; height: 3rem; background-color: #d3d4d5;">${ticket.service}
@@ -181,6 +195,13 @@
     <button class="btn btn-primary bg-gradient fs-4" style="width: 15rem; height: 3rem;">${ticket.counter}</button>
     </div>
     </div>`;
+
+        // let counter = document.getElementById('service-listed-counter-show' + '.' + ticket.counter_id);
+
+        // if (ticket.counter_id == counter.getAttribute('id').split('.')[1]) {
+        //   if (!counter.textContent)
+        //   counter.textContent = ticket.ticket_number;
+        // }
         queueTickets.appendChild(div);
         });
       } else {
@@ -192,45 +213,37 @@
     }
 
 
-
-
     function loadAttendingQueue() {
     fetch(`/api/listServicesForDisplay/${unitId}`)
       .then((res) => {
       if (res.ok) {
         return res.json();
       }
-
       throw new Error('errorrrrr');
       })
       .then((data) => {
-      console.log('dataaaaa', data.data);
-
       containerAttendingTickets.innerHTML = '';
       if (data.data.length > 0) {
-
         data.data.forEach(element => {
         const div = document.createElement('div');
-        div.innerHTML = `<div div class="flex-row" >
-    <div class="rounded-2 bg-white p-2">
-    <button class="btn btn-outline-info bg-gradient fs-5" style="width: 5rem; height: 2.5rem;"></button>
-    <button class="btn btn-light bg-gradient text-secondary fs-4"
-    style="width: 10rem; height: 2.5rem; background-color: #d3d4d5;">${element.service.description}</button>
-    <button class="btn btn-info bg-gradient fs-4" style="width: 15rem; height: 2.5rem;">${element.counter.counter_name}</button>
-    </div>
-    </div >` ;
+        div.innerHTML = `<div class="flex-row" >
+      <div class="rounded-2 bg-white p-2">
+      <button id="service-listed-counter-show.${element.counter.id_counter}" class="btn btn-outline-info bg-gradient fs-5" style="width: 5rem; height: 2.5rem;"></button>
+      <button class="btn btn-light bg-gradient text-secondary fs-4"
+      style="width: 10rem; height: 2.5rem; background-color: #d3d4d5;">${element.service.description}</button>
+      <button class="btn btn-info bg-gradient fs-4" style="width: 15rem; height: 2.5rem;">${element.counter.counter_name}</button>
+      </div>
+      </div >`;
         containerAttendingTickets.appendChild(div);
         });
       } else {
         console.log('sem balcoes');
       }
-
       })
       .catch((err) => {
       console.log('error', error);
       })
     }
-
 
     setInterval(updateTime, 1000);
     function updateTime() {
@@ -239,65 +252,39 @@
     document.getElementById('current-time').textContent = formatted;
     }
 
-    //Listenning to the last atending ticket called by one desk user:
-    // setTimeout(() => {
-    // window.Echo.channel('queue-display-attending-tickets-channel')
-    //   .listen('QueueDisplayAttendingTicketsEvent', (data) => {
-    //   try {
-    //     console.log('next atending ticket', data);
-    //     attendingTickets.push(data.data);
-
-    //     if (data.data.length > 0) {
-    //     queueTickets.innerHTML = '';
-    //     data.data.forEach(ticket => {
-
-    //       const div = document.createElement('div');
-
-    //       div.innerHTML = `<div class="flex-row">
-    // <div class="rounded-2 bg-white p-2">
-    // <button class="btn btn-outline-primary bg-gradient fs-3" style="width: 14rem; height: 3rem;">${ticket.prefix_code} 0${ticket.ticket_number}
-    // </button>
-    // <button class="btn btn-light bg-gradient text-secondary fs-3"
-    // style="width: 15rem; height: 3rem; background-color: #d3d4d5;">${ticket.service}
-    // </button>
-    // <button class="btn btn-primary bg-gradient fs-4" style="width: 15rem; height: 3rem;">${ticket.counter}</button>
-    // </div>
-    // </div>`;
-    //       queueTickets.appendChild(div);
-    //     });
-    //     } else {
-    //     queueTickets.innerHTML = '';
-    //     queueTickets.innerHTML = `<div class="alert alert-info fs-4 mt-4 text-center">Sem Tickets Disponíveis</div>`
-    //     }
-    //   } catch (error) {
-    //     console.log('occurred some error trying to listenning to the event, channel -> queue-display-attending-tickets-channel | error -> ', err)
-    //   }
-    //   });
-    // }, 200);
-
     //Listenning to the lastTicketCalled:
     setTimeout(() => {
     window.Echo.channel('queue-display-tickets-channel')
       .listen('QueueDisplayTicketsEvent', (data) => {
       try {
-        console.log('event data', data);
+
         if (data.data.length > 0) {
         queueTickets.innerHTML = '';
-        data.data.forEach(ticket => {
+        data.data.forEach((ticket, index) => {
 
           const div = document.createElement('div');
 
+          // let counter = document.getElementById('service-listed-counter-show' + '.' + ticket.counter_id);
+
+          // if (ticket.counter_id == counter.getAttribute('id').split('.')[1]) {
+          // index == 0 ? counter.textContent = ticket.ticket_number : '';
+          // }
           div.innerHTML = `<div class="flex-row">
-    <div class="rounded-2 bg-white p-2">
-    <button class="btn btn-outline-primary bg-gradient fs-3" style="width: 14rem; height: 3rem;">${ticket.prefix_code} 0${ticket.ticket_number}
-    </button>
-    <button class="btn btn-light bg-gradient text-secondary fs-3"
-    style="width: 15rem; height: 3rem; background-color: #d3d4d5;">${ticket.service}
-    </button>
-    <button class="btn btn-primary bg-gradient fs-4" style="width: 15rem; height: 3rem;">${ticket.counter}</button>
-    </div>
-    </div>`;
+      <div class="rounded-2 bg-white p-2">
+      <button class="btn btn-outline-primary bg-gradient fs-3" style="width: 14rem; height: 3rem;">${ticket.prefix_code} 0${ticket.ticket_number}
+      </button>
+      <button class="btn btn-light bg-gradient text-secondary fs-3"
+      style="width: 15rem; height: 3rem; background-color: #d3d4d5;">${ticket.service}
+      </button>
+      <button class="btn btn-primary bg-gradient fs-4" style="width: 15rem; height: 3rem;">${ticket.counter}</button>
+      </div>
+      </div>`;
           queueTickets.appendChild(div);
+
+          // containerAttendingTickets.childNodes.forEach((val) => {
+          // console.log(val);
+          // })
+
         });
         } else {
         queueTickets.innerHTML = '';
@@ -308,9 +295,5 @@
       }
       });
     }, 200);
-
-    //Listenning to the lastTicketCalled:
-
   </script>
-
 @endsection

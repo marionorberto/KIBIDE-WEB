@@ -7,6 +7,7 @@ use App\Events\QueueDisplayAttendingTicketsEvent;
 use App\Models\DeskCounter;
 use App\Models\TicketDesk;
 use App\Models\TicketGenerated;
+use App\Services\EmitEventService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +17,11 @@ use Illuminate\Support\Facades\Log;
 
 class TicketController extends Controller
 {
+    protected $emitEventService;
+    public function __construct(EmitEventService $emitEventService)
+    {
+        $this->emitEventService = $emitEventService;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -72,11 +78,11 @@ class TicketController extends Controller
         //
     }
 
-    public function callNextTicket()
+    public function callNextTicket(string $unitId, string $userId)
     {
         try {
-            $desk = DeskCounter::where('unit_id', Auth::user()->unit_id)
-                ->where('user_id', Auth::user()->id_user)
+            $desk = DeskCounter::where('unit_id', $unitId)
+                ->where('user_id', $userId)
                 ->whereDate('created_at', Carbon::today())
                 ->where('status', 'occupied')
                 ->first();
@@ -101,8 +107,8 @@ class TicketController extends Controller
             }
 
             TicketDesk::create([
-                'unit_id' => Auth::user()->unit_id,
-                'user_id' => Auth::user()->id_user,
+                'unit_id' => $unitId,
+                'user_id' => $userId,
                 'ticket_id' => $nextPendingTicket->id_ticket_generated
             ]);
 
@@ -132,6 +138,10 @@ class TicketController extends Controller
                 Log::error($pendingTickets);
                 return response()->json(['error' => 'Erro ao emitir o evento.'], 500);
             }
+
+
+            $this->emitEventService->emitQueueDisplayTicketsEvent($unitId);
+            // $this->emitEventService->emitLastTicketCalled($desk->counter_id, $nextPendingTicket);
 
             try {
                 $AttendingTicketsEvent = [
@@ -172,6 +182,7 @@ class TicketController extends Controller
                 ->with(['unit', 'ticket.operationAssociation.counter', 'ticket.operationAssociation.service', 'user'])
                 ->where('unit_id', $unitId)
                 ->where('user_id', $userId)
+                ->whereDate('created_at', Carbon::today())
                 ->get();
 
             return response()->json([
@@ -223,6 +234,7 @@ class TicketController extends Controller
                     'prefix_code' => $ticket->operationAssociation->service->prefix_code,
                     'service' => $ticket->operationAssociation->service->description,
                     'counter' => $ticket->operationAssociation->counter->counter_name,
+                    'counter_id' => $ticket->operationAssociation->counter->id_counter,
                 ];
             });
 

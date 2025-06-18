@@ -34,6 +34,7 @@
   @include('partials.desk.menu')
   @include('partials.desk.header')
   <div class="pc-container">
+    <input type="hidden" name="" value="{{ Auth::user()->unit_id }}" id="unit_id">
     <div class="pc-content">
       @yield('content')
     </div>
@@ -330,6 +331,7 @@
       const warning = document.getElementById('counter-warning');
       const ticketWarning = document.getElementById('ticket-warning');
       const userId = document.getElementById('user_id');
+      const unitId = document.getElementById('unit_id');
       const buttonOccupied = document.getElementById('button_occupied');
       const ticketList = document.getElementById('ticket-list');
       const callTicketBtn = document.getElementById('call-ticket');
@@ -428,7 +430,10 @@
             }
           }
 
-          fetch("{{ route('tickets.call.next') }}")
+          const unitIdValue = unitId.value;
+          const userIdValue = userId.value;
+
+          fetch(`/api/callNextTicket/${unitIdValue}/${userIdValue}`)
             .then(response => {
               if (!response.ok) throw new Error('Erro na requisição para pegar o último ticket emitido pelo usuário desk!');
               return response.json();
@@ -437,6 +442,8 @@
               if (data.error) {
                 return;
               }
+
+
               const ticket = data.ticket;
               if (ticket) {
                 document.getElementById('ticket-data').innerText = ticket.operation_association.service.prefix_code + '0' + ticket.ticket_number;
@@ -454,7 +461,7 @@
               }
             })
             .catch(error => {
-
+              console.log('here', error);
             });
         });
       }

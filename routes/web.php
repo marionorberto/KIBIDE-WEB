@@ -136,7 +136,7 @@ Route::middleware(CheckSession::class)->prefix('kibide/users')->group(function (
 
 
 Route::middleware(CheckSession::class)->prefix('kibide/tickets')->group(function () {
-    Route::get('/call-next-ticket', [TicketController::class, 'callNextTicket'])->name('tickets.call.next');
+    // Route::get('/call-next-ticket', [TicketController::class, 'callNextTicket'])->name('tickets.call.next');
     // Route::post('/store/desk', [UserController::class, 'storedesks'])->name('users.desk.store');
 });
 

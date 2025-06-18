@@ -108,20 +108,20 @@
       </div>
     </div>
 
-    <hr>
-
+    <!-- <hr> -->
+    <!-- 
     <div class="row">
       <h6 class="text-muted mb-3">Ao criar uma operação diária podes escolher em criá-la desactivada/activada!</h6>
       <div class="col-md-6 mt-2">
       <div class="form-group">
-        <label class="form-label" for="exampleSelect1">Ativado/Desativado</label>
-        <select name="active" class="form-select" id="exampleSelect1">
-        <option value="1">Ativado</option>
-        <option value="0">Desactivado</option>
-        </select>
+      <label class="form-label" for="exampleSelect1">Ativado/Desativado</label>
+      <select name="active" class="form-select" id="exampleSelect1">
+      <option value="1">Ativado</option>
+      <option value="0">Desactivado</option>
+      </select>
       </div>
       </div>
-    </div>
+    </div> -->
 
     </div>
 
