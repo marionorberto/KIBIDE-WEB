@@ -446,7 +446,12 @@ class UnitController extends Controller
 
                     return response()->json([
                         'data' => [
-                            'tickets' => $pendingTickets
+                            'tickets' => $pendingTickets,
+                            'operation' => [
+                                'counter_name' => $deskCounter->operationAssociation->counter->counter_name,
+                                'service_name' => $deskCounter->operationAssociation->service->description,
+                                'id_operation' => $deskCounter->operationAssociation->id_operation_association,
+                            ]
                         ],
                         'status' => 200,
                     ]);

@@ -347,6 +347,7 @@
         })
         .then(data => {
 
+
           if (data?.data?.tickets?.length > 0) {
             const queueTicketsCounter = document.getElementById('queueTicketsCounter');
             const pendingTicketMenuDesk = document.getElementById('pending-ticket-menu-desk');
@@ -362,9 +363,9 @@
 
             const newOption = document.createElement('option');
 
-            newOption.value = data.data.tickets[0].operation_association.id_operation_association;
-            newOption.textContent = `${data.data.tickets[0].operation_association.counter.counter_name} - ${data.data.tickets[0].operation_association.service.description} `;
-            newOption.setAttribute('data-counter-id', data.data.tickets[0].operation_association.id_operation_association);
+            newOption.value = data.data.operation.id_operation;
+            newOption.textContent = `${data.data.operation.counter_name} - ${data.data.operation.service_name} `;
+            newOption.setAttribute('data-counter-id', data.data.operation.id_operation);
             newOption.selected = true;
 
             // Adiciona a nova opção ao select
@@ -391,7 +392,32 @@
                   </a > `;
               ticketList.appendChild(li);
             });
-          } else if (occupied && data?.data?.tickets?.length <= 0) {
+          } else if (data?.data?.tickets?.length <= 0) {
+
+            console.log(data);
+
+            occupied = true;
+            id_operation_association.disabled = occupied;
+            updateButtonUI();
+
+            const newOption = document.createElement('option');
+
+            newOption.value = data.data.operation.id_operation;
+            newOption.textContent = `${data.data.operation.counter_name} - ${data.data.operation.service_name} `;
+            newOption.setAttribute('data-counter-id', data.data.operation.id_operation);
+            newOption.selected = true;
+
+
+            // Adiciona a nova opção ao select
+            id_operation_association.appendChild(newOption);
+
+            // Opcional: desmarca outras opções (caso o select não seja múltiplo)
+            Array.from(id_operation_association.options).forEach(option => {
+              if (option !== newOption) {
+                option.selected = false;
+              }
+            });
+
             const pendingTicketMenuDesk = document.getElementById('pending-ticket-menu-desk');
             pendingTicketMenuDesk.style.display = 'none';
             const div = document.createElement('div');
