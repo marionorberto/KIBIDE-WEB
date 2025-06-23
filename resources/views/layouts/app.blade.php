@@ -23,6 +23,14 @@
 
 
 <body>
+  <!-- Loader de página -->
+  <div id="page-loader"
+    class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white"
+    style="z-index: 1050;">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Carregando...</span>
+    </div>
+  </div>
 
   @yield('content')
 
@@ -176,6 +184,18 @@
         }
       });
     }
+  </script>
+
+  <script>
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('page-loader');
+      loader.classList.remove('d-none');
+
+      setTimeout(() => {
+        loader.classList.add('d-none');
+      }, 100); // esconde após 2 segundos
+      // if (loader) loader.style.display = 'none';
+    });
   </script>
 </body>
 

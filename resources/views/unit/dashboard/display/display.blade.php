@@ -137,7 +137,7 @@
         console.log('error', error);
         })
       });
-    }, 200);
+    }, 1000);
 
     // when the page open must load the tickets
     loadAttendingQueue();
@@ -291,7 +291,7 @@
         console.log('Error trying to get data from event, event name: queue-display-tickets-channel  | error -> ', error);
       }
       });
-    }, 200);
+    }, 1000);
 
     setTimeout(() => {
 
@@ -310,7 +310,7 @@
         console.log(err);
       }
       })
-    }, 200);
+    }, 1000);
 
 
   </script>

@@ -25,9 +25,12 @@
 </head>
 
 <body data-pc-preset="preset-1" data-pc-direction="ltr" data-pc-theme="light">
-  <div class="loader-bg">
-    <div class="loader-track">
-      <div class="loader-fill"></div>
+  <!-- Loader de página -->
+  <div id="page-loader"
+    class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white"
+    style="z-index: 1050;">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Carregando...</span>
     </div>
   </div>
   @include('partials.menu-unit')
@@ -40,6 +43,18 @@
   </div>
 
   @include('partials.desk.footer')
+
+  <script>
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('page-loader');
+      loader.classList.remove('d-none');
+
+      setTimeout(() => {
+        loader.classList.add('d-none');
+      }, 100); // esconde após 2 segundos
+      // if (loader) loader.style.display = 'none';
+    });
+  </script>
   <script src="{{ asset('assets/js/plugins/popper.min.js')}}"></script>
   <script src="{{ asset('assets/js/plugins/simplebar.min.js')}}"></script>
   <script src="{{ asset('assets/js/plugins/bootstrap.min.js')}}"></script>

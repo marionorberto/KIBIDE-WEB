@@ -33,10 +33,14 @@
         <input type="text" name="username" class="form-control" placeholder="Username" value="{{ old('username') }}"
           required>
         </div>
-        <div class="form-group mb-3 position-relative">
-        <label class="form-label">Password</label>
-        <input type="password" name="password" class="form-control" placeholder="Password" required>
-        <!-- <i class="ti ti-eye fs-3 position-absolute right-3 top-3"></i> -->
+        <div class="form-group mb-3">
+        <div class="position-relative">
+          <label class="form-label">Password</label>
+          <input id="login-password-input" type="password" name="password" class="form-control"
+          placeholder="Password" required>
+          <i id="change-password-visibility" class="ti ti-eye fs-4 position-absolute cursor-pointer "
+          style="top: 55%; right: 10px; cursor: pointer"></i>
+        </div>
         </div>
         <div class="d-flex mt-1 justify-content-end">
 
@@ -66,4 +70,22 @@
     </div>
     </div>
   </div>
+
+  <script>
+    const changePasswordVisibility = document.getElementById('change-password-visibility');
+    const loginPasswordInput = document.getElementById('login-password-input');
+
+    changePasswordVisibility.addEventListener('click', (e) => {
+    if (changePasswordVisibility.classList.contains('ti-eye')) {
+      changePasswordVisibility.classList.replace('ti-eye', 'ti-lock');
+      loginPasswordInput.removeAttribute('type');
+      loginPasswordInput.setAttribute('type', 'text');
+    }
+    else if (changePasswordVisibility.classList.contains('ti-lock')) {
+      changePasswordVisibility.classList.replace('ti-lock', 'ti-eye');
+      loginPasswordInput.removeAttribute('type');
+      loginPasswordInput.setAttribute('type', 'password');
+    }
+    })
+  </script>
 @endsection

@@ -26,11 +26,16 @@
 </head>
 
 <body data-pc-preset="preset-1" data-pc-direction="ltr" data-pc-theme="light">
-  <div class="loader-bg">
-    <div class="loader-track">
-      <div class="loader-fill"></div>
+  <!-- Loader de página -->
+  <div id="page-loader"
+    class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white"
+    style="z-index: 1050;">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Carregando...</span>
     </div>
   </div>
+
+
   @include('partials.desk.menu')
   @include('partials.desk.header')
   <div class="pc-container">
@@ -340,6 +345,14 @@
       const pendingTicketMenuDesk = document.getElementById('pending-ticket-menu-desk');
       const currentTicketCard = document.getElementById('current-ticket');
 
+      function loadCounterInformation(counterName, serviceName) {
+        if (displayCounterName && displayServiceName) {
+          pendingTicketMenuDesk.style.display = 'block';
+          displayCounterName.innerHTML = counterName;
+          displayServiceName.innerHTML = serviceName;
+        }
+      }
+
       fetch(`/api/user/${userId.value}/selected-counter`)
         .then(response => {
           if (!response.ok) throw new Error('Erro na requisição para pegar o último balcão selecionado pelo usuário desk!');
@@ -347,11 +360,11 @@
         })
         .then(data => {
 
+          loadCounterInformation(data.data.operation.counter_name, data.data.operation.service_name)
 
           if (data?.data?.tickets?.length > 0) {
             const queueTicketsCounter = document.getElementById('queueTicketsCounter');
             const pendingTicketMenuDesk = document.getElementById('pending-ticket-menu-desk');
-
 
             const ticketsCounter = data.data.tickets.length;
             pendingTicketMenuDesk.style.display = 'block';
@@ -394,7 +407,6 @@
             });
           } else if (data?.data?.tickets?.length <= 0) {
 
-            console.log(data);
 
             occupied = true;
             id_operation_association.disabled = occupied;
@@ -619,20 +631,21 @@
 
         echoChannel = operationAssociationId;
 
-        // Conecta ao novo canal
-        window.Echo.channel(`counter.${operationAssociationId}`)
-          .listen('LoadCounterPendingTicket', (data) => {
-            try {
-              ticketList.innerHTML = '';
-              const queueTicketsCounter = document.getElementById('queueTicketsCounter');
+        setTimeout(() => {
+          // Conecta ao novo canal
+          window.Echo.channel(`counter.${operationAssociationId}`)
+            .listen('LoadCounterPendingTicket', (data) => {
+              try {
+                ticketList.innerHTML = '';
+                const queueTicketsCounter = document.getElementById('queueTicketsCounter');
 
-              const ticketsCounter = data.data.length;
-              queueTicketsCounter.innerHTML = ticketsCounter;
+                const ticketsCounter = data.data.length;
+                queueTicketsCounter.innerHTML = ticketsCounter;
 
-              occupied && data.data.forEach(ticket => {
-                const li = document.createElement('li');
-                li.className = 'pc-item';
-                li.innerHTML = `
+                occupied && data.data.forEach(ticket => {
+                  const li = document.createElement('li');
+                  li.className = 'pc-item';
+                  li.innerHTML = `
         <a href="#" class="pc-link">
           <span class="pc-micon"><i class="ti ti-ticket"></i></span>
           <span class="pc-mtext">
@@ -640,29 +653,44 @@
             <button type="button" class="btn btn-light-warning p-1 ms-2">${ticket.status == 'pending' ? 'Pendente' : ''}</button>
           </span>
         </a>`;
-                ticketList.appendChild(li);
-              });
+                  ticketList.appendChild(li);
+                });
 
-            } catch (error) {
-              console.log(error);
-            }
-          });
+              } catch (error) {
+                console.log(error);
+              }
+            });
+        }, 1000)
 
-        window.Echo.channel(`counter-choosed-channel.${operationAssociationId}`)
-          .listen('CounterChoosedEvent', (data) => {
-            try {
-              pendingTicketMenuDesk.style.display = 'block';
-              displayCounterName.innerHTML = data.data.counterName + ' - ';
-              displayServiceName.innerHTML = data.data.serviceDescription;
-            } catch (error) {
-              console.log('error trying listening to the channel - counter-choosed-channel', error);
-            }
-          });
+
+        setTimeout(() => {
+          window.Echo.channel(`counter-choosed-channel.${operationAssociationId}`)
+            .listen('CounterChoosedEvent', (data) => {
+              try {
+                loadCounterInformation(data.data.counterName + ' - ', data.data.serviceDescription);
+              } catch (error) {
+                console.log('error trying listening to the channel - counter-choosed-channel', error);
+              }
+            });
+        }, 1000);
       });
     });
 
   </script>
 
+  <script>
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('page-loader');
+
+      if (loader)
+        loader.classList.remove('d-none');
+
+      // esconde após 2 segundos
+      setTimeout(() => {
+        loader.classList.add('d-none');
+      }, 100);
+    });
+  </script>
 
 
 

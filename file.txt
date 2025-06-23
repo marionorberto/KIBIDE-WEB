@@ -562,3 +562,25 @@ Se quiser, posso ajudar a mover um controller específico da `web` para API como
     }, 200);
   </script>
 @endsection
+
+
+
+
+
+
+
+
+
+###########
+
+
+
+user_layout_configurations
+
+unit_id uuid
+user_id  uuid
+theme_mode enum(dark | white)
+theme_color (1 to ... 9)
+layout_width enum(fluid container)
+font_family enum( public_sans, roboto, poppins, inter)
+layout_direction  enum(rtl | ltr) 
