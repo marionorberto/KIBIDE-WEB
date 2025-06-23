@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ActiveTicketEvent;
 use App\Events\LoadCounterPendingTicket;
 use App\Events\QueueDisplayAttendingTicketsEvent;
+use App\Models\ActiveTicket;
 use App\Models\DeskCounter;
 use App\Models\TicketDesk;
 use App\Models\TicketGenerated;
@@ -161,11 +163,35 @@ class TicketController extends Controller
             $nextPendingTicket->status = 'called';
             $nextPendingTicket->save();
 
+
+            try {
+                // Substituir se já existe um ticket ativo para o balcão
+                ActiveTicket::where('counter_id', $nextPendingTicket->operationAssociation->counter->id_counter)->delete();
+
+                ActiveTicket::create([
+                    'unit_id' => $unitId,
+                    'counter_id' => $nextPendingTicket->operationAssociation->counter->id_counter,
+                    'ticket_id' => $nextPendingTicket->id_ticket_generated,
+                ]);
+
+                $allActiveCounterTicket = ActiveTicket::query()
+                    ->with(['counter', 'ticket.operationAssociation'])
+                    ->where('unit_id', $unitId)
+                    ->get();
+
+                event(new ActiveTicketEvent($allActiveCounterTicket, $unitId));
+
+
+            } catch (\Throwable $e) {
+                Log::error($e);
+                return response()->json(['error' => 'Erro ao emitir o evento emitActiveTickets: ERROR->' . $e->getMessage()], 500);
+            }
+
             return response()->json([
                 'ticket' => $nextPendingTicket,
             ]);
         } catch (\Exception $e) {
-            Log::error('Erro inesperado no método callNextTicket: ' . $e->getMessage());
+            Log::error('Erro inesperado no método callNextTicket: ' . $e->getMessage(), [$nextPendingTicket->id_ticket_generated]);
             return response()->json(['error' => 'Erro interno do servidor.'], 500);
         }
     }

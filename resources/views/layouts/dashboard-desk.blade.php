@@ -443,7 +443,6 @@
                 return;
               }
 
-
               const ticket = data.ticket;
               if (ticket) {
                 document.getElementById('ticket-data').innerText = ticket.operation_association.service.prefix_code + '0' + ticket.ticket_number;

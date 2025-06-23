@@ -51,4 +51,9 @@ class TicketGenerated extends Model
   {
     return $this->hasMany(TicketDesk::class, 'ticket_id');
   }
+
+  public function activeTickets()
+  {
+    return $this->hasMany(ActiveTicket::class, 'ticket_id', 'id_ticket_generated');
+  }
 }

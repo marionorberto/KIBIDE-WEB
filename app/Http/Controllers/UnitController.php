@@ -361,12 +361,16 @@ class UnitController extends Controller
                     ->where('operation_association_id', $idOperation)
                     ->whereDate('created_at', Carbon::today())->first();
 
-
                 $deskCounter =
                     DeskCounter::find($deskCounterToUpdateStatus->id_desk_counter);
 
-                $deskCounter->status = $counter->status;
-                $deskCounter->save();
+                $counter->refresh(); // Só necessário se outros processos podem ter alterado
+
+                if ($counter->save()) {
+                    $deskCounter->status = $counter->status;
+                    $deskCounter->save();
+                }
+
             }
 
             $counterId = $counter->id_counter;

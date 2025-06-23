@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Events\ActiveTicketEvent;
 use App\Events\LastTicketCalledEvent;
 use App\Events\QueueDisplayAttendingTicketsEvent;
 use App\Events\QueueDisplayTicketsEvent;
@@ -57,4 +58,5 @@ class EmitEventService
       return response()->json(['error' => 'Erro ao emitir o evento pendingTicketsSimplifiedForDisplay: ERROR->' . $e->getMessage()], 500);
     }
   }
+
 }

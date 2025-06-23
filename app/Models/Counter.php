@@ -67,4 +67,9 @@ class Counter extends Model
     {
         return $this->hasMany(DeskCounter::class, 'counter_id');
     }
+
+    public function activeTickets()
+    {
+        return $this->hasMany(ActiveTicket::class, 'counter_id', 'id_counter');
+    }
 }

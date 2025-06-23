@@ -92,6 +92,7 @@
   </section>
   </div>
 
+
   @vite('resources/js/app.js')
 
   <script>
@@ -227,13 +228,13 @@
         data.data.forEach(element => {
         const div = document.createElement('div');
         div.innerHTML = `<div class="flex-row" >
-      <div class="rounded-2 bg-white p-2">
-      <button id="service-listed-counter-show.${element.counter.id_counter}" class="btn btn-outline-info bg-gradient fs-5" style="width: 5rem; height: 2.5rem;"></button>
-      <button class="btn btn-light bg-gradient text-secondary fs-4"
-      style="width: 10rem; height: 2.5rem; background-color: #d3d4d5;">${element.service.description}</button>
-      <button class="btn btn-info bg-gradient fs-4" style="width: 15rem; height: 2.5rem;">${element.counter.counter_name}</button>
-      </div>
-      </div >`;
+    <div class="rounded-2 bg-white p-2">
+    <button id="service-listed-counter-show.${element.counter.id_counter}" class="btn btn-outline-info bg-gradient fs-5" style="width: 5rem; height: 2.5rem;"></button>
+    <button class="btn btn-light bg-gradient text-secondary fs-4"
+    style="width: 10rem; height: 2.5rem; background-color: #d3d4d5;">${element.service.description}</button>
+    <button class="btn btn-info bg-gradient fs-4" style="width: 15rem; height: 2.5rem;">${element.counter.counter_name}</button>
+    </div>
+    </div >`;
         containerAttendingTickets.appendChild(div);
         });
       } else {
@@ -264,27 +265,23 @@
 
           const div = document.createElement('div');
 
+
           // let counter = document.getElementById('service-listed-counter-show' + '.' + ticket.counter_id);
 
           // if (ticket.counter_id == counter.getAttribute('id').split('.')[1]) {
           // index == 0 ? counter.textContent = ticket.ticket_number : '';
           // }
           div.innerHTML = `<div class="flex-row">
-      <div class="rounded-2 bg-white p-2">
-      <button class="btn btn-outline-primary bg-gradient fs-3" style="width: 14rem; height: 3rem;">${ticket.prefix_code} 0${ticket.ticket_number}
-      </button>
-      <button class="btn btn-light bg-gradient text-secondary fs-3"
-      style="width: 15rem; height: 3rem; background-color: #d3d4d5;">${ticket.service}
-      </button>
-      <button class="btn btn-primary bg-gradient fs-4" style="width: 15rem; height: 3rem;">${ticket.counter}</button>
-      </div>
-      </div>`;
+    <div class="rounded-2 bg-white p-2">
+    <button class="btn btn-outline-primary bg-gradient fs-3" style="width: 14rem; height: 3rem;">${ticket.prefix_code} 0${ticket.ticket_number}
+    </button>
+    <button class="btn btn-light bg-gradient text-secondary fs-3"
+    style="width: 15rem; height: 3rem; background-color: #d3d4d5;">${ticket.service}
+    </button>
+    <button class="btn btn-primary bg-gradient fs-4" style="width: 15rem; height: 3rem;">${ticket.counter}</button>
+    </div>
+    </div>`;
           queueTickets.appendChild(div);
-
-          // containerAttendingTickets.childNodes.forEach((val) => {
-          // console.log(val);
-          // })
-
         });
         } else {
         queueTickets.innerHTML = '';
@@ -295,5 +292,26 @@
       }
       });
     }, 200);
+
+    setTimeout(() => {
+
+    window.Echo.channel(`active-ticket-${unitId}`)
+      .listen('ActiveTicketEvent', ({ data }) => {
+      try {
+        data.forEach((item) => {
+
+        let counter = document.getElementById(`service-listed-counter-show.${item.counter_id}`)
+        if (counter) {
+          counter.textContent = item.ticket.ticket_number;
+        }
+        });
+
+      } catch (err) {
+        console.log(err);
+      }
+      })
+    }, 200);
+
+
   </script>
 @endsection

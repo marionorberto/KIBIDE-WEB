@@ -103,4 +103,9 @@ class Unit extends Model
     {
         return $this->hasMany(Message::class, 'unit_id');
     }
+
+    public function activeTickets()
+    {
+        return $this->hasMany(ActiveTicket::class, 'unit_id', 'id_unit');
+    }
 }
