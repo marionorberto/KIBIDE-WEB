@@ -1,19 +1,23 @@
+@php
+  use App\Models\ProfileCompany;
+  $profileCompanyData = ProfileCompany::where('company_id', Auth::user()->company_id)->first();
+@endphp
 <nav class="pc-sidebar">
   <div class="navbar-wrapper">
     <div class="m-header d-flex justify-content-center py-3">
-      <a href="/">
-        <img src="{{ asset('assets/images/LOGO.png') }}" alt="" style="height: 80px; width: 80px;">
+      <a href="#">
+        <img
+          src="{{ isset($companyData->photo) ? asset('storage/' . $companyData->photo) : asset('assets/images/LOGO.png') }}"
+          alt="" style="height: 80px; width: 80px;">
       </a>
     </div>
     <div class="navbar-content">
       <ul class="pc-navbar">
         <li class="pc-item">
-
           <a href="{{ route('admin.dashboard.index') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
             <span class="pc-mtext">Dashboard</span>
           </a>
-
         </li>
         <li class="pc-item">
           <a href="{{ route('admin.dashboard.profile.index') }}" class="pc-link">
@@ -21,7 +25,6 @@
             <span class="pc-mtext">Perfil</span>
           </a>
         </li>
-
         <li class="pc-item pc-caption">
           <label>Usuários</label>
           <i class="ti ti-dashboard"></i>
@@ -38,8 +41,6 @@
             <span class="pc-mtext">Mentores</span>
           </a>
         </li>
-
-
         <li class="pc-item pc-caption">
           <label>Recursos</label>
           <i class="ti ti-news"></i>
@@ -50,7 +51,6 @@
           <ul class="pc-submenu">
             <li class="pc-item"><a class="pc-link" href="#!">Gerir Grupos</a></li>
             <li class="pc-item"><a class="pc-link" href="#!">Feedback</a></li>
-
           </ul>
         </li>
         <li class="pc-item">
@@ -65,12 +65,10 @@
             <span class="pc-mtext">Testes Simulados</span>
           </a>
         </li>
-
         <li class="pc-item pc-caption">
           <label>Outros</label>
           <i class="ti ti-brand-chrome"></i>
         </li>
-
         <li class="pc-item">
           <a href="../other/sample-page.html" class="pc-link">
             <span class="pc-micon"><i class="ti ti-bell"></i></span>

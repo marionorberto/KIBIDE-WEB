@@ -1,25 +1,10 @@
 @extends('layouts.dashboard-unit')
-
 @section('title', 'dashboard')
-
 @section('content')
-
-  @php
-    use App\Models\DayOperation;
-    use App\Models\OperationAssociation;
-    use App\Models\ProfileCompany;
-    use Carbon\Carbon;
-
-    $companyProfileData = ProfileCompany::where('company_id', Auth::user()->company_id)->first();
-
-
-  @endphp
-
   <div class="page-header">
     <div class="page-block">
     <div class="row align-items-center">
       <div class="col-md-12">
-
       </div>
       <div class="col-md-12">
       <div class="page-header-title">
@@ -55,6 +40,21 @@
         </li>
       </ul>
       </div>
+      @if ($errors->any())
+      <ul class="alert alert-danger mt-3 mx-4">
+      @foreach ($errors->all() as $error)
+      <li class="ps-1">{{ $error }}</li>
+    @endforeach
+      </ul>
+    @endif
+
+      @if ($successMessage = session('success'))
+      <div class="alert alert-success mt-3 mx-4" role="alert"> {{ $successMessage }} </div>
+    @endif
+
+      @if ($errorMessage = session('error'))
+      <div class="alert alert-danger mt-3 mx-4" role="alert"> {{ $errorMessage }}</div>
+    @endif
       <div class="card-body">
       <div class="tab-content">
         <div class="tab-pane show active" id="profile-1" role="tabpanel" aria-labelledby="profile-tab-1">
@@ -74,7 +74,7 @@
     ->setFontSize(25) // Define tamanho da fonte
     ->setBackground('#000') // Cor de fundo
     ->toSvg()
-      !!} -->
+    !!} -->
 
               @if ($companyProfileData->photo)
           <img src="{{ asset('storage/' . $companyProfileData->photo)  }}"
@@ -82,7 +82,7 @@
 
         @endif
               </div>
-              <h5 class="mb-0">{{ $companyProfileData->company_name }}</h5>
+              <h5 class="mb-0">{{ $companyData->company_name }}</h5>
               <p class="text-muted text-sm">{{ $unitData->unit_name ?? '----' }}</p>
               <hr class="my-3">
               <div class="row g-3">
@@ -165,11 +165,11 @@
               </li>
             </ul>
             <div class="col-12 text-end btn-page">
-              <div class="btn btn-primary">Editar Dados</div>
+              <button data-bs-toggle="modal" data-bs-target="#modalEditUnitData" class="btn btn-primary">Editar
+              Dados</button>
             </div>
             </div>
           </div>
-
           </div>
         </div>
         </div>
@@ -199,12 +199,12 @@
             !!}
           @endif
 
-                <label for="uplfile" class="img-avtar-upload">
-                <i class="ti ti-camera f-24 mb-1"></i>
-                <span>Trocar Fotografia</span>
+                <label for="uplfile" class="img-avtar-upload position-relative">
+                <i class="ti ti-brush text-primary fs-5 mb-1 position-absolute top-0 bg-light rounded-2 p-1"
+                  style="right: 3px; cursor: pointer; border: 1px solid #1890ff;"></i>
                 </label>
                 <input type="file" name="photo" id="uplfile" class="d-none" accept=".jpeg,.png">
-                <button type="submit" class="btn btn-primary">submeter</button>
+                <button type="submit" class="btn btn-primary mt-3">submeter</button>
               </form>
               </div>
 
@@ -234,46 +234,11 @@
           </div>
           </div>
           <div class="col-12 text-end btn-page">
-          <div class="btn btn-primary">Editar Dados</div>
-          </div>
-        </div>
-
-
-        <div id="modalEditUserManagerData" class="modal fade" tabindex="-1" role="dialog"
-          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-          <form method="post" action="{{ route('users.update', Auth::user()->id_user) }}">
-            @csrf
-            @method('PUT')
-            <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalCenterTitle">Editar Dados do Usuário</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <div class="card-body">
-              <div class="form-group">
-                <label class="form-label">USERNAME</label>
-                <input type="text" name="description" class="form-control form-control"
-                value="{{ Auth::user()->username }}">
-              </div>
-              <div class="form-group">
-                <label class="form-label">EMAIL</label>
-                <input type="text" name="description" class="form-control form-control"
-                value="{{ Auth::user()->email }}">
-              </div>
-              </div>
-              <div class="modal-footer">
-              <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Fechar</button>
-              <button type="submit" class="btn btn-primary">Editar</button>
-              </div>
-            </div>
-            </div>
-          </form>
+          <button data-bs-toggle="modal" data-bs-target="#modalEditProfileUser" class="btn btn-primary">Editar
+            Dados</button>
           </div>
         </div>
         </div>
-
 
         <div class="tab-pane" id="profile-4" role="tabpanel" aria-labelledby="profile-tab-4">
         <form action="{{ route('auth.password.change') }}" method="post" class="card">
@@ -338,7 +303,131 @@
       </div>
     </div>
     </div>
+
+  </div>
+
+  <!-- Add this at the end of the file, before closing the section -->
+  <div id="modalEditProfileUser" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="modalEditProfileUserTitle" aria-hidden="true">
+    <div class="modal-dialog role=" document">
+    <form id="editProfileForm" method="POST" action="{{ route('users.update', Auth::user()->id_user) }}">
+      @csrf
+      @method('PUT')
+      <div class="modal-content">
+      <div class="modal-header ">
+        <h5 class="modal-title" id="modalEditProfileUserTitle">Editar Perfil</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body">
+        <div class="form-group mb-3">
+          <label for="usernameInput" class="form-label">Username</label>
+          <input type="text" id="usernameInput" name="username"
+          class="form-control @error('username') is-invalid @enderror"
+          value="{{ old('username', $user->username) }}">
+          @error('username')
+        <div class="invalid-feedback">{{ $message }}</div>
+      @enderror
+        </div>
+        <div class="form-group mb-3">
+          <label for="emailInput" class="form-label">Email</label>
+          <input type="email" id="emailInput" name="email" class="form-control @error('email') is-invalid @enderror"
+          value="{{ old('email', $user->email) }}" required>
+          @error('email')
+        <div class="invalid-feedback">{{ $message }}</div>
+      @enderror
+        </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fechar</button>
+        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+      </div>
+      </div>
+    </form>
+    @if($errors->any())
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+      const modal = new bootstrap.Modal(document.getElementById('modalEditProfileUser'));
+      modal.show();
+      });
+    </script>
+    @endif
+    </div>
   </div>
 
 
+  <!-- Add this at the end of the file, before closing the section -->
+  <div id="modalEditUnitData" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalEditUnitData"
+    aria-hidden="true">
+    <div class="modal-dialog role=" document">
+    <form id="editProfileUnitForm" method="POST" action="{{ route('unit.manager.update', Auth::user()->unit_id) }}">
+      @csrf
+      @method('PUT')
+      <div class="modal-content">
+      <div class="modal-header ">
+        <h5 class="modal-title" id="modalEditUnitDataTitle">Editar Dados da Unidade</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body">
+        <div class="form-group mb-3">
+          <label for="usernameInput" class="form-label">Nome da Unidade</label>
+          <input type="text" id="unit-profile-unit-name-input" name="unit_name"
+          class="form-control @error('unit_name') is-invalid @enderror"
+          value="{{ old('unit_name', $unitData->unit_name) }}">
+          @error('unit_name')
+        <div class="invalid-feedback">{{ $message }}</div>
+      @enderror
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="emailInput" class="form-label">Correio Electrônico</label>
+          <input type="text" id="unit-profile-unit-email-input" name="unit_email"
+          class="form-control @error('unit_email') is-invalid @enderror"
+          value="{{ old('unit_email', $unitData->unit_email) }}">
+          @error('unit_email')
+        <div class="invalid-feedback">{{ $message }}</div>
+      @enderror
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="phoneInput" class="form-label">Telefone</label>
+          <input type="text" id="unit-profile-unit-phone-input" name="unit_phone"
+          class="form-control @error('unit_phone') is-invalid @enderror"
+          value="{{ old('unit_phone', $unitData->unit_phone) }}">
+          @error('unit_phone')
+        <div class="invalid-feedback">{{ $message }}</div>
+      @enderror
+        </div>
+
+
+        <div class="form-group mb-3">
+          <label for="locationInput" class="form-label">Localização</label>
+          <input type="text" id="unit-profile-unit-address-input" name="unit_address"
+          class="form-control @error('unit_address') is-invalid @enderror"
+          value="{{ old('unit_address', $unitData->unit_address) }}">
+          @error('unit_address')
+        <div class="invalid-feedback">{{ $message }}</div>
+      @enderror
+        </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fechar</button>
+        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+      </div>
+      </div>
+    </form>
+    @if($errors->any())
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+      const modal = new bootstrap.Modal(document.getElementById('modalEditProfileUser'));
+      modal.show();
+      });
+    </script>
+    @endif
+    </div>
+  </div>
 @endsection

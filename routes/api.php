@@ -244,7 +244,11 @@ Route::get('/listServicesForDisplay/{unit_id}', function (string $unit_id) {
 
 Route::get('/user/{unitId}/desks', [UserController::class, 'desksByUnit']);
 Route::get('/user/{companyId}/admin', [UserController::class, 'adminByCompany']);
+
 Route::get('/callNextTicket/{unitId}/{userId}', [TicketController::class, 'callNextTicket']);
 
 
+
+Route::get('/user/superadmin/data', [UserController::class, 'getSuperadminData']);
+Route::get('/user/{companyId}/managers', [UserController::class, 'getManagersData']);
 

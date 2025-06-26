@@ -9,16 +9,20 @@ use App\Http\Controllers\CounterController;
 use App\Http\Controllers\DayOperationController;
 use App\Http\Controllers\DeskController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\LayoutConfigurationController;
 use App\Http\Controllers\MentorController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OperationController;
 use App\Http\Controllers\PainelController;
+use App\Http\Controllers\ProfileCompanyController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckSession;
+use App\Models\LayoutConfiguration;
 use App\Models\OperationAssociation;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
@@ -64,10 +68,14 @@ Route::prefix('kibide/company')->group(function () {
     Route::get('/create/sms', [CompanyController::class, 'createSms'])->name('company.create.sms');
     Route::get('/sms/inbox/company', [CompanyController::class, 'smsInboxCompany'])->name('company.sms.inbox');
     Route::get('/sms/sent', [CompanyController::class, 'smsSent'])->name('company.sms.sent');
+    Route::post('/sms/store', [MessageController::class, 'store'])->name('company.sms.store');
     Route::get('/notification/inbox', [CompanyController::class, 'notificationInbox'])->name('company.notification.inbox');
     Route::get('/notification/histories', [CompanyController::class, 'notificationHistories'])->name('company.notification.histories');
     Route::get('/settings/index', [CompanyController::class, 'settings'])->name('company.settings.index');
     Route::get('/licence/index', [CompanyController::class, 'licence'])->name('company.licence.index');
+
+    Route::put('/update/{id}', [CompanyController::class, 'update'])->name('company.update');
+    Route::put('/update/photo/{id}', [CompanyController::class, 'updatePhoto'])->name('company.upload.photo');
 });
 
 Route::middleware(CheckSession::class)->prefix('kibide/desk')->group(function () {
@@ -80,6 +88,7 @@ Route::middleware(CheckSession::class)->prefix('kibide/desk')->group(function ()
 Route::middleware(CheckSession::class)->prefix('kibide/unit')->group(function () {
     Route::get('/index', [UnitController::class, 'index'])->name('unit.index')->middleware(CheckSession::class);
     Route::get('/profile', [UnitController::class, 'profile'])->name('unit.manager.profile');
+    Route::put('/profile/update/{id}', [UnitController::class, 'update'])->name('unit.manager.update');
     Route::post('/store', [UnitController::class, 'store'])->name('units.store');
     Route::get('/create/desks', [UnitController::class, 'createDesks'])->name('unit.create.desks');
     Route::get('/list/desks', [UnitController::class, 'listDesks'])->name('unit.list.desks');
@@ -154,5 +163,28 @@ Route::middleware(CheckSession::class)->prefix('kibide/counters')->group(functio
 });
 
 Route::get('send-email', [EmailController::class, 'welcome']);
+
+
+
+Route::middleware(CheckSession::class)->prefix('kibide/sms')->group(function () {
+    Route::delete('/destroy/{id}', [MessageController::class, 'destroy'])->name('company.sms.destroy');
+});
+
+
+
+Route::middleware(CheckSession::class)->prefix('kibide/notification')->group(function () {
+    Route::delete('/destroy/{id}', [NotificationController::class, 'destroy'])->name('company.notification.destroy');
+});
+
+
+Route::middleware(CheckSession::class)->prefix('kibide/layout')->group(function () {
+    Route::put('/update/{id}', [LayoutConfigurationController::class, 'update'])->name('layout.update');
+});
+
+
+
+Route::middleware(CheckSession::class)->prefix('kibide/profile-company')->group(function () {
+    Route::put('/update/{id}', [ProfileCompanyController::class, 'update'])->name('profile.company.update');
+});
 
 

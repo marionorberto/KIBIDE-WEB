@@ -90,7 +90,7 @@
                 <i class="ti ti-chevron-down"></i>
               </div>
             </a>
-            <div class="collapse show" id="pctcustcollapse1">
+            <div class="collapse " id="pctcustcollapse1">
               <div class="pct-content">
                 <div class="pc-rtl">
                   <p class="mb-1">Direção</p>
@@ -117,7 +117,7 @@
                 <i class="ti ti-chevron-down"></i>
               </div>
             </a>
-            <div class="collapse show" id="pctcustcollapse2">
+            <div class="collapse " id="pctcustcollapse2">
               <div class="pct-content">
                 <div class="theme-color themepreset-color theme-layout">
                   <a href="#!" class="active" onclick="layout_change('light')" data-value="false"><span><img
@@ -144,7 +144,7 @@
                 <i class="ti ti-chevron-down"></i>
               </div>
             </a>
-            <div class="collapse show" id="pctcustcollapse3">
+            <div class="collapse " id="pctcustcollapse3">
               <div class="pct-content">
                 <div class="theme-color preset-color">
                   <a href="#!" class="active" data-value="preset-1"><span><img
@@ -193,7 +193,7 @@
                 <i class="ti ti-chevron-down"></i>
               </div>
             </a>
-            <div class="collapse show" id="pctcustcollapse4">
+            <div class="collapse " id="pctcustcollapse4">
               <div class="pct-content">
                 <div class="theme-color themepreset-color boxwidthpreset theme-container">
                   <a href="#!" class="active" onclick="change_box_container('false')" data-value="false"><span><img
@@ -221,7 +221,7 @@
                 <i class="ti ti-chevron-down"></i>
               </div>
             </a>
-            <div class="collapse show" id="pctcustcollapse5">
+            <div class="collapse " id="pctcustcollapse5">
               <div class="pct-content">
                 <div class="theme-color fontpreset-color">
                   <a href="#!" class="active" onclick="font_change('Public-Sans')"

@@ -268,4 +268,49 @@ class UserController extends Controller
             return redirect()->json('error trying getting: desksByUnit()', 404);
         }
     }
+
+    public function getManagersData(string $companyId)
+    {
+        DB::beginTransaction();
+        try {
+
+            $users = User::where('company_id', $companyId)
+                ->where('role', 'manager')
+                ->get();
+
+            DB::commit();
+
+            return response()->json(
+                $users,
+                200
+            );
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::Error('error trying getting: getManagersData() | error -> ' . $e->getMessage());
+            return redirect()->json('error trying getting: getManagersData()', 404);
+        }
+    }
+
+    public function getSuperadminData()
+    {
+        DB::beginTransaction();
+        try {
+
+            $user = User::where('role', 'superadmin')
+                ->first();
+
+            DB::commit();
+
+            return response()->json(
+                $user,
+                200
+            );
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::Error('error trying getting: getSuperadminData() | error -> ' . $e->getMessage());
+            return redirect()->json('error trying getting: getSuperadminData()', 404);
+        }
+    }
 }

@@ -76,7 +76,7 @@
           ->setFontSize(25) // Define tamanho da fonte
           ->setBackground('#3490dc') // Cor de fundo
           ->toSvg()
-          !!}
+            !!}
           @endif
                 <label for="uplfile" class="img-avtar-upload">
                 <i class="ti ti-camera f-24 mb-1"></i>
@@ -158,8 +158,7 @@
             </ul>
             <div class="col-12 text-end btn-page">
               <button class="btn btn-primary" data-bs-toggle="modal"
-              data-bs-target="#modalEditProfileUser">Editar
-              Dados</button>
+              data-bs-target="#modalEditProfileUser">Editar Dados</button>
             </div>
             </div>
           </div>

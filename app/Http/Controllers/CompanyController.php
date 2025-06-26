@@ -6,6 +6,7 @@ use App\Http\Requests\StoreCompanyUserRequest;
 use App\Mail\WelcomeMail;
 use App\Models\Company;
 use App\Models\Message;
+use App\Models\Notification;
 use App\Models\ProfileCompany;
 use App\Services\EmailService;
 use App\Models\Unit;
@@ -15,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class CompanyController extends Controller
@@ -37,6 +39,7 @@ class CompanyController extends Controller
 
         $unitsCount = Unit::where('company_id', $companyId)->count();
         $usersCount = User::where('unit_id', $unitId, )->where('company_id', $companyId)->count();
+        $deskCount = User::where('company_id', $companyId)->where('role', 'desk')->count();
 
         $units = DB::table('units')
             ->leftJoin('users as manager', 'units.manager_id', '=', 'manager.id_user')
@@ -66,7 +69,7 @@ class CompanyController extends Controller
             )
             ->get();
 
-        return view('company.dashboard.index', compact('units', 'unitsCount', 'usersCount'));
+        return view('company.dashboard.index', compact('units', 'unitsCount', 'usersCount', 'deskCount'));
     }
 
     /**
@@ -97,7 +100,7 @@ class CompanyController extends Controller
             // (Opcional) Criar uma unidade vinculada ao admin e à empresa
             $unit = Unit::create([
                 'company_id' => $company->id_company,
-                'unit_name' => 'change_me',
+                'company_name' => 'change_me',
                 'active' => true,
             ]);
 
@@ -105,7 +108,7 @@ class CompanyController extends Controller
             // Criar o usuário admin associado à empresa
             $user = User::create([
                 'company_id' => $company->id_company,
-                'unit_id' => $unit->id_unit, // Aqui já associamos o usuário à unidade
+                'unit_id' => $unit->id_company, // Aqui já associamos o usuário à unidade
                 'username' => $request->username,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
@@ -174,7 +177,83 @@ class CompanyController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+            // Validate required fields first
+            $request->validate([
+                'company_name' => 'required|string|max:255',
+                'company_email' => 'required|string|email',
+                'company_phone' => 'nullable|string|max:20',
+                'company_nif' => [
+                    'required',
+                    'regex:/^\d+$/',
+                    'max:30',
+                ],
+                'company_address' => 'nullable|string|max:255',
+            ], [
+                'company_name.required' => 'O nome da empresa é obrigatório.',
+                'company_email.required' => 'O e-mail da empresa é obrigatório.',
+
+                'company_nif.required' => 'O NIF é obrigatório.',
+                'company_nif.regex' => 'O NIF deve conter apenas números.',
+                'company_nif.max' => 'O NIF não pode ter mais que 30 dígitos.',
+            ]);
+
+            $company = Company::findOrFail($id);
+
+            // Check for duplicate company_name (excluding current unit)
+            $alreadyExistACompanyWithThisNameCreated = Company::where('id_company', Auth::user()->company_id)
+                ->where('company_name', $request->company_name)
+                ->where('id_company', '!=', $id)
+                ->first();
+
+            if ($alreadyExistACompanyWithThisNameCreated) {
+                return redirect()->back()->with('error', 'Empresa com esse nome já criado, por favor escolha outro nome!');
+            }
+
+            // Check for duplicate unit_email (excluding current unit)
+            $alreadyExistACompanyWithThisEmailCreated = Company::where('id_company', Auth::user()->company_id)
+                ->where('company_email', $request->company_email)
+                ->where('id_company', '!=', $id)
+                ->first();
+
+            if ($alreadyExistACompanyWithThisEmailCreated) {
+                return redirect()->back()->with('error', 'Empresa com esse email já criado, por favor escolha outro nome!');
+            }
+
+            // Check for duplicate unit_email (excluding current unit)
+            $alreadyExistACompanyWithThisNIFCreated = Company::where('id_company', Auth::user()->company_id)
+                ->where('company_nif', $request->company_nif)
+                ->where('id_company', '!=', $id)
+                ->first();
+
+            if ($alreadyExistACompanyWithThisNIFCreated) {
+                return redirect()->back()->with('error', 'Empresa com esse nif já criado, por favor escolha outro nome!');
+            }
+
+            // Update unit data - no need for fallback since we validated the fields
+            $company->company_name = $request->company_name;
+            $company->company_email = $request->company_email;
+            $company->save();
+
+            DB::commit();
+            return redirect()->back()->with('success', 'Dados da Empresa editados com sucesso!');
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->withErrors($e->validator)
+                ->withInput();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Erro ao editar dados da empresa: ' . $e->getMessage(), [
+                'id_company' => $id,
+                'request_data' => $request->all()
+            ]);
+
+            return redirect()->back()->with('error', 'Não foi possível editar dados da empresa agora. Verifique os dados ou tente mais tarde!');
+        }
     }
 
     /**
@@ -188,15 +267,18 @@ class CompanyController extends Controller
     public function profile()
     {
         // por aqui try catch
-
         $companyData = Company::where('id_company', Auth::user()->company_id)->first();
         $companyUnitCount = Unit::where('company_id', Auth::user()->company_id)->count();
         $companyUserCount = User::where('company_id', Auth::user()->company_id)->count();
+        $user = User::where('company_id', Auth::user()->company_id)->first();
+        $profileCompanyData = ProfileCompany::where('company_id', Auth::user()->company_id)->first();
 
         return view('company.dashboard.profile', compact(
             'companyData',
             'companyUnitCount',
-            'companyUserCount'
+            'companyUserCount',
+            'user',
+            'profileCompanyData'
         ))->with('section', 'profile-4');
     }
 
@@ -225,10 +307,10 @@ class CompanyController extends Controller
         $units = DB::table('units')
             ->leftJoin('users as manager', 'units.manager_id', '=', 'manager.id_user')
             ->leftJoin('companies', 'units.company_id', '=', 'companies.id_company')
-            ->leftJoin('users', 'units.id_unit', '=', 'users.unit_id') // para contar usuários
+            ->leftJoin('users', 'units.id_company', '=', 'users.unit_id') // para contar usuários
             ->select(
-                'units.id_unit',
-                'units.unit_name',
+                'units.id_company',
+                'units.company_name',
                 'units.unit_email',
                 'units.unit_phone',
                 'units.unit_address',
@@ -239,8 +321,8 @@ class CompanyController extends Controller
             )
             ->where('units.company_id', $companyId)
             ->groupBy(
-                'units.id_unit',
-                'units.unit_name',
+                'units.id_company',
+                'units.company_name',
                 'units.unit_email',
                 'units.unit_phone',
                 'units.unit_address',
@@ -277,18 +359,23 @@ class CompanyController extends Controller
         return view('company.sms.inbox', compact('companyUsers', 'myMessages'));
     }
 
-
     public function smsSent()
     {
-        return view('company.sms.sent');
 
+
+        $messages = Message::with(['unit', 'receiver', 'sender'])
+            ->where('sender_id', Auth::user()->id_user)
+            ->get();
+
+        return view('company.sms.sent', compact('messages'));
     }
 
     public function notificationInbox()
     {
-        $company_id = Auth::user()->company_id;
-        $companyUsers = User::where('company_id', $company_id)->get();
-        return view('company.notificatios.inbox', compact('companyUsers'));
+        $userNotifications = Notification::where('user_id', Auth::user()->id_user)->get();
+        $notificationCounter = Notification::where('user_id', Auth::user()->id_user)->count();
+
+        return view('company.notificatios.inbox', compact('userNotifications', 'notificationCounter'));
     }
 
     public function notificationHistories()
@@ -307,5 +394,57 @@ class CompanyController extends Controller
         return view('company.licence.index');
     }
 
+    public function smsStore(Request $request)
+    {
+        dd($request->all());
+
+        //superadmin
+
+        //desks
+    }
+
+    public function updatePhoto(string $id, Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            if (!$request->hasFile('photo')) {
+                return redirect()->back()->with('error', 'Por favor selecione uma foto válida!');
+            }
+
+            if ($request->hasFile('photo') && $request->file('photo')->isValid()) {
+                $file = $request->file('photo');
+
+                // Gera um nome único com hash e extensão original
+                $filename = hash('sha256', uniqid('', true)) . '.' . $file->getClientOriginalExtension();
+
+                // Salva o arquivo com o nome hash na pasta 'logos', disco 'public'
+                $photoPath = $file->storeAs('logos', $filename, 'public');
+            }
+
+
+            $profileCompany = ProfileCompany::findOrFail($id);
+
+            if (!$profileCompany)
+                return redirect()->back()->with('error', 'Não foi possível atualizar a foto da empresa, tente novamente mais tarde!');
+
+            $profileCompany->photo = $photoPath;
+            $profileCompany->save();
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'Foto da Empresa foi atualizada com sucesso!');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Erro tentando atualizar a foto da empresa', [
+                'id_company' => $id,
+                'data' => $request->all(),
+                'error' => $e->getMessage(),
+            ]);
+
+            return redirect()->back()->with('error', 'Não foi possível atualizar a foto da empresa, tente novamente mais tarde!');
+        }
+    }
 
 }

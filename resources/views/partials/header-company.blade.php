@@ -92,7 +92,7 @@
             </div>
             <div class="dropdown-divider"></div>
             <div class="text-center py-2">
-              <a href="{{ route('unit.notification.inbox') }}" class="link-primary">Ver Todas</a>
+              <a href="{{ route('company.notification.inbox') }}" class="link-primary">Ver Todas</a>
             </div>
           </div>
         </li>

@@ -8,7 +8,10 @@ use App\Services\EmailService;
 use App\Services\NotificationService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class MessageController extends Controller
 {
@@ -87,8 +90,41 @@ class MessageController extends Controller
         //
     }
 
-    public function destroy(string $id)
+    public function destroy(string $id, Request $request)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+            // Validação básica da senha
+            $request->validate([
+                'password' => ['required'],
+            ]);
+
+            $user = Auth::user();
+
+            // Verifica se a senha está correta
+            if (!Hash::check($request->password, $user->password)) {
+                return redirect()->back()->with('error', 'Senha incorreta. A exclusão foi cancelada.');
+            }
+
+            // Localiza o serviço e deleta
+            $message = Message::findOrFail($id);
+            $message->delete();
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'Messagem excluída com sucesso.');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            Log::error('Erro ao deletar message: ' . $e->getMessage(), [
+                'message_id' => $id,
+                'user_id' => Auth::id(),
+                'request_data' => $request->except('password') // Evita logar a senha
+            ]);
+
+            return redirect()->back()->with('error', 'Erro ao excluir o message. Tente novamente mais tarde.');
+        }
     }
 }

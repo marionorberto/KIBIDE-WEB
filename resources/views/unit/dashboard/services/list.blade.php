@@ -209,8 +209,8 @@
                       </a>
                     </li>
                     <li class="list-inline-item align-bottom" data-bs-toggle="tooltip" title="Edit">
-                      <a data-bs-toggle="modal" data-bs-target="#{{  $modalEditService}}"
-                        href="../application/ecom_product-add.html" class="avtar avtar-xs btn-link-primary">
+                      <a data-bs-toggle="modal" data-bs-target="#{{  $modalEditService}}" href="#"
+                        class="avtar avtar-xs btn-link-primary">
                         <i class="ti ti-edit-circle f-18"></i>
                       </a>
                     </li>

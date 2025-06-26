@@ -107,7 +107,7 @@
     </div>
     </div>
     <div class="col-md-12 col-xl-4">
-    <h5 class="mb-3">Page Views by Page Title</h5>
+    <h5 class="mb-3">Estatísticas Gerais</h5>
     <div class="card">
       <div class="list-group list-group-flush">
       <a href="#" class="list-group-item list-group-item-action">

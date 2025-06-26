@@ -1,3 +1,9 @@
+@php
+  use App\Models\Notification;
+
+  $myNotifications = Notification::where('user_id', Auth::id())->take(3)->orderBy('created_at', 'desc')->get();
+  $notificationsCount = Notification::where('user_id', Auth::id())->count();
+@endphp
 <header class="pc-header">
   <div class="header-wrapper">
     <div class="me-auto pc-mob-drp">
@@ -24,52 +30,54 @@
     <!-- [Mobile Media Block end] -->
     <div class="ms-auto">
       <ul class="list-unstyled">
+
         <li class="dropdown pc-h-item">
           <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button"
             aria-haspopup="false" aria-expanded="false">
             <i class="ti ti-bell"></i>
-            <span class="badge bg-success pc-h-badge">0</span>
+            <span class="badge bg-primary pc-h-badge">{{ $notificationsCount }}</span>
           </a>
           <div class="dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown">
             <div class="dropdown-header d-flex align-items-center justify-content-between">
               <h5 class="m-0">Notificações</h5>
-              <a href="#!" class="pc-head-link bg-transparent"><i class="ti ti-circle-check text-success"></i></a>
+              <a href="#!" class="pc-head-link bg-transparent"><i class="ti ti-circle-check text-primary"></i></a>
             </div>
             <div class="dropdown-divider"></div>
             <div class="dropdown-header px-0 text-wrap header-notification-scroll position-relative"
               style="max-height: calc(100vh - 215px)">
               <div class="list-group list-group-flush w-100">
-                <a class="list-group-item list-group-item-action">
-                  <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0">
-                      <div class="user-avtar bg-light-warning"><i class="ti ti-message-circle"></i></div>
-                    </div>
-                    <div class="flex-grow-1 ms-1">
-                      <p class="text-body mb-1 text-muted">Sem notificações no momento.</p>
-                    </div>
-                  </div>
-                </a>
-                <!-- <a class="list-group-item list-group-item-action">
-                  <div class="d-flex">
-                    <div class="flex-shrink-0">
-                      <div class="user-avtar bg-light-danger"><i class="ti ti-settings"></i></div>
-                    </div>
-                    <div class="flex-grow-1 ms-1">
-                      <span class="float-end text-muted">2:45 PM</span>
-                      <p class="text-body mb-1">Your Profile is Complete &nbsp;<b>60%</b></p>
-                      <span class="text-muted">7 hours ago</span>
-                    </div>
-                  </div>
-                </a> -->
+                @if ($notificationsCount == 0)
+          <a class="list-group-item list-group-item-action">
+            <div class="d-flex align-items-center">
+            <div class="flex-shrink-0">
+              <div class="user-avtar bg-light-primary"><i class="ti ti-message-circle"></i></div>
+            </div>
+            <div class="flex-grow-1 ms-1">
+              <p class="text-body mb-1 text-muted">Sem notificações no momento.</p>
+            </div>
+            </div>
+          </a>
+        @endif
 
+                @foreach ($myNotifications as $notifications)
+          <a class="list-group-item list-group-item-action">
+            <div class="d-flex">
+            <div class="flex-shrink-0">
+              <div class="user-avtar bg-light-primary"><i class="ti ti-bell"></i></div>
+            </div>
+            <div class="flex-grow-1 ms-1">
+              <span class="float-end text-muted">7 hours ago</span>
+              <p class="text-body mb-1">{{ $notifications->title }}</p>
+              <span class="text-muted">{{ $notifications->description }}</span>
+            </div>
+            </div>
+          </a>
+        @endforeach
               </div>
             </div>
-            <div class="dropdown-divider"></div>
-            <div class="text-center py-2">
-              <a href="#!" class="link-primary">Ver Todas</a>
-            </div>
-          </div>
+
         </li>
+
 
         <li class="dropdown pc-h-item">
           <a class="pc-head-link me-0" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvas_pc_layout">

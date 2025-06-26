@@ -1,8 +1,15 @@
+@php
+  use App\Models\ProfileCompany;
+  $companyData = ProfileCompany::where('company_id', Auth::user()->company_id)->first();
+@endphp
+
 <nav class="pc-sidebar">
   <div class="navbar-wrapper">
     <div class="m-header d-flex justify-content-center py-3">
-      <a href="/">
-        <img src="{{ asset('assets/images/LOGO.png') }}" alt="" style="height: 80px; width: 80px;">
+      <a href="#">
+        <img
+          src="{{ isset($companyData->photo) ? asset('storage/' . $companyData->photo) : asset('assets/images/LOGO.png') }}"
+          alt="" style="height: 80px; width: 80px;">
       </a>
     </div>
     <div class="navbar-content">
@@ -57,7 +64,7 @@
         </li>
 
         <li class="pc-item pc-caption">
-          <label>Notificações</label>
+          <label>Mensagens</label>
           <i class="ti ti-brand-chrome"></i>
         </li>
         <li class="pc-item">
@@ -78,13 +85,25 @@
             <span class="pc-mtext">Enviado</span>
           </a>
         </li>
+
+        <li class="pc-item pc-caption">
+          <label>Notificações</label>
+          <i class="ti ti-brand-chrome"></i>
+        </li>
+
         <li class="pc-item">
+          <a href="{{ route('company.notification.inbox') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-inbox"></i></span>
+            <span class="pc-mtext">Caixa de Entrada</span>
+          </a>
+        </li>
+
+        <!-- <li class="pc-item">
           <a href="{{ route('company.notification.histories')  }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-report"></i></span>
             <span class="pc-mtext">Históricos de Notificações</span>
           </a>
-        </li>
-
+        </li> -->
         <!-- <li class="pc-item pc-caption">
           <label>Notificações</label>
           <i class="ti ti-brand-chrome"></i>
@@ -103,25 +122,26 @@
             <span class="pc-mtext">Históricos de Notificações</span>
           </a>
         </li> -->
-        <hr>
-
+        <li class="pc-item pc-caption">
+          <label>Licença</label>
+          <i class="ti ti-brand-chrome"></i>
+        </li>
         <li class="pc-item">
           <a href="{{ route('company.licence.index')  }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-key"></i></span>
-            <span class="pc-mtext">Licença</span>
+            <span class="pc-mtext">Status Licença</span>
           </a>
         </li>
-
-        <li class="pc-item pc-hasmenu">
-          <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-menu"></i></span><span
-              class="pc-mtext">Configurações</span><span class="pc-arrow"><i
-                data-feather="chevron-right"></i></span></a>
-          <ul class="pc-submenu">
-            <li class="pc-item"><a class="pc-link" href="{{ route('company.settings.index') }}">Configuração do
-                Sistema</a></li>
-            <li class="pc-item"><a class="pc-link" href="{{ route('company.settings.index') }}">Configuração do
-                Display</a></li>
-          </ul>
+        <hr>
+        <li class="pc-item pc-caption">
+          <label>Configurações</label>
+          <i class="ti ti-brand-chrome"></i>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('company.licence.index')  }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-settings"></i></span>
+            <span class="pc-mtext">Config. Gerais</span>
+          </a>
         </li>
       </ul>
       <div class="card text-center">

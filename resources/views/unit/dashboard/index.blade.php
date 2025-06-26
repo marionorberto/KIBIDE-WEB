@@ -84,13 +84,14 @@
         class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">Tickets
         Cancelados<span class="h5 mb-0">0</span></a>
       <a href="#" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
-        Serviço Mais Solicitado<span class="h5 mb-0 text-warning">Depósitos</span></a>
+        Serviço Mais Solicitado<span class="h5 mb-0 text-warning">Levantamento</span></a>
       </div>
       <div class="card-body px-2">
       <div id="analytics-report-chart"></div>
       </div>
     </div>
     </div>
+
     <div class="col-md-12 col-xl-4">
     <h5 class="mb-3">Atendentes Ativos</h5>
     <div class="card">

@@ -150,7 +150,11 @@
       <h5 class="offcanvas-title text-white">KIBIDE</h5>
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="pct-body" style="height: calc(100% - 60px)">
+    <form method="post" action="{{ route('layout.update', Auth::user()->id_user) }}" class="pct-body"
+      style="height: calc(100% - 60px)">
+      @csrf
+      @method('PUT')
+
       <div class="offcanvas-body">
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
@@ -168,12 +172,13 @@
                 <i class="ti ti-chevron-down"></i>
               </div>
             </a>
-            <div class="collapse show" id="pctcustcollapse1">
+            <div class="collapse " id="pctcustcollapse1">
               <div class="pct-content">
                 <div class="pc-rtl">
                   <p class="mb-1">Direção</p>
                   <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" role="switch" id="layoutmodertl">
+                    <input type="text" name="layout_direction">
                     <label class="form-check-label" for="layoutmodertl">RTL</label>
                   </div>
                 </div>
@@ -195,7 +200,7 @@
                 <i class="ti ti-chevron-down"></i>
               </div>
             </a>
-            <div class="collapse show" id="pctcustcollapse2">
+            <div class="collapse" id="pctcustcollapse2">
               <div class="pct-content">
                 <div class="theme-color themepreset-color theme-layout">
                   <a href="#!" class="active" onclick="layout_change('light')" data-value="false"><span><img
@@ -203,6 +208,8 @@
                         alt="img"></span><span>Light</span></a>
                   <a href="#!" class="" onclick="layout_change('dark')" data-value="true"><span><img
                         src="{{ asset('assets/images/customization/dark.svg') }}" alt="img"></span><span>Dark</span></a>
+                  <input type="text" name="theme_mode">
+
                 </div>
               </div>
             </div>
@@ -220,13 +227,17 @@
                   <span>Escolha a cor do teu tema principal!</span>
                 </div>
                 <i class="ti ti-chevron-down"></i>
+                <input type="text" name="theme_mode">
+
+
               </div>
             </a>
-            <div class="collapse show" id="pctcustcollapse3">
+            <div class="collapse " id="pctcustcollapse3">
               <div class="pct-content">
                 <div class="theme-color preset-color">
                   <a href="#!" class="active" data-value="preset-1"><span><img
-                        src="{{ asset('assets/images/customization/theme-color.svg') }}" alt="img"></span><span>Tema
+                        src="{{ asset('assets/images/customization/theme-color.svg') }}" alt="img"></span><span
+                      class="btn btn-light-primary btn-sm">Tema
                       1</span></a>
                   <a href="#!" class="" data-value="preset-2"><span><img
                         src="{{ asset('assets/images/customization/theme-color.svg') }}" alt="img"></span><span>Tema
@@ -252,6 +263,8 @@
                   <a href="#!" class="" data-value="preset-9"><span><img
                         src="{{ asset('assets/images/customization/theme-color.svg') }}" alt="img"></span><span>Tema
                       9</span></a>
+                  <input type="text" name="theme_color">
+
                 </div>
               </div>
             </div>
@@ -271,7 +284,7 @@
                 <i class="ti ti-chevron-down"></i>
               </div>
             </a>
-            <div class="collapse show" id="pctcustcollapse4">
+            <div class="collapse " id="pctcustcollapse4">
               <div class="pct-content">
                 <div class="theme-color themepreset-color boxwidthpreset theme-container">
                   <a href="#!" class="active" onclick="change_box_container('false')" data-value="false"><span><img
@@ -280,6 +293,8 @@
                   <a href="#!" class="" onclick="change_box_container('true')" data-value="true"><span><img
                         src="{{ asset('assets/images/customization/container.svg') }}"
                         alt="img"></span><span>Container</span></a>
+                  <input type="text" name="layout_width">
+
                 </div>
               </div>
             </div>
@@ -299,7 +314,7 @@
                 <i class="ti ti-chevron-down"></i>
               </div>
             </a>
-            <div class="collapse show" id="pctcustcollapse5">
+            <div class="collapse " id="pctcustcollapse5">
               <div class="pct-content">
                 <div class="theme-color fontpreset-color">
                   <a href="#!" class="active" onclick="font_change('Public-Sans')"
@@ -310,6 +325,9 @@
                     data-value="Poppins"><span>Aa</span><span>Poppins</span></a>
                   <a href="#!" class="" onclick="font_change('Inter')"
                     data-value="Inter"><span>Aa</span><span>Inter</span></a>
+
+                  <input type="text" name="font_family">
+
                 </div>
               </div>
             </div>
@@ -317,15 +335,16 @@
           <li class="list-group-item">
             <div class="collapse show">
               <div class="pct-content">
-                <div class="d-grid">
-                  <button class="btn btn-light-danger" id="layoutreset">Resetar Layout</button>
+                <div class="d-flex gap-3">
+                  <button type="submit" class="btn btn-light-primary w-full">Salvar</button>
+                  <button class="btn btn-light-danger w-full" id="layoutreset">Resetar Layout</button>
                 </div>
               </div>
             </div>
           </li>
         </ul>
       </div>
-    </div>
+    </form>
   </div>
 
   @vite('resources/js/app.js')
@@ -364,7 +383,6 @@
 
           if (data?.data?.tickets?.length > 0) {
             const queueTicketsCounter = document.getElementById('queueTicketsCounter');
-            const pendingTicketMenuDesk = document.getElementById('pending-ticket-menu-desk');
 
             const ticketsCounter = data.data.tickets.length;
             pendingTicketMenuDesk.style.display = 'block';
@@ -393,7 +411,9 @@
 
             ticketList.innerHTML = '';
             data.data.tickets.forEach(ticket => {
+
               const li = document.createElement('li');
+
               li.className = 'pc-item';
               li.innerHTML = `
               <a a href = "#" class="pc-link" >
@@ -407,6 +427,8 @@
             });
           } else if (data?.data?.tickets?.length <= 0) {
 
+            pendingTicketMenuDesk.style.display = 'block';
+            queueTicketsCounter.innerHTML = '0';
 
             occupied = true;
             id_operation_association.disabled = occupied;
@@ -430,8 +452,6 @@
               }
             });
 
-            const pendingTicketMenuDesk = document.getElementById('pending-ticket-menu-desk');
-            pendingTicketMenuDesk.style.display = 'none';
             const div = document.createElement('div');
             div.innerHTML = ` <div div class="alert alert-warning  mx-2" >
               Sem tickets disponíveis para esse balção.
@@ -489,10 +509,11 @@
               } else {
                 document.getElementById('ticket-data').innerText = "Nenhum ticket disponível";
                 document.getElementById('ticket-service').innerText = "";
+                document.getElementById('queueTicketsCounter').innerText = "0";
                 const div = document.createElement('div');
-                div.innerHTML = ` <div div class="alert alert-warning  mx-2" >
-              Sem tickets disponíveis para esse balção.
-      </div > `;
+                div.innerHTML = ` <div div class="alert alert-warning mx-2">
+                  Sem tickets disponíveis para esse balção.
+                </div>`;
                 ticketList.innerHTML = '';
                 ticketList.appendChild(div);
               }
@@ -563,6 +584,7 @@
 
             if (occupied && data?.data?.tickets?.length > 0) {
               const queueTicketsCounter = document.getElementById('queueTicketsCounter');
+              pendingTicketMenuDesk.style.display = 'block';
 
               const ticketsCounter = data.data.tickets.length;
               queueTicketsCounter.innerHTML = ticketsCounter;
@@ -581,6 +603,9 @@
                 ticketList.appendChild(li);
               });
             } else if (occupied && data?.data?.tickets?.length <= 0) {
+              pendingTicketMenuDesk.style.display = 'block';
+
+              queueTicketsCounter.innerHTML = '0';
               const div = document.createElement('div');
               div.innerHTML = ` <div class="alert alert-warning  mx-2">
       Sem tickets disponíveis para esse balção.
@@ -628,24 +653,24 @@
         if (echoChannel) {
           window.Echo.leave(`counter.${echoChannel}`);
         }
+      });
 
-        echoChannel = operationAssociationId;
 
-        setTimeout(() => {
-          // Conecta ao novo canal
-          window.Echo.channel(`counter.${operationAssociationId}`)
-            .listen('LoadCounterPendingTicket', (data) => {
-              try {
-                ticketList.innerHTML = '';
-                const queueTicketsCounter = document.getElementById('queueTicketsCounter');
+      setTimeout(() => {
+        // Conecta ao novo canal
+        window.Echo.channel(`counter.${id_operation_association.value}`)
+          .listen('LoadCounterPendingTicket', (data) => {
+            try {
+              ticketList.innerHTML = '';
+              const queueTicketsCounter = document.getElementById('queueTicketsCounter');
 
-                const ticketsCounter = data.data.length;
-                queueTicketsCounter.innerHTML = ticketsCounter;
+              const ticketsCounter = data.data.length;
+              queueTicketsCounter.innerHTML = ticketsCounter;
 
-                occupied && data.data.forEach(ticket => {
-                  const li = document.createElement('li');
-                  li.className = 'pc-item';
-                  li.innerHTML = `
+              occupied && data.data.forEach(ticket => {
+                const li = document.createElement('li');
+                li.className = 'pc-item';
+                li.innerHTML = `
         <a href="#" class="pc-link">
           <span class="pc-micon"><i class="ti ti-ticket"></i></span>
           <span class="pc-mtext">
@@ -653,27 +678,29 @@
             <button type="button" class="btn btn-light-warning p-1 ms-2">${ticket.status == 'pending' ? 'Pendente' : ''}</button>
           </span>
         </a>`;
-                  ticketList.appendChild(li);
-                });
+                ticketList.appendChild(li);
+              });
 
-              } catch (error) {
-                console.log(error);
-              }
-            });
-        }, 1000)
+            } catch (error) {
+              console.log(error);
+            }
+          });
+      }, 1000)
 
 
-        setTimeout(() => {
-          window.Echo.channel(`counter-choosed-channel.${operationAssociationId}`)
-            .listen('CounterChoosedEvent', (data) => {
-              try {
-                loadCounterInformation(data.data.counterName + ' - ', data.data.serviceDescription);
-              } catch (error) {
-                console.log('error trying listening to the channel - counter-choosed-channel', error);
-              }
-            });
-        }, 1000);
-      });
+      setTimeout(() => {
+        window.Echo.channel(`counter-choosed-channel.${id_operation_association.value}`)
+          .listen('CounterChoosedEvent', (data) => {
+            try {
+              loadCounterInformation(data.data.counterName + ' - ', data.data.serviceDescription);
+            } catch (error) {
+              console.log('error trying listening to the channel - counter-choosed-channel', error);
+            }
+          });
+      }, 1000);
+
+
+
     });
 
   </script>

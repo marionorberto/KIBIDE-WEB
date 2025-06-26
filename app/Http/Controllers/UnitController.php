@@ -11,8 +11,10 @@ use App\Models\Counter;
 use App\Models\DayOperation;
 use App\Models\DeskCounter;
 use App\Models\Message;
+use App\Models\Notification;
 use App\Models\OperationAssociation;
 use App\Models\Operations;
+use App\Models\ProfileCompany;
 use App\Models\Service;
 use App\Models\TicketGenerated;
 use App\Models\Unit;
@@ -91,9 +93,70 @@ class UnitController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(string $id, Request $request)
     {
-        //
+
+        DB::beginTransaction();
+
+        try {
+            // Validate required fields first
+            $request->validate([
+                'unit_name' => 'required|string|min:3|max:255',
+                'unit_email' => 'required|email|max:50',
+                'unit_phone' => 'required|min:9|max:25',
+                'unit_address' => 'required|min:3|max:255',
+            ], [
+                'required' => 'O campo :attribute é obrigatório.',
+                'string' => 'O campo :attribute deve ser um texto.',
+                'min' => 'O campo :attribute deve ter pelo menos :min caracteres.', // Mensagem genérica para min
+                'email' => 'Por favor, insira um e-mail válido.',
+                'max' => 'O campo :attribute não pode ter mais que :max caracteres.',
+            ]);
+
+            $unit = Unit::findOrFail($id);
+
+            // Check for duplicate unit_name (excluding current unit)
+            $alreadyExistAUnitWithThisNameCreated = Unit::where('id_unit', Auth::user()->unit_id)
+                ->where('unit_name', $request->unit_name)
+                ->where('id_unit', '!=', $id)
+                ->first();
+
+            if ($alreadyExistAUnitWithThisNameCreated) {
+                return redirect()->back()->with('error', 'Unidade com esse nome já criado, por favor escolha outro nome!');
+            }
+
+            // Check for duplicate unit_email (excluding current unit)
+            $alreadyExistAUnitWithThisEmailCreated = Unit::where('id_unit', Auth::user()->unit_id)
+                ->where('unit_email', $request->unit_email)
+                ->where('id_unit', '!=', $id)
+                ->first();
+
+            if ($alreadyExistAUnitWithThisEmailCreated) {
+                return redirect()->back()->with('error', 'Unidade com esse email já criado, por favor escolha outro nome!');
+            }
+
+            // Update unit data - no need for fallback since we validated the fields
+            $unit->unit_name = $request->unit_name;
+            $unit->unit_email = $request->unit_email;
+            $unit->save();
+
+            DB::commit();
+            return redirect()->back()->with('success', 'Dados da unidade editados com sucesso!');
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->withErrors($e->validator)
+                ->withInput();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Erro ao editar dados da unidade: ' . $e->getMessage(), [
+                'id_unit' => $id,
+                'request_data' => $request->all()
+            ]);
+
+            return redirect()->back()->with('error', 'Não foi possível editar unidade agora. Verifique os dados ou tente mais tarde!');
+        }
     }
 
     /**
@@ -115,6 +178,10 @@ class UnitController extends Controller
             $unitUserCount = User::where('unit_id', Auth::user()->unit_id)->where('role', 'desk')->count();
             $countersCount = Counter::where('unit_id', Auth::user()->unit_id)->count();
             $ticketsCount = TicketGenerated::where('unit_id', Auth::user()->unit_id)->count();
+            $companyProfileData = ProfileCompany::where('company_id', Auth::user()->company_id)->first();
+
+
+            $user = User::where('id_user', Auth::id())->first();
 
             DB::commit();
 
@@ -123,7 +190,9 @@ class UnitController extends Controller
                 'unitData',
                 'unitUserCount',
                 'countersCount',
-                'ticketsCount'
+                'ticketsCount',
+                'user',
+                'companyProfileData'
             ));
 
         } catch (\Exception $e) {
@@ -161,11 +230,10 @@ class UnitController extends Controller
 
     public function smsInbox()
     {
-
-        $messages = Message::with(['unit', 'receiver', 'sender'])
-            ->where('unit_id', Auth::user()->unit_id)
-            ->where('receiver_id', Auth::user()->id_user)
+        $messages = Message::
+            where('receiver_id', Auth::user()->id_user)
             ->get();
+
 
         return view('unit.dashboard.sms.inbox', compact('messages'));
     }
@@ -184,7 +252,10 @@ class UnitController extends Controller
 
     public function notificationInbox()
     {
-        return view('unit.dashboard.notifications.inbox');
+        $userNotifications = Notification::where('user_id', Auth::user()->id_user)->get();
+        $notificationCounter = Notification::where('user_id', Auth::user()->id_user)->count();
+
+        return view('unit.dashboard.notifications.inbox', compact('userNotifications', 'notificationCounter'));
     }
 
     public function notificationHistories()

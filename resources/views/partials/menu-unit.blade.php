@@ -133,24 +133,20 @@
 <nav class="pc-sidebar">
   <div class="navbar-wrapper">
     <div class="m-header d-flex justify-content-center py-3">
-      <a href="/">
-        @if ($companyData->photo)
-      <img src="{{ asset('storage/' . $companyData->photo)  }}" style="height: 120px; width: 120px;">
-
-    @endif
-      </a>
+      <a href="#">
+        <img
+          src="{{ isset($companyData->photo) ? asset('storage/' . $companyData->photo) : asset('assets/images/LOGO.png') }}"
+          alt="" style="height: 80px; width: 80px;">
       </a>
 
     </div>
     <div class="navbar-content">
       <ul class="pc-navbar">
         <li class="pc-item">
-
           <a href="{{ route('unit.index') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
             <span class="pc-mtext">Dashboard</span>
           </a>
-
         </li>
         <li class="pc-item">
           <a href="{{ route('unit.manager.profile') }}" class="pc-link">
@@ -173,22 +169,6 @@
           </a>
         </li>
 
-        <!-- <li class="pc-item pc-caption">
-          <label>Departamentos</label>
-          <i class="ti ti-brand-chrome"></i>
-        </li>
-        <li class="pc-item">
-          <a href="{{ route('unit.departaments.create') }}" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-plus"></i></span>
-            <span class="pc-mtext">Adicionar Departamentos</span>
-          </a>
-        </li>
-        <li class="pc-item">
-          <a href="{{ route('unit.departaments.list') }}" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-color-swatch"></i></span>
-            <span class="pc-mtext">Departamentos</span>
-          </a>
-        </li> -->
 
         <li class="pc-item pc-caption">
           <label>Serviços</label>
@@ -238,7 +218,6 @@
             <span class="pc-mtext">Listar Atendentes</span>
           </a>
         </li>
-
         <li class="pc-item pc-caption">
           <label>Operacões</label>
           <i class="ti ti-brand-chrome"></i>
@@ -262,7 +241,6 @@
             <span class="pc-mtext">Associar Operação</span>
           </a>
         </li>
-        <hr>
         <li class="pc-item">
           <a href="{{ route('unit.assign.operation') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-layout"></i></span>
@@ -273,35 +251,11 @@
         <li class="pc-item">
           <a href="{{ route('unit.list.scales') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-eye"></i></span>
-            <span class="pc-mtext">Visualizar Escala</span>
-          </a>
-        </li>
-
-        <hr>
-        <li class="pc-item">
-          <a href="{{ route('unit.settings.operation') }}" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-settings"></i></span>
-            <span class="pc-mtext">Conf. Operações <span class="badge bg-light-primary">default</span></span>
+            <span class="pc-mtext">Visualizar Escalas</span>
           </a>
         </li>
 
 
-        <li class="pc-item pc-caption">
-          <label>Tickects</label>
-          <i class="ti ti-brand-chrome"></i>
-        </li>
-        <li class="pc-item">
-          <a href="{{ route('unit.tickets.generated') }}" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-ticket"></i></span>
-            <span class="pc-mtext">Tickets Gerados</span>
-          </a>
-        </li>
-        <li class="pc-item">
-          <a href="{{ route('unit.tickets.settings') }}" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-pencil"></i></span>
-            <span class="pc-mtext">Configurações de Display</span>
-          </a>
-        </li>
 
         <li class="pc-item pc-caption">
           <label>Mensagem</label>
@@ -338,25 +292,29 @@
           </a>
         </li>
 
+        <li class="pc-item pc-caption">
+          <label>Configurações</label>
+          <i class="ti ti-brand-chrome"></i>
+        </li>
         <li class="pc-item">
-          <a href="{{ route('unit.notification.histories')  }}" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-report"></i></span>
-            <span class="pc-mtext">Históricos de Notificações</span>
+          <a href="{{ route('unit.tickets.settings') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-settings"></i></span>
+            <span class="pc-mtext">Config. Gerais</span>
+          </a>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('unit.settings.operation') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-eraser"></i></span>
+            <span class="pc-mtext">Config. Operações <span class="badge bg-light-primary">default</span></span>
+          </a>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('unit.tickets.settings') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-map"></i></span>
+            <span class="pc-mtext">Config. Display</span>
           </a>
         </li>
 
-        <hr>
-        <li class="pc-item pc-hasmenu">
-          <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-menu"></i></span><span
-              class="pc-mtext">Configurações</span><span class="pc-arrow"><i
-                data-feather="chevron-right"></i></span></a>
-          <ul class="pc-submenu">
-            <li class="pc-item"><a class="pc-link" href="{{ route('unit.settings.index') }}">Configuração do
-                Sistema</a></li>
-            <li class="pc-item"><a class="pc-link" href="{{ route('unit.settings.index') }}">Configuração do
-                Display</a></li>
-          </ul>
-        </li>
       </ul>
       <div class="card text-center">
         <div class="card-body">

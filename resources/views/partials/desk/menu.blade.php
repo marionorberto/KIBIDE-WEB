@@ -18,18 +18,15 @@
     ->get();
 
   $companyData = ProfileCompany::where('company_id', Auth::user()->company_id)->first();
-
-
 @endphp
 
 <nav class="pc-sidebar">
   <div class="navbar-wrapper">
     <div class="m-header d-flex justify-content-center py-3">
-      <a href="/">
-        <!-- <img src="{{ asset('assets/images/LOGO.png') }}" alt="" style="height: 80px; width: 80px;"> -->
-        @if ($companyData->photo)
-      <img src="{{ asset('storage/' . $companyData->photo)  }}" style="height: 120px; width: 120px;">
-    @endif
+      <a href="#">
+        <img
+          src="{{ isset($companyData->photo) ? asset('storage/' . $companyData->photo) : asset('assets/images/LOGO.png') }}"
+          alt="" style="height: 80px; width: 80px;">
       </a>
     </div>
     <div class="navbar-content">

@@ -21,6 +21,7 @@ class ProfileCompany extends Model
         'facebook_url',
         'instagram_url',
         'linkedin_url',
+        'about',
     ];
 
     protected static function booted()

@@ -19,7 +19,7 @@ class StoreMessageRequest extends FormRequest
             'subject' => 'required|string|min:10|max:100',
             'content' => 'required|string|min:15|max:300',
             'is_read' => 'nullable|boolean',
-            'unit_id' => 'required|string', // ou exists:units,id se for id
+            'unit_id' => 'nullable|string', // ou exists:units,id se for id
         ];
     }
 
@@ -42,7 +42,6 @@ class StoreMessageRequest extends FormRequest
 
             'is_read.boolean' => 'O campo "lido" deve ser verdadeiro ou falso.',
 
-            'unit_id.required' => 'A unidade é obrigatória.',
             'unit_id.string' => 'A unidade deve ser uma string válida.',
         ];
     }

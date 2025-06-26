@@ -17,47 +17,38 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-6 col-xl-3">
+  <div class="col-md-6 col-xl-4">
     <div class="card">
       <div class="card-body">
-        <h6 class="mb-2 f-w-400 text-muted">Total Usuários</h6>
-        <h4 class="mb-0">{{ $usersCount }} <span class="badge bg-light-primary border border-primary"><i
+        <h6 class="mb-2 f-w-400 text-muted">Total de Unidades</h6>
+        <h4 class="mb-0">{{ $unitsCount }} <span class="badge bg-light-primary border border-primary"><i
               class="ti ti-trending-up"></i>
             70.5%</span></h4>
       </div>
       <div id="total-value-graph-1"></div>
     </div>
   </div>
-  <div class="col-md-6 col-xl-3">
+  <div class="col-md-6 col-xl-4">
     <div class="card">
       <div class="card-body">
-        <h6 class="mb-2 f-w-400 text-muted">Total Agências</h6>
-        <h4 class="mb-0">{{ $unitsCount }} <span class="badge bg-light-warning border border-warning"><i
+        <h6 class="mb-2 f-w-400 text-muted">Total Gerentes</h6>
+        <h4 class="mb-0">{{ $usersCount }} <span class="badge bg-light-warning border border-warning"><i
               class="ti ti-trending-down"></i> 27.4%</span></h4>
       </div>
       <div id="total-value-graph-2"></div>
     </div>
   </div>
-  <div class="col-md-6 col-xl-3">
+  <div class="col-md-6 col-xl-4">
     <div class="card">
       <div class="card-body">
-        <h6 class="mb-2 f-w-400 text-muted">Operações</h6>
-        <h4 class="mb-0">0 <span class="badge bg-light-warning border border-warning"><i
+        <h6 class="mb-2 f-w-400 text-muted">Total de Atendentes</h6>
+        <h4 class="mb-0">{{ $deskCount }} <span class="badge bg-light-warning border border-warning"><i
               class="ti ti-trending-down"></i> 27.4%</span></h4>
-      </div>
-      <div id="total-value-graph-3"></div>
-    </div>
-  </div>
-  <div class="col-md-6 col-xl-3">
-    <div class="card">
-      <div class="card-body">
-        <h6 class="mb-2 f-w-400 text-muted">Tickets Gerados </h6>
-        <h4 class="mb-0">0 <span class="badge bg-light-primary border border-primary"><i class="ti ti-trending-up"></i>
-            59.3%</span></h4>
       </div>
       <div id="total-value-graph-4"></div>
     </div>
   </div>
+
   <div class="col-md-12 col-xl-12">
     <h5 class="mb-3">Listagem das Agências</h5>
     <div class="card tbl-card">
@@ -120,7 +111,7 @@
 
 
   <div class="col-md-12 col-xl-6">
-    <h5 class="mb-3">Page Views by Page Title</h5>
+    <h5 class="mb-3">Estatísticas Gerais</h5>
     <div class="card">
       <div class="list-group list-group-flush">
         <a href="#" class="list-group-item list-group-item-action">
@@ -147,42 +138,7 @@
             </div>
           </div>
         </a>
-        <a href="#" class="list-group-item list-group-item-action">
-          <div class="d-flex">
-            <div class="flex-grow-1 me-2">
-              <h6 class="mb-1">Utilities</h6>
-              <p class="mb-0 text-muted">/demo/admin/util.html</P>
-            </div>
-            <div class="flex-shrink-0 text-end">
-              <h5 class="mb-1 text-primary">4848</h5>
-              <p class="mb-0 text-muted">25.35%</P>
-            </div>
-          </div>
-        </a>
-        <a href="#" class="list-group-item list-group-item-action">
-          <div class="d-flex">
-            <div class="flex-grow-1 me-2">
-              <h6 class="mb-1">Form Validation</h6>
-              <p class="mb-0 text-muted">/demo/admin/validation.html</P>
-            </div>
-            <div class="flex-shrink-0 text-end">
-              <h5 class="mb-1 text-primary">3275</h5>
-              <p class="mb-0 text-muted">23.17%</P>
-            </div>
-          </div>
-        </a>
-        <a href="#" class="list-group-item list-group-item-action">
-          <div class="d-flex">
-            <div class="flex-grow-1 me-2">
-              <h6 class="mb-1">Modals</h6>
-              <p class="mb-0 text-muted">/demo/admin/modals.html</P>
-            </div>
-            <div class="flex-shrink-0 text-end">
-              <h5 class="mb-1 text-primary">3003</h5>
-              <p class="mb-0 text-muted">22.21%</P>
-            </div>
-          </div>
-        </a>
+
       </div>
     </div>
   </div>
@@ -190,7 +146,7 @@
 
 
   <div class="col-md-12 col-xl-6">
-    <h5 class="mb-3">Notificações da Licença</h5>
+    <h5 class="mb-3">Estado da Licença</h5>
     <div class="card">
       <div class="list-group list-group-flush">
         <a href="#" class="list-group-item list-group-item-action">
